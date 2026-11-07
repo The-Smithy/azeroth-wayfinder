@@ -15,7 +15,7 @@
     <meta property="og:site_name" content="Azeroth Pinpoint" />
     <meta property="og:url" content="%SITE_URL%/" />
     <meta property="og:title" content="Azeroth Pinpoint – How well do you know Azeroth?" />
-    <meta property="og:description" content="A daily World of Warcraft geography game. Five places, one pin each – from Booty Bay to Blackrock Mountain. Can you score 5,000?" />
+    <meta property="og:description" content="A daily World of Warcraft geography game. Five places, one pin each – from Booty Bay to Blackrock Mountain. Can you score 1,000?" />
     <meta property="og:image" content="%SITE_URL%/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -75,15 +75,17 @@
           <div class="card__meta">
             <span class="badge" id="clue-kind"></span>
             <span class="badge badge--faction" id="clue-faction"></span>
+            <span class="badge badge--mult" id="clue-mult" hidden></span>
             <span class="card__round" id="clue-round"></span>
           </div>
           <h2 class="card__name" id="clue-name">&nbsp;</h2>
           <p class="card__prompt" id="clue-prompt"></p>
 
           <div class="card__result" id="result" hidden>
-            <div class="result__score"><span id="result-score">0</span><small>/ 1000</small></div>
+            <div class="result__score"><span id="result-score">0</span><small id="result-max">/ 100</small></div>
             <div class="result__detail">
               <p class="result__distance" id="result-distance"></p>
+              <p class="result__mult" id="result-mult"></p>
               <p class="result__where" id="result-where"></p>
             </div>
           </div>
@@ -117,11 +119,12 @@
         <ol class="howto">
           <li><span class="howto__n">1</span><div><strong>Read the clue.</strong> A town, dungeon entrance, capital or a whole zone.</div></li>
           <li><span class="howto__n">2</span><div><strong>Drop your pin.</strong> Click or tap the map – drag the pin to fine-tune. Zoom in and the parchment gives way to the land itself.</div></li>
-          <li><span class="howto__n">3</span><div><strong>Confirm</strong> (or press <kbd>Enter</kbd>) to reveal the answer. Up to <strong>1,000 points</strong> per round; for zones and capitals anywhere inside counts as a bullseye.</div></li>
-          <li><span class="howto__n">4</span><div><strong>Stuck?</strong> The hint reveals the continent, at the cost of 25% of that round.</div></li>
+          <li><span class="howto__n">3</span><div><strong>Confirm</strong> (or press <kbd>Enter</kbd>) to reveal the answer. Each pin scores up to <strong>100 for accuracy</strong> – for zones and capitals, anywhere inside is a bullseye.</div></li>
+          <li><span class="howto__n">4</span><div><strong>The stakes rise.</strong> Locations 1–2 are worth 100, location 3 is <strong>×2</strong> and locations 4–5 are <strong>×3</strong> – a perfect expedition scores <strong>1,000</strong>.</div></li>
+          <li><span class="howto__n">5</span><div><strong>Stuck?</strong> The hint reveals the continent, at the cost of 25% of that round.</div></li>
         </ol>
         <div class="legend">
-          <span>🎯 950+</span><span>🟩 750+</span><span>🟨 500+</span><span>🟧 250+</span><span>🟥 under 250</span>
+          <span>🎯 95+</span><span>🟩 75+</span><span>🟨 50+</span><span>🟧 25+</span><span>🟥 under 25</span>
         </div>
         <p class="modal__fine">A new expedition unlocks every midnight (your local time). Same five places for everyone.</p>
         <p class="modal__fine credits">
@@ -139,7 +142,7 @@
         <p class="modal__kicker" id="results-kicker">Expedition complete</p>
         <h2 class="modal__title" id="results-title">Master Cartographer</h2>
         <p class="modal__lede" id="results-flavor"></p>
-        <div class="bigscore"><span id="results-total">0</span><small>/ 5,000</small></div>
+        <div class="bigscore"><span id="results-total">0</span><small>/ 1,000</small></div>
         <ol class="rounds" id="results-rounds"></ol>
         <div class="results__actions">
           <button class="btn btn--primary" type="button" id="btn-share"><span data-icon="share"></span> Share result</button>

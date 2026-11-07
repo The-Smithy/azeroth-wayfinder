@@ -1,8 +1,13 @@
 import type { LatLngTuple, Place, Zone } from '../types';
 import { distanceToZone, distanceUnits, nearestPointOnZone, YARDS_PER_UNIT } from './geo';
 
-export const MAX_ROUND_SCORE = 1000;
+/** Accuracy score per round, before the round multiplier. */
+export const MAX_ROUND_SCORE = 100;
 export const ROUNDS = 5;
+/** Later rounds are worth more: 100 + 100 + 200 + 300 + 300 = 1,000. */
+export const ROUND_MULTIPLIERS = [1, 1, 2, 3, 3] as const;
+export const MAX_TOTAL = ROUND_MULTIPLIERS.reduce<number>((s, m) => s + m * MAX_ROUND_SCORE, 0);
+export const multiplierFor = (round: number) => ROUND_MULTIPLIERS[Math.min(round, ROUNDS - 1)];
 /** Pins this close to a point target count as a bullseye. */
 export const BULLSEYE_YARDS = 75;
 /** e-folding distance of the score curve: ~37% of the points at this many yards past the bullseye. */
@@ -26,26 +31,32 @@ export function measure(guess: LatLngTuple, place: Place, zones: Record<string, 
   return { yards: yards <= BULLSEYE_YARDS ? 0 : yards, anchor: place.latlng };
 }
 
+/** Accuracy score (0–100) for a distance. */
 export function scoreFor(yards: number, hint = false): number {
   const raw = MAX_ROUND_SCORE * Math.exp(-Math.max(0, yards - BULLSEYE_YARDS) / FALLOFF_YARDS);
-  const score = Math.round(raw * (hint ? HINT_FACTOR : 1));
-  return score < 5 ? 0 : score;
+  return Math.round(raw * (hint ? HINT_FACTOR : 1));
 }
 
+/** Points actually banked for a round: accuracy × the round's multiplier. */
+export const pointsFor = (score: number, round: number) => score * multiplierFor(round);
+
+/** Emoji and colour tiers follow accuracy (0–100), so every round is judged alike. */
 export function emojiFor(score: number): string {
-  if (score >= 950) return '🎯';
-  if (score >= 750) return '🟩';
-  if (score >= 500) return '🟨';
-  if (score >= 250) return '🟧';
+  if (score >= 95) return '🎯';
+  if (score >= 75) return '🟩';
+  if (score >= 50) return '🟨';
+  if (score >= 25) return '🟧';
   return '🟥';
 }
+export const tierFor = (score: number) =>
+  score >= 95 ? 'perfect' : score >= 75 ? 'great' : score >= 50 ? 'good' : score >= 25 ? 'poor' : 'miss';
 
 export const TITLES: [number, string, string][] = [
-  [4750, 'Keeper of the Atlas', 'The Titans themselves would ask you for directions.'],
-  [4250, 'Master Cartographer', 'Your maps hang in the halls of Ironforge.'],
-  [3500, 'Seasoned Pathfinder', 'Flight masters nod when you pass.'],
-  [2500, 'Wandering Adventurer', 'You know the roads – mostly.'],
-  [1500, 'Lost Recruit', 'Perhaps ask a guard for directions.'],
+  [950, 'Keeper of the Atlas', 'The Titans themselves would ask you for directions.'],
+  [850, 'Master Cartographer', 'Your maps hang in the halls of Ironforge.'],
+  [700, 'Seasoned Pathfinder', 'Flight masters nod when you pass.'],
+  [500, 'Wandering Adventurer', 'You know the roads – mostly.'],
+  [300, 'Lost Recruit', 'Perhaps ask a guard for directions.'],
   [0, 'Fresh from the Murloc Coast', 'Mrglglgl… the map was upside down?'],
 ];
 

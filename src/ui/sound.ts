@@ -43,4 +43,4 @@ export function play(name: SoundName) {
   });
 }
 
-export const soundForScore = (score: number): SoundName => (score >= 900 ? 'chime' : score >= 500 ? 'good' : score >= 200 ? 'meh' : 'bad');
+export const soundForScore = (score: number): SoundName => (score >= 90 ? 'chime' : score >= 50 ? 'good' : score >= 20 ? 'meh' : 'bad');

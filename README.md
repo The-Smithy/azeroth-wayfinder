@@ -2,11 +2,12 @@
 
 A daily World of Warcraft geography game. Every day you get **five places in Azeroth**
 (a capital or zone, three settlements and a dungeon entrance) and drop a pin on the
-**WoW: Forever** world map as close as you can. Up to 1,000 points a round, 5,000 a day,
-same puzzle for everyone, with a shareable emoji result:
+**WoW: Forever** world map as close as you can. Each pin scores up to 100 for accuracy,
+and the stakes rise: locations 1–2 count ×1, location 3 ×2 and locations 4–5 ×3, so a
+perfect day is **1,000 points**. Same puzzle for everyone, with a shareable emoji result:
 
 ```
-Azeroth Pinpoint #4 📍 3,585/5,000
+Azeroth Pinpoint #4 📍 635/1,000
 🎯🟩🟨🟥🎯
 ```
 
@@ -23,6 +24,8 @@ Azeroth Pinpoint #4 📍 3,585/5,000
   because anywhere inside them is a bullseye.
 - **Daily puzzles:** the five places are seeded by date (Day #1 = 4 Nov 2026, WoW: Forever
   launch). Places come from shuffled "bags", so nothing repeats until a bag is used up.
+- **Rising stakes:** rounds are worth 100 / 100 / 200 / 300 / 300. The multiplier shows on
+  the clue card and in the round pips.
 - **Hint:** reveals the continent, and that round scores 75% of what it would have.
 - **Stats and streaks:** played, average, best, current and max streak, and a score
   histogram. Progress is saved, so you can reload mid-game.
@@ -91,9 +94,9 @@ imagery to be used.** The overview keeps their watermark and the map credits the
 | | |
 | --- | --- |
 | Coordinates | Leaflet `CRS.Simple` world units from the atlas (1 unit = 133⅓ yards). Zoom *z* = tile level *z* of the 512 px pyramid. |
-| Scoring | `1000 · e^(−(yards − 75) / 2600)`. Under 75 yards from a point target is a bullseye. For zones and capitals, the distance is measured to the outline (inside = 0). |
+| Scoring | Accuracy `100 · e^(−(yards − 75) / 2600)`, rounded. Under 75 yards from a point target is a bullseye. For zones and capitals, the distance is measured to the outline (inside = 0). Points = accuracy × the round multiplier `[1, 1, 2, 3, 3]`, so the maximum is 1,000. Emoji tiers use accuracy: 🎯 95+, 🟩 75+, 🟨 50+, 🟧 25+, 🟥 below. |
 | Daily plan | `realm` (zone/capital) → `settlement` → `delve` (dungeon/raid) → `settlement` → `settlement`. Each tier is dealt from a seeded shuffle per cycle. Places that share an entrance (Molten Core and Blackrock Depths) never appear on the same day. |
-| Storage | `localStorage` only (`azeroth-pinpoint:v1:*`). There is no backend. |
+| Storage | `localStorage` only (`azeroth-pinpoint:v1:*`). There is no backend. Saves from the original 5,000-point scale are converted on load. |
 
 ```
 src/

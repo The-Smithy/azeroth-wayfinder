@@ -11,7 +11,7 @@ import locations from './data/locations.json';
 import zonesJson from './data/zones.json';
 import type { LatLngTuple, MapManifest, Place, RoundResult, Zone } from './types';
 import { dailyPlaces, dayNumber, msUntilNextDay, practicePlaces } from './game/daily';
-import { formatYards, measure, ROUNDS, scoreFor, titleFor, emojiFor } from './game/scoring';
+import { emojiFor, formatYards, MAX_ROUND_SCORE, measure, multiplierFor, pointsFor, ROUNDS, scoreFor, tierFor, titleFor } from './game/scoring';
 import { liveStreak, loadProgress, loadSettings, loadStats, recordGame, saveProgress, saveSettings, type Settings } from './game/storage';
 import { MapView, type MapStyle } from './map/mapView';
 import { crest, factionLabels, icons, kindIcons, kindLabels, shield } from './ui/icons';
@@ -131,6 +131,10 @@ function startRound() {
   faction.hidden = place.kind === 'zone' || place.kind === 'dungeon' || place.kind === 'raid';
   faction.innerHTML = `${shield(place.faction)}<span>${factionLabels[place.faction]}</span>`;
   $('clue-round').textContent = `Location ${game.current + 1} of ${ROUNDS}`;
+  const mult = multiplierFor(game.current);
+  const multBadge = $('clue-mult');
+  multBadge.hidden = mult === 1;
+  multBadge.textContent = `×${mult} points`;
   setName(place.name);
   $('clue-prompt').textContent = place.area
     ? 'Drop your pin anywhere inside it.'
@@ -189,7 +193,9 @@ async function confirmGuess() {
   const guess = game.guess;
   const { yards, anchor } = measure(guess, place, zones);
   const score = scoreFor(yards, game.hint);
-  const result: RoundResult = { placeId: place.id, guess, yards: Math.round(yards), score, hint: game.hint };
+  const mult = multiplierFor(game.current);
+  const points = pointsFor(score, game.current);
+  const result: RoundResult = { placeId: place.id, guess, yards: Math.round(yards), score, points, hint: game.hint };
   game.rounds.push(result);
   persist();
 
@@ -199,13 +205,15 @@ async function confirmGuess() {
   await view.reveal(guess, anchor, place, yards ? formatYards(yards) : '');
 
   play(soundForScore(score));
-  if (score >= 950) celebrate();
+  if (score >= 95) celebrate();
   $('card').classList.add('is-revealed');
   $('result').hidden = false;
   $('clue-prompt').textContent = '';
   $('result-distance').textContent = yards === 0 ? (place.area ? 'Right inside – bullseye!' : 'Bullseye!') : `${formatYards(yards)} away`;
   $('result-where').innerHTML = `${escapeHtml(place.zone === place.name ? place.continent : `${place.zone}, ${place.continent}`)}${game.hint ? ' · <em>hint used</em>' : ''}`;
-  countUp($('result-score'), 0, score, 0.9);
+  $('result-max').textContent = `/ ${MAX_ROUND_SCORE * mult}`;
+  $('result-mult').textContent = mult > 1 ? `${score} accuracy × ${mult}` : `${score} accuracy`;
+  countUp($('result-score'), 0, points, 0.9);
   if (!reduced()) gsap.fromTo('#result', { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 });
   renderPips();
   updateTotal(true);
@@ -229,14 +237,17 @@ function persist() {
   if (game.mode === 'daily') saveProgress({ day: game.day, rounds: game.rounds });
 }
 
+const totalPoints = () => game.rounds.reduce((s, r) => s + r.points, 0);
+
 function finish(fresh: boolean) {
   game.phase = 'finished';
-  const total = game.rounds.reduce((s, r) => s + r.score, 0);
+  const total = totalPoints();
   if (game.mode === 'daily') recordGame(game.day, total);
   showSummaryOnMap();
   $('card').classList.add('is-finished');
   $('clue-kind').innerHTML = `${kindIcons.landmark}<span>${game.mode === 'daily' ? `Expedition #${game.day}` : 'Practice'}</span>`;
   $('clue-faction').hidden = true;
+  $('clue-mult').hidden = true;
   $('clue-round').textContent = 'Complete';
   setName(`${total.toLocaleString('en-US')} points`);
   $('clue-prompt').textContent = game.rounds.map(r => emojiFor(r.score)).join(' ');
@@ -251,7 +262,7 @@ function finish(fresh: boolean) {
   openResults(fresh);
   if (fresh) {
     play('fanfare');
-    if (total >= 4000) celebrate(true);
+    if (total >= 800) celebrate(true);
   }
 }
 
@@ -267,16 +278,17 @@ function renderPips() {
   const ol = $('pips');
   ol.innerHTML = game.places.map((p, i) => {
     const r = game.rounds[i];
-    const cls = r ? `pip is-done pip--${tier(r.score)}` : i === game.current && game.phase !== 'finished' ? 'pip is-current' : 'pip';
-    const label = r ? `${p.name}: ${r.score} points` : i === game.current ? 'Current location' : 'Upcoming';
-    return `<li class="${cls}" title="${escapeHtml(label)}"><span class="pip__gem"></span><span class="pip__score">${r ? r.score : i + 1}</span></li>`;
+    const mult = multiplierFor(i);
+    const cls = r ? `pip is-done pip--${tierFor(r.score)}` : i === game.current && game.phase !== 'finished' ? 'pip is-current' : 'pip';
+    const label = r ? `${p.name}: ${r.points} of ${MAX_ROUND_SCORE * mult} points` : `${i === game.current ? 'Current' : 'Upcoming'} location – worth up to ${MAX_ROUND_SCORE * mult}`;
+    const text = r ? String(r.points) : mult > 1 ? `×${mult}` : String(i + 1);
+    return `<li class="${cls}${!r && mult > 1 ? ' pip--mult' : ''}" title="${escapeHtml(label)}"><span class="pip__gem"></span><span class="pip__score">${text}</span></li>`;
   }).join('');
 }
-const tier = (s: number) => (s >= 950 ? 'perfect' : s >= 750 ? 'great' : s >= 500 ? 'good' : s >= 250 ? 'poor' : 'miss');
 
 let shownTotal = 0;
 function updateTotal(animate: boolean) {
-  const total = game.rounds.reduce((s, r) => s + r.score, 0);
+  const total = totalPoints();
   const el = $('total');
   if (animate) countUp(el, shownTotal, total, 1);
   else el.textContent = total.toLocaleString('en-US');
@@ -290,18 +302,19 @@ function countUp(el: HTMLElement, from: number, to: number, duration: number) {
 }
 
 function openResults(fresh: boolean) {
-  const total = game.rounds.reduce((s, r) => s + r.score, 0);
+  const total = totalPoints();
   const [, title, flavor] = titleFor(total);
   $('results-kicker').textContent = game.mode === 'daily' ? `Expedition #${game.day} complete` : 'Practice complete';
   $('results-title').textContent = title;
   $('results-flavor').textContent = flavor;
   $('results-rounds').innerHTML = game.rounds.map((r, i) => {
     const p = game.places[i];
-    return `<li class="round round--${tier(r.score)}">
+    const max = MAX_ROUND_SCORE * multiplierFor(i);
+    return `<li class="round round--${tierFor(r.score)}">
       <span class="round__emoji">${emojiFor(r.score)}</span>
       <span class="round__name">${escapeHtml(p.name)}<small>${kindLabels[p.kind]} · ${escapeHtml(p.zone === p.name ? p.continent : p.zone)}</small></span>
       <span class="round__dist">${r.yards === 0 ? 'Bullseye' : formatYards(r.yards)}${r.hint ? ' · hint' : ''}</span>
-      <span class="round__score">${r.score}</span>
+      <span class="round__score">${r.points}<small>/${max}</small></span>
     </li>`;
   }).join('');
   renderStats();
@@ -327,7 +340,7 @@ function renderStats() {
       <div><strong>${s.maxStreak}</strong><span>Max streak</span></div>
     </div>
     <div class="stats__bars" aria-label="Score distribution">
-      ${s.buckets.map((n, i) => `<div class="bar"><span class="bar__label">${i}k+</span><span class="bar__track"><span class="bar__fill" style="--w:${(n / max) * 100}%">${n}</span></span></div>`).join('')}
+      ${s.buckets.map((n, i) => `<div class="bar"><span class="bar__label">${i * 200}+</span><span class="bar__track"><span class="bar__fill" style="--w:${(n / max) * 100}%">${n}</span></span></div>`).join('')}
     </div>`;
 }
 
@@ -378,7 +391,7 @@ function wireControls() {
   $('btn-stats').addEventListener('click', () => {
     play('click');
     if (game.phase === 'finished') openResults(false);
-    else { renderStats(); $('results-rounds').innerHTML = ''; $('results-kicker').textContent = 'Your record'; $('results-title').textContent = 'Statistics'; $('results-flavor').textContent = 'Finish today\'s expedition to see your score here.'; $('results-total').textContent = game.rounds.reduce((s, r) => s + r.score, 0).toLocaleString('en-US'); openDialog('dlg-results'); }
+    else { renderStats(); $('results-rounds').innerHTML = ''; $('results-kicker').textContent = 'Your record'; $('results-title').textContent = 'Statistics'; $('results-flavor').textContent = 'Finish today\'s expedition to see your score here.'; $('results-total').textContent = totalPoints().toLocaleString('en-US'); openDialog('dlg-results'); }
   });
   $('btn-settings').addEventListener('click', () => {
     play('click');
@@ -409,8 +422,7 @@ function wireControls() {
   });
 
   $('btn-share').addEventListener('click', async () => {
-    const total = game.rounds.reduce((s, r) => s + r.score, 0);
-    const text = shareText({ day: game.mode === 'daily' ? game.day : null, total, scores: game.rounds.map(r => r.score), url: location.origin });
+    const text = shareText({ day: game.mode === 'daily' ? game.day : null, total: totalPoints(), scores: game.rounds.map(r => r.score), url: location.origin });
     const outcome = await shareResult(text);
     toast(outcome === 'copied' ? 'Result copied – paste it in guild chat!' : outcome === 'shared' ? 'Shared!' : 'Could not share – try again');
   });

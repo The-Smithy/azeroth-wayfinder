@@ -214,6 +214,8 @@ kbd {
 .pip.is-current .pip__score { color: var(--gold-1); }
 @keyframes gem-pulse { 50% { box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), 0 0 16px 4px rgba(255, 210, 120, 0.6); } }
 .pip.is-done .pip__score { color: var(--text); }
+.pip--mult .pip__score { color: var(--gold-2); font-weight: 800; }
+.pip--mult .pip__gem { border-color: var(--gold-3); }
 .pip--perfect .pip__gem { background: radial-gradient(circle at 35% 35%, #fff6c8, var(--perfect) 45%, #a5730c); border-color: #fff1c2; box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 94, 0.8); }
 .pip--great .pip__gem { background: radial-gradient(circle at 35% 35%, #d9ffd9, var(--great) 45%, #1d6b2a); border-color: #b7f5bd; }
 .pip--good .pip__gem { background: radial-gradient(circle at 35% 35%, #fff8c8, var(--good) 45%, #8a7012); border-color: #f8eba8; }
@@ -255,6 +257,13 @@ kbd {
 }
 .badge svg { width: 15px; height: 15px; }
 .badge[hidden] { display: none; }
+.badge--mult {
+  padding: 3px 11px; color: #2a1704; border-color: #3b2405; letter-spacing: 0.06em;
+  background: linear-gradient(180deg, #ffe9a6, #f0c35a 40%, #c98e22);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 14px rgba(255, 200, 90, 0.55);
+  animation: mult-glow 1.8s ease-in-out infinite;
+}
+@keyframes mult-glow { 50% { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 22px rgba(255, 200, 90, 0.85); } }
 .crest { display: inline-block; width: 15px; height: 15px; }
 .crest--alliance { color: var(--alliance); }
 .crest--horde { color: var(--horde); }
@@ -277,6 +286,7 @@ kbd {
 .result__detail { text-align: left; }
 .result__distance { margin: 0; font: 600 19px var(--font-display); color: var(--text); }
 .result__where { margin: 2px 0 0; color: var(--text-dim); font-size: 17px; }
+.result__mult { margin: 1px 0 0; font: 600 13px var(--font-display); letter-spacing: 0.06em; color: var(--gold-2); }
 .result__where em { color: #9fd0ff; }
 
 /* --------------------------------------------------------------- modal -- */
@@ -300,12 +310,13 @@ kbd {
 .bigscore { text-align: center; font: 800 64px/1 var(--font-display); font-variant-numeric: tabular-nums; margin: 4px 0 14px; }
 .bigscore small { font-size: 20px; margin-left: 6px; }
 .rounds { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 6px; }
-.round { display: grid; grid-template-columns: 30px 1fr auto 56px; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 8px; background: rgba(0, 0, 0, 0.28); border: 1px solid rgba(160, 122, 58, 0.25); }
+.round { display: grid; grid-template-columns: 30px 1fr auto 76px; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 8px; background: rgba(0, 0, 0, 0.28); border: 1px solid rgba(160, 122, 58, 0.25); }
 .round__emoji { font-size: 20px; }
 .round__name { font: 600 16px var(--font-display); color: var(--text); display: flex; flex-direction: column; min-width: 0; }
 .round__name small { font: italic 500 14px var(--font-body); color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .round__dist { color: var(--text-dim); font-size: 15px; white-space: nowrap; }
-.round__score { font: 800 18px var(--font-display); text-align: right; font-variant-numeric: tabular-nums; color: var(--gold-1); }
+.round__score { font: 800 18px var(--font-display); text-align: right; font-variant-numeric: tabular-nums; color: var(--gold-1); white-space: nowrap; }
+.round__score small { font-size: 12px; font-weight: 600; color: var(--text-faint); margin-left: 1px; }
 .round--miss .round__score { color: #f2a39c; }
 .results__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
 

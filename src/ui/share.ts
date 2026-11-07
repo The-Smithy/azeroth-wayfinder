@@ -1,9 +1,9 @@
-import { emojiFor } from '../game/scoring';
+import { emojiFor, MAX_TOTAL } from '../game/scoring';
 
 export function shareText(opts: { day: number | null; total: number; scores: number[]; url: string }) {
   const heading = opts.day ? `Azeroth Pinpoint #${opts.day}` : 'Azeroth Pinpoint · Practice';
   return [
-    `${heading} 📍 ${opts.total.toLocaleString('en-US')}/5,000`,
+    `${heading} 📍 ${opts.total.toLocaleString('en-US')}/${MAX_TOTAL.toLocaleString('en-US')}`,
     opts.scores.map(emojiFor).join(''),
     opts.url,
   ].join('\n');

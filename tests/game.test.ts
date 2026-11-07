@@ -3,7 +3,7 @@ import locations from '../src/data/locations.json';
 import zonesJson from '../src/data/zones.json';
 import { dailyPlaces, dayNumber, DAY_PLAN, practicePlaces, tierPool, TIERS } from '../src/game/daily';
 import { distanceToZone, pointInZone, zoneAt, zoneCoords } from '../src/game/geo';
-import { emojiFor, measure, scoreFor, MAX_ROUND_SCORE } from '../src/game/scoring';
+import { emojiFor, MAX_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
 import type { Place, Zone } from '../src/types';
 
 const places = locations as Place[];
@@ -76,13 +76,23 @@ describe('geometry & scoring', () => {
     expect(far.yards).toBeCloseTo(distanceToZone([-90, 0], durotar) * (1600 / 12), 3);
   });
 
-  it('scores fall off smoothly with distance', () => {
-    expect(scoreFor(0)).toBe(MAX_ROUND_SCORE);
+  it('accuracy falls off smoothly with distance (0–100)', () => {
+    expect(scoreFor(0)).toBe(100);
     expect(scoreFor(1000)).toBeLessThan(scoreFor(500));
-    expect(scoreFor(1000)).toBeGreaterThan(600);
+    expect(scoreFor(1000)).toBeGreaterThan(60);
     expect(scoreFor(40000)).toBe(0);
-    expect(scoreFor(0, true)).toBe(750);
-    expect(emojiFor(1000)).toBe('🎯');
+    expect(scoreFor(0, true)).toBe(75);
+    expect(emojiFor(100)).toBe('🎯');
     expect(emojiFor(0)).toBe('🟥');
+  });
+
+  it('rounds are worth 100, 100, 200, 300, 300 – a perfect day is exactly 1,000', () => {
+    expect(ROUND_MULTIPLIERS).toEqual([1, 1, 2, 3, 3]);
+    expect([0, 1, 2, 3, 4].map(i => pointsFor(MAX_ROUND_SCORE, i))).toEqual([100, 100, 200, 300, 300]);
+    expect(MAX_TOTAL).toBe(1000);
+    expect(multiplierFor(2)).toBe(2);
+    expect(pointsFor(87, 4)).toBe(261);
+    expect(titleFor(1000)[1]).toBe('Keeper of the Atlas');
+    expect(titleFor(0)[1]).toBe('Fresh from the Murloc Coast');
   });
 });
