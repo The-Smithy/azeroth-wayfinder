@@ -206,7 +206,6 @@ async function startDaily() {
     busy: false,
     rank: state.rank,
   };
-  $('puzzle-label').textContent = `Daily expedition #${state.day}`;
   document.body.classList.remove('is-practice');
   renderPips();
   updateTotal(false);
@@ -220,7 +219,6 @@ async function startPractice() {
     const { clues } = await api.practice();
     game = { mode: 'practice', day: 0, resetsAt: game.resetsAt, clues, played: [], current: 0, phase: 'loading', guess: null, hint: false, busy: false, rank: null };
   } catch (err) { reportError(err); return; }
-  $('puzzle-label').textContent = 'Practice expedition · not ranked';
   document.body.classList.add('is-practice');
   renderPips();
   updateTotal(false);
@@ -239,7 +237,8 @@ function showRound() {
   const faction = $('clue-faction');
   faction.hidden = clue.kind === 'zone' || clue.kind === 'dungeon' || clue.kind === 'raid';
   faction.innerHTML = `${shield(clue.faction)}<span>${factionLabels[clue.faction]}</span>`;
-  $('clue-round').textContent = `Location ${game.current + 1} of ${ROUNDS}`;
+  // Practice games say so on the card, since they don't count towards the boards.
+  $('clue-round').textContent = `${game.mode === 'practice' ? 'Practice · ' : ''}Location ${game.current + 1} of ${ROUNDS}`;
   const multBadge = $('clue-mult');
   multBadge.hidden = clue.multiplier === 1;
   multBadge.textContent = `×${clue.multiplier} points`;

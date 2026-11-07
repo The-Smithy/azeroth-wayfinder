@@ -199,8 +199,6 @@ kbd {
 .brand__title { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: 0.08em; line-height: 1; white-space: nowrap; }
 .brand__title span { font-weight: 600; }
 .brand__text { min-width: 0; }
-.brand__sub { margin: 3px 0 0; font-size: 14px; color: var(--text-dim); font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.is-practice .brand__sub { color: #9fd0ff; }
 
 .pips { display: flex; gap: 14px; margin: 0; padding: 0; list-style: none; }
 .pip { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 34px; }
@@ -268,6 +266,7 @@ kbd {
 .crest--alliance { color: var(--alliance); }
 .crest--horde { color: var(--horde); }
 .crest--neutral { color: var(--neutral); }
+.is-practice .card__round { color: #9fd0ff; }
 .card__round { font: 600 12px var(--font-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin-left: 4px; }
 .card__name { margin: 8px 0 2px; font: 800 clamp(26px, 4.4vw, 38px)/1.1 var(--font-display); letter-spacing: 0.04em; min-height: 1.1em; }
 .card__name .ch { display: inline-block; background: inherit; -webkit-background-clip: text; background-clip: text; }
@@ -380,7 +379,6 @@ kbd {
   .pips { grid-area: pips; justify-content: center; }
   .brand__crest { width: 38px; height: 38px; }
   .brand__title { font-size: 18px; }
-  .brand__sub { font-size: 13px; }
   .iconbar { gap: 6px; }
   .iconbtn { width: 36px; height: 36px; padding: 8px; }
   .total__value { font-size: 22px; }
@@ -403,7 +401,6 @@ kbd {
   .result__distance { font-size: 16px; }
   .result__where { font-size: 15px; }
   .results__actions .btn { padding: 10px 8px; font-size: 12px; letter-spacing: 0.04em; }
-  .brand__sub { max-width: 46vw; }
   .card__result { gap: 12px; }
   .modal__frame { padding: 24px 16px 18px; }
   .bigscore { font-size: 52px; }
@@ -547,7 +544,6 @@ kbd {
   .brand { gap: 8px; }
   .brand__crest { width: 32px; height: 32px; }
   .brand__title { font-size: 17px; letter-spacing: 0.05em; }
-  .brand__sub { font-size: 12px; max-width: 34vw; }
   .topbar__right { gap: 6px; }
   .iconbar { gap: 4px; }
   .iconbtn, .account { width: 34px; height: 34px; padding: 7px; }
