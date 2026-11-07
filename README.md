@@ -91,6 +91,27 @@ finish, and the week's top three. Players appear as Discord mentions **without p
 Only players who have signed in to Wayfinder with Discord can appear: that's how the game
 knows they're in your server.
 
+### `/wayfinder` slash command
+
+Anyone in a server where the Wayfinder app is installed can type **`/wayfinder`** to show that
+server's board: `board: today` (live standings, the default), `yesterday` (final results) or
+`week`, plus `private: true` to show it only to themselves. Discord calls
+`netlify/functions/discord-interactions.mts` over HTTP, so no bot needs to be running;
+requests are verified with the app's Ed25519 public key.
+
+1. Discord Developer Portal → your app → *General Information* → copy **Public Key** → add it in
+   Netlify as `DISCORD_PUBLIC_KEY`, then redeploy.
+2. Same page → **Interactions Endpoint URL** →
+   `https://azeroth-wayfinder.netlify.app/discord/interactions` → *Save* (Discord sends a signed
+   test request, which only succeeds once step 1 is deployed).
+3. *Installation* → make sure **Guild Install** is enabled with the `applications.commands`
+   scope, then add the app to your server via
+   `https://discord.com/oauth2/authorize?client_id=<DISCORD_CLIENT_ID>&scope=applications.commands`.
+
+The command itself (`server/discord-commands.json`) is registered automatically after every
+production build (`scripts/discord-register.mjs`, using the existing client ID and secret).
+To register by hand: `DISCORD_CLIENT_ID=… DISCORD_CLIENT_SECRET=… npm run discord:register`.
+
 The Discord app needs the redirect `https://<your-site>/auth/discord/callback`.
 
 To moderate a player, set `players.banned = true` for them (for example from the Netlify

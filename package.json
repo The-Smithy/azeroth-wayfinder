@@ -14,7 +14,9 @@
     "fetch-map": "node scripts/fetch-map.mjs",
     "build-data": "node scripts/build-data.mjs",
     "make-og": "node scripts/make-og.mjs",
-    "db:migrate": "node scripts/db-migrate-local.mjs"
+    "db:migrate": "node scripts/db-migrate-local.mjs",
+    "postbuild": "node scripts/discord-register.mjs",
+    "discord:register": "node scripts/discord-register.mjs --force"
   },
   "dependencies": {
     "@fontsource/cinzel": "^5.3.0",

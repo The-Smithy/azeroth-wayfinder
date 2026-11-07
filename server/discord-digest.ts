@@ -38,8 +38,18 @@ export interface DiscordMessage {
   embeds: Record<string, unknown>[];
 }
 
-/** Build the results post for one server and one (finished) puzzle day. */
-export async function buildDigest(q: Queryable, serverId: string, day: number, site: string): Promise<DiscordMessage> {
+/**
+ * What to show:
+ *  - final: results of a finished puzzle day (the nightly post, `/wayfinder board:yesterday`)
+ *  - live:  today's standings so far (`/wayfinder board:today`)
+ *  - week:  the 7 days ending on `day` (`/wayfinder board:week`)
+ */
+export type BoardMode = 'final' | 'live' | 'week';
+
+/** Build a leaderboard message for one Discord server. */
+export async function buildDigest(q: Queryable, serverId: string, day: number, site: string, mode: BoardMode = 'final'): Promise<DiscordMessage> {
+  if (mode === 'week') return buildWeek(q, serverId, day, site);
+  const live = mode === 'live';
   const [board, week, unfinished, server] = await Promise.all([
     rankBoard(q, { period: 'day', scope: serverId, day, limit: MAX_LISTED }),
     rankBoard(q, { period: 'week', scope: serverId, day, limit: 3 }),
@@ -63,13 +73,16 @@ export async function buildDigest(q: Queryable, serverId: string, day: number, s
   });
   if (finished > board.length) lines.push(`…and ${finished - board.length} more`);
 
+  const verb = live ? 'have finished today\'s expedition so far' : 'completed the expedition';
   const description = finished
     ? [
-        `**${finished}** ${finished === 1 ? 'adventurer' : 'adventurers'} from **${serverName}** completed the expedition (best possible: ${MAX_TOTAL.toLocaleString('en-US')}).`,
+        `**${finished}** ${finished === 1 ? 'adventurer' : 'adventurers'} from **${serverName}** ${finished === 1 && live ? 'has finished today\'s expedition so far' : verb} (best possible: ${MAX_TOTAL.toLocaleString('en-US')}).`,
         '',
         ...lines,
       ].join('\n')
-    : `No one from **${serverName}** completed this expedition. The map awaits!`;
+    : live
+      ? `No one from **${serverName}** has finished today's expedition yet – be the first!`
+      : `No one from **${serverName}** completed this expedition. The map awaits!`;
 
   const fields: Record<string, unknown>[] = [];
   if (unfinished.rows.length) {
@@ -81,21 +94,50 @@ export async function buildDigest(q: Queryable, serverId: string, day: number, s
       value: week.map(r => `${MEDALS[r.rank - 1] ?? `${r.rank}.`} ${who(r.discord_id)} — **${r.points.toLocaleString('en-US')}** (${r.games} ${r.games === 1 ? 'day' : 'days'})`).join('\n'),
     });
   }
-  fields.push({ name: '​', value: `**A new expedition is live** – five new places await.\n[Play Wayfinder](${site})` });
+  const endsUnix = Math.floor(dayEndsAt(day).getTime() / 1000);
+  fields.push({
+    name: '​',
+    value: live
+      // <t:…:R> renders as a live relative time in each reader's Discord ("in 3 hours").
+      ? `Today's expedition ends <t:${endsUnix}:R>.\n[Play Wayfinder](${site})`
+      : `**A new expedition is live** – five new places await.\n[Play Wayfinder](${site})`,
+  });
 
+  return message(site, {
+    title: live ? `📍 Wayfinder standings so far · ${date}` : `🏆 Wayfinder results · ${date}`,
+    description,
+    fields,
+    timestamp: live ? new Date().toISOString() : dayEndsAt(day).toISOString(),
+  });
+}
+
+/** The 7-day board ending on `day`. */
+async function buildWeek(q: Queryable, serverId: string, day: number, site: string): Promise<DiscordMessage> {
+  const [board, server] = await Promise.all([
+    rankBoard(q, { period: 'week', scope: serverId, day, limit: MAX_LISTED }),
+    q.query<{ name: string }>(`SELECT name FROM discord_servers WHERE id = $1`, [serverId]),
+  ]);
+  const serverName = server.rows[0]?.name ?? 'this server';
+  const total = board[0]?.total_players ?? 0;
+  const lines = board.map(r =>
+    `${MEDALS[r.rank - 1] ?? `**${r.rank}.**`} ${who(r.discord_id)} — **${r.points.toLocaleString('en-US')}** · ${r.games} ${r.games === 1 ? 'day' : 'days'} · ${fmtTime(r.ms)}`);
+  if (total > board.length) lines.push(`…and ${total - board.length} more`);
+  return message(site, {
+    title: `📅 Wayfinder · last 7 expeditions`,
+    description: total
+      ? [`**${total}** ${total === 1 ? 'adventurer' : 'adventurers'} from **${serverName}** played this week.`, '', ...lines].join('\n')
+      : `No one from **${serverName}** has played this week yet.`,
+    fields: [{ name: '​', value: `[Play Wayfinder](${site})` }],
+    timestamp: new Date().toISOString(),
+  });
+}
+
+function message(site: string, embed: { title: string; description: string; fields: Record<string, unknown>[]; timestamp: string }): DiscordMessage {
   return {
     username: 'Wayfinder',
     avatar_url: `${site}/wayfinder-logo-256.png`,
     allowed_mentions: { parse: [] },
-    embeds: [{
-      title: `🏆 Wayfinder results · ${date}`,
-      url: site,
-      color: GOLD,
-      description,
-      fields,
-      footer: { text: 'Server board: Discord members who signed in to Wayfinder' },
-      timestamp: dayEndsAt(day).toISOString(),
-    }],
+    embeds: [{ ...embed, url: site, color: GOLD, footer: { text: 'Server board: Discord members who signed in to Wayfinder' } }],
   };
 }
 

@@ -1,6 +1,7 @@
 // Integration tests: the real migrations and SQL against a local Postgres.
 import { NetlifyDB } from '@netlify/database-dev';
 import pg from 'pg';
+import { generateKeyPairSync, sign as cryptoSign } from 'node:crypto';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { db, useTestPool } from '../server/db';
 import { dayNumber } from '../server/daily';
@@ -9,6 +10,7 @@ import { dailyState, dealNextRound, places, practiceClues, practiceGuess, puzzle
 import { HttpError } from '../server/http';
 import { leaderboard, me, stats } from '../server/leaderboard';
 import { buildDigest, parseWebhook, postDailyDigest } from '../server/discord-digest';
+import { handleInteraction, verifyDiscordRequest } from '../server/discord-interactions';
 import { type CookieJar, ensurePlayer, type Player, SESSION_COOKIE, currentPlayer } from '../server/session';
 import { measure, scoreFor } from '../src/game/scoring';
 
@@ -342,5 +344,57 @@ describe('daily Discord post', () => {
     await pool.query(`INSERT INTO discord_servers (id, name) VALUES ($1, 'Frostwolf Clan')`, [SERVER]);
     const msg = await buildDigest(pool, SERVER, yesterday(), 'https://wayfinder.test');
     expect((msg.embeds[0] as { description: string }).description).toContain('No one from **Frostwolf Clan**');
+  });
+});
+
+describe('/wayfinder slash command', () => {
+  const SERVER = '900000000010';
+  const { publicKey, privateKey } = generateKeyPairSync('ed25519');
+  const pubHex = publicKey.export({ format: 'der', type: 'spki' }).subarray(12).toString('hex');
+  const signed = (body: string, ts = String(Math.floor(Date.now() / 1000))) =>
+    ({ sig: cryptoSign(null, Buffer.from(ts + body), privateKey).toString('hex'), ts });
+
+  it('verifies Discord signatures and rejects tampering and replays', () => {
+    const body = JSON.stringify({ type: 1 });
+    const { sig, ts } = signed(body);
+    expect(verifyDiscordRequest(pubHex, sig, ts, body)).toBe(true);
+    expect(verifyDiscordRequest(pubHex, sig, ts, body.replace('1', '2'))).toBe(false);
+    expect(verifyDiscordRequest(pubHex, null, ts, body)).toBe(false);
+    const old = signed(body, String(Math.floor(Date.now() / 1000) - 3600));
+    expect(verifyDiscordRequest(pubHex, old.sig, old.ts, body)).toBe(false);
+  });
+
+  it('answers pings, refuses DMs, and posts the board for the calling server', { timeout: 30_000 }, async () => {
+    const base = { application_id: '42424242424', token: 'tok' };
+    expect(handleInteraction(pool, { ...base, type: 1 }, 'https://w.test').response).toEqual({ type: 1 });
+    const dm = handleInteraction(pool, { ...base, type: 2, data: { name: 'wayfinder' } }, 'https://w.test');
+    expect(dm.response).toMatchObject({ type: 4, data: { flags: 64 } });
+
+    // A server member who finished today.
+    const { rows } = await pool.query<{ id: string }>(`INSERT INTO players (discord_id, name) VALUES ('333333333333', 'Jaina') RETURNING id`);
+    await pool.query(`INSERT INTO discord_servers (id, name) VALUES ($1, 'Kirin Tor')`, [SERVER]);
+    await pool.query(`INSERT INTO player_servers VALUES ($1, $2)`, [rows[0].id, SERVER]);
+    await pool.query(`INSERT INTO puzzles VALUES ($1, $2)`, [today(), places.slice(0, 5).map(p => p.id)]);
+    await pool.query(`INSERT INTO games (player_id, day, finished_at, total_points, total_ms) VALUES ($1, $2, now(), 777, 90000)`, [rows[0].id, today()]);
+
+    const edits: { url: string; body: any }[] = [];
+    const fetcher = (async (url: string | URL | Request, init?: RequestInit) => {
+      edits.push({ url: String(url), body: JSON.parse(String(init!.body)) });
+      return new Response('{}', { status: 200 });
+    }) as typeof fetch;
+
+    for (const [board, title, flags] of [['today', 'standings so far', 0], ['yesterday', 'results', 0], ['week', 'last 7 expeditions', 64]] as const) {
+      const r = handleInteraction(pool, {
+        ...base, type: 2, guild_id: SERVER,
+        data: { name: 'wayfinder', options: [{ name: 'board', value: board }, ...(flags ? [{ name: 'private', value: true }] : [])] },
+      }, 'https://w.test', fetcher);
+      expect(r.response).toEqual({ type: 5, data: { flags } });
+      await (r as { followUp: () => Promise<void> }).followUp();
+      const last = edits.at(-1)!;
+      expect(last.url).toBe('https://discord.com/api/v10/webhooks/42424242424/tok/messages/@original');
+      expect(last.body.allowed_mentions).toEqual({ parse: [] });
+      expect(last.body.embeds[0].title).toContain(title);
+      if (board !== 'yesterday') expect(last.body.embeds[0].description).toContain('<@333333333333>');
+    }
   });
 });
