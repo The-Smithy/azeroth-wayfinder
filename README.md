@@ -72,6 +72,24 @@ preview deploys, each with its own copy of the database.
 | `DISCORD_CLIENT_SECRET` | Discord application client secret (mark as secret) |
 | `PUZZLE_SECRET` | Random string that seeds daily puzzles. Changing it only affects days that haven't been generated yet. |
 | `SITE_URL` | Public URL, used for absolute links in social cards (Netlify's `URL` is used if unset) |
+| `DISCORD_WEBHOOK_URL` | Optional (mark as secret). Enables the daily Discord results post, see below. |
+
+### Daily Discord results post
+
+`netlify/functions/discord-daily.mts` posts the results of the puzzle that just ended
+into a Discord channel, just after the midnight-Eastern reset. The post lists everyone from
+that Discord server who played (ranked, with score, emoji row and time), who set out but didn't
+finish, and the week's top three. Players appear as Discord mentions **without pinging anyone**.
+
+1. In Discord: *Server Settings → Integrations → Webhooks → New Webhook*, pick the channel,
+   then *Copy Webhook URL*. The server is worked out from the webhook itself.
+2. In Netlify: add `DISCORD_WEBHOOK_URL` as a **secret** environment variable with the
+   **Functions** scope, then redeploy.
+3. Optional test: *Logs & metrics → Functions → discord-daily → Run now* posts the previous
+   day's results. Each day is posted at most once (tracked in the `discord_posts` table).
+
+Only players who have signed in to Wayfinder with Discord can appear: that's how the game
+knows they're in your server.
 
 The Discord app needs the redirect `https://<your-site>/auth/discord/callback`.
 

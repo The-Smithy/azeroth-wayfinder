@@ -8,6 +8,7 @@ import { completeLogin, beginLogin, STATE_COOKIE } from '../server/discord';
 import { dailyState, dealNextRound, places, practiceClues, practiceGuess, puzzleFor, submitGuess, takeHint, zones } from '../server/game';
 import { HttpError } from '../server/http';
 import { leaderboard, me, stats } from '../server/leaderboard';
+import { buildDigest, parseWebhook, postDailyDigest } from '../server/discord-digest';
 import { type CookieJar, ensurePlayer, type Player, SESSION_COOKIE, currentPlayer } from '../server/session';
 import { measure, scoreFor } from '../src/game/scoring';
 
@@ -51,7 +52,7 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  await pool.query('TRUNCATE players, discord_servers, puzzles CASCADE');
+  await pool.query('TRUNCATE players, discord_servers, puzzles, discord_posts CASCADE');
 });
 
 /** Play a whole daily game for a player, guessing exactly on each target. */
@@ -256,5 +257,90 @@ describe('Discord sign-in', () => {
     expect(mine.player).toMatchObject({ name: 'Go\'el', discord: true });
     expect(mine.servers).toEqual([{ id: '900000000002', name: 'Frostwolf Clan', icon: expect.stringContaining('/icons/900000000002/abc.png'), players: 2 }]);
     expect(other).toBeTruthy();
+  });
+});
+
+describe('daily Discord post', () => {
+  const SERVER = '900000000009';
+  const HOOK = 'https://discord.com/api/webhooks/123456789012345678/abcDEF_ghi-JKLmnoPQRstuVWXyz0123456789';
+  const yesterday = () => today() - 1;
+
+  /** A finished (or started) game on `day` for a Discord player, optionally in SERVER. */
+  async function played(name: string, points: number, ms: number, opts: { member?: boolean; finished?: boolean; banned?: boolean } = {}) {
+    const discordId = String(2e17 + Math.floor(Math.random() * 1e15));
+    const { rows } = await pool.query<{ id: string }>(
+      `INSERT INTO players (discord_id, name, banned) VALUES ($1, $2, $3) RETURNING id`,
+      [discordId, name, opts.banned ?? false],
+    );
+    const id = rows[0].id;
+    if (opts.member ?? true) {
+      await pool.query(`INSERT INTO discord_servers (id, name) VALUES ($1, 'Frostwolf Clan') ON CONFLICT DO NOTHING`, [SERVER]);
+      await pool.query(`INSERT INTO player_servers VALUES ($1, $2)`, [id, SERVER]);
+    }
+    await pool.query(`INSERT INTO puzzles VALUES ($1, $2) ON CONFLICT DO NOTHING`, [yesterday(), places.slice(0, 5).map(p => p.id)]);
+    const done = opts.finished ?? true;
+    await pool.query(
+      `INSERT INTO games (player_id, day, finished_at, total_points, total_ms) VALUES ($1, $2, ${done ? 'now()' : 'NULL'}, $3, $4)`,
+      [id, yesterday(), points, ms],
+    );
+    for (let i = 0; i < (done ? 5 : 2); i++) {
+      await pool.query(`INSERT INTO rounds (player_id, day, idx, guessed_at, score, points, ms) VALUES ($1, $2, $3, now(), 90, 90, 1000)`, [id, yesterday(), i]);
+    }
+    return discordId;
+  }
+
+  /** Fake Discord: answers the webhook lookup and records posts. */
+  function fakeDiscord(status = 204) {
+    const posts: { body: any }[] = [];
+    const fetcher = (async (_input: string | URL | Request, init?: RequestInit) => {
+      if ((init?.method ?? 'GET') === 'GET') return Response.json({ guild_id: SERVER, channel_id: '1', name: 'Wayfinder' });
+      posts.push({ body: JSON.parse(String(init!.body)) });
+      return new Response(status === 204 ? null : 'nope', { status });
+    }) as typeof fetch;
+    return { fetcher, posts };
+  }
+
+  it('accepts real webhook URLs only', () => {
+    expect(parseWebhook(HOOK)).toEqual({ id: '123456789012345678', token: 'abcDEF_ghi-JKLmnoPQRstuVWXyz0123456789' });
+    expect(parseWebhook('https://evil.example/api/webhooks/123456789012345678/abcDEF_ghi-JKLmnoPQRstuVWXyz')).toBeNull();
+  });
+
+  it('ranks the server\'s players, lists unfinished ones, and never pings', { timeout: 30_000 }, async () => {
+    const jaina = await played('Jaina', 905, 200_000);
+    const thrall = await played('Thrall', 905, 260_000);
+    const rexxar = await played('Rexxar', 120, 0, { finished: false });
+    const outsider = await played('Outsider', 999, 1000, { member: false });
+    const banned = await played('Garrosh', 1000, 1000, { banned: true });
+
+    const msg = await buildDigest(pool, SERVER, yesterday(), 'https://wayfinder.test');
+    expect(msg.allowed_mentions).toEqual({ parse: [] });
+    const embed = msg.embeds[0] as { description: string; fields: { name: string; value: string }[]; url: string };
+    expect(embed.url).toBe('https://wayfinder.test');
+    expect(embed.description).toContain('**2** adventurers from **Frostwolf Clan**');
+    expect(embed.description.indexOf(`<@${jaina}>`)).toBeLessThan(embed.description.indexOf(`<@${thrall}>`)); // tie → faster wins
+    expect(embed.description).toContain('🥇');
+    expect(embed.description).not.toContain(outsider);
+    expect(embed.description).not.toContain(banned);
+    expect(embed.fields.find(f => f.name.includes('didn\'t finish'))?.value).toContain(rexxar);
+    expect(embed.fields.find(f => f.name.includes('This week'))?.value).toContain(jaina);
+  });
+
+  it('posts once per day, and retries after a Discord failure', { timeout: 30_000 }, async () => {
+    await played('Jaina', 905, 200_000);
+    const broken = fakeDiscord(500);
+    expect(await code(postDailyDigest(pool, HOOK, 'https://wayfinder.test', { fetcher: broken.fetcher }))).toMatch(/rejected the post: 500/);
+    expect((await pool.query(`SELECT 1 FROM discord_posts`)).rowCount).toBe(0); // claim released
+
+    const ok = fakeDiscord();
+    expect(await postDailyDigest(pool, HOOK, 'https://wayfinder.test', { fetcher: ok.fetcher })).toBe('posted');
+    expect(await postDailyDigest(pool, HOOK, 'https://wayfinder.test', { fetcher: ok.fetcher })).toBe('already_posted');
+    expect(ok.posts).toHaveLength(1);
+    expect(ok.posts[0].body.username).toBe('Wayfinder');
+  });
+
+  it('still posts (with a nudge) when nobody played', async () => {
+    await pool.query(`INSERT INTO discord_servers (id, name) VALUES ($1, 'Frostwolf Clan')`, [SERVER]);
+    const msg = await buildDigest(pool, SERVER, yesterday(), 'https://wayfinder.test');
+    expect((msg.embeds[0] as { description: string }).description).toContain('No one from **Frostwolf Clan**');
   });
 });

@@ -8,8 +8,9 @@ import type { Player } from './session';
 const TOP = 50;
 const WEEK_DAYS = 7;
 
-interface BoardRow {
+export interface BoardRow {
   player_id: string;
+  discord_id: string;
   name: string;
   avatar_url: string | null;
   points: number;
@@ -17,30 +18,30 @@ interface BoardRow {
   games: number;
   scores: number[] | null;
   rank: number;
+  pos: number;
+  total_players: number;
 }
 
 /**
- * Daily or 7-day board, global or for one Discord server. Only signed-in, unbanned
- * players appear; the global board also respects the "show me publicly" setting.
- * Ties break on total time, then on who finished first.
+ * Ranked rows for a daily or 7-day board ending on `day`, global or for one Discord
+ * server. Only signed-in, unbanned players appear; the global board also respects the
+ * "show me publicly" setting. Ties break on total time, then on who finished first.
+ * Returns the top `limit` rows plus the viewer's own row. No permission checks.
  */
-export async function leaderboard(q: Queryable, viewer: Player | null, period: Period, scope: string): Promise<Leaderboard> {
-  const day = dayNumber();
-  const isGlobal = scope === 'global';
-  if (!isGlobal) {
-    if (!viewer?.discord_id) throw new HttpError(401, 'sign_in', 'Sign in with Discord to see server leaderboards.');
-    const { rowCount } = await q.query(`SELECT 1 FROM player_servers WHERE player_id = $1 AND server_id = $2`, [viewer.id, scope]);
-    if (!rowCount) throw new HttpError(403, 'not_member', 'You are not a member of that server.');
-  }
-
+export async function rankBoard(
+  q: Queryable,
+  opts: { period: Period; scope: string; day: number; viewerId?: string | null; limit?: number },
+): Promise<BoardRow[]> {
+  const { period, scope, day, viewerId = null, limit = TOP } = opts;
   const from = period === 'week' ? day - (WEEK_DAYS - 1) : day;
   const params: unknown[] = [from, day];
-  const scopeFilter = isGlobal
+  const scopeFilter = scope === 'global'
     ? 'p.is_public'
     : `EXISTS (SELECT 1 FROM player_servers ps WHERE ps.player_id = p.id AND ps.server_id = $${params.push(scope)})`;
-  const viewerParam = `$${params.push(viewer?.id ?? null)}`;
+  const viewerParam = `$${params.push(viewerId)}`;
+  const limitParam = `$${params.push(limit)}`;
 
-  const { rows } = await q.query<BoardRow & { pos: number; total_players: number }>(
+  const { rows } = await q.query<BoardRow>(
     `WITH totals AS (
        SELECT g.player_id,
               SUM(g.total_points)::int AS points,
@@ -56,15 +57,27 @@ export async function leaderboard(q: Queryable, viewer: Player | null, period: P
               ROW_NUMBER() OVER (ORDER BY points DESC, ms ASC, last_finish ASC) AS pos,
               COUNT(*) OVER ()::int AS total_players
          FROM totals t)
-     SELECT r.player_id, p.name, p.avatar_url, r.points, r.ms, r.games, r.rank, r.pos::int AS pos, r.total_players,
+     SELECT r.player_id, p.discord_id, p.name, p.avatar_url, r.points, r.ms, r.games, r.rank, r.pos::int AS pos, r.total_players,
             ${period === 'day'
               ? `(SELECT ARRAY_AGG(score ORDER BY idx) FROM rounds x WHERE x.player_id = r.player_id AND x.day = $2)`
               : 'NULL'} AS scores
        FROM ranked r JOIN players p ON p.id = r.player_id
-      WHERE r.pos <= ${TOP} OR r.player_id = ${viewerParam}
+      WHERE r.pos <= ${limitParam} OR r.player_id = ${viewerParam}
       ORDER BY r.pos`,
     params,
   );
+  return rows;
+}
+
+/** The leaderboard API: today's (or this week's) board, global or for a server you're in. */
+export async function leaderboard(q: Queryable, viewer: Player | null, period: Period, scope: string): Promise<Leaderboard> {
+  const day = dayNumber();
+  if (scope !== 'global') {
+    if (!viewer?.discord_id) throw new HttpError(401, 'sign_in', 'Sign in with Discord to see server leaderboards.');
+    const { rowCount } = await q.query(`SELECT 1 FROM player_servers WHERE player_id = $1 AND server_id = $2`, [viewer.id, scope]);
+    if (!rowCount) throw new HttpError(403, 'not_member', 'You are not a member of that server.');
+  }
+  const rows = await rankBoard(q, { period, scope, day, viewerId: viewer?.id ?? null });
 
   const toEntry = (r: BoardRow): LeaderboardEntry => ({
     rank: r.rank,
