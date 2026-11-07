@@ -713,7 +713,7 @@ function wireControls() {
   });
 
   $('btn-share').addEventListener('click', async () => {
-    const text = shareText({ date: game.mode === 'daily' ? puzzleDate('short') : null, total: totalPoints(), scores: game.played.map(r => r.outcome.score), url: location.origin });
+    const text = shareText({ date: game.mode === 'daily' ? puzzleDate('short') : null, total: totalPoints(), scores: game.played.map(r => r.outcome.score), site: location.host });
     const outcome = await shareResult(text);
     toast(outcome === 'copied' ? 'Result copied – paste it in guild chat!' : outcome === 'shared' ? 'Shared!' : 'Could not share – try again');
   });

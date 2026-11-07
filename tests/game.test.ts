@@ -5,6 +5,7 @@ import { dailyPlaces, dayEndsAt, dayNumber, DAY_PLAN, practicePlaces, tierPool, 
 import { distanceToZone, pointInZone, zoneAt, zoneCoords } from '../src/game/geo';
 import { emojiFor, MAX_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
 import type { Place, Zone } from '../src/types';
+import { shareText } from '../src/ui/share';
 
 const places = locations as Place[];
 const zones = zonesJson as unknown as Record<string, Zone>;
@@ -122,5 +123,14 @@ describe('geometry & scoring', () => {
     expect(pointsFor(87, 4)).toBe(261);
     expect(titleFor(1000)[1]).toBe('Keeper of the Atlas');
     expect(titleFor(0)[1]).toBe('Fresh from the Murloc Coast');
+  });
+});
+
+describe('share text', () => {
+  it('is spoiler-free and names the site without a link', () => {
+    const text = shareText({ date: 'Nov 7, 2026', total: 857, scores: [100, 94, 75, 71, 100], site: 'azeroth-wayfinder.netlify.app' });
+    expect(text).toBe('Wayfinder · Nov 7, 2026 📍 857/1,000\n🎯🟩🟩🟨🎯\nazeroth-wayfinder.netlify.app');
+    expect(text).not.toMatch(/https?:/);
+    for (const p of places) expect(text).not.toContain(p.name);
   });
 });
