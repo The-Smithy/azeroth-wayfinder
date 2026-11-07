@@ -11,11 +11,14 @@ export interface HoverInfo { zone: string | null; coords: [number, number] | nul
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/** Pins & flags are drawn at 40×48 and shown at 70%. */
+const PIN_SIZE: [number, number] = [28, 34];
+
 const pinIcon = (cls: string, html: string, size: [number, number], anchor: [number, number], label = '') =>
   L.divIcon({ className: `pin ${cls}`, html: `${html}${label ? `<span class="pin__label">${label}</span>` : ''}`, iconSize: size, iconAnchor: anchor });
 
-const guessIcon = (label = '') => pinIcon('pin--guess', `<span class="pin__shadow"></span>${guessPinSvg}`, [40, 48], [20, 46], label);
-const targetIcon = (label = '') => pinIcon('pin--target', `<span class="pin__ring"></span><span class="pin__ring pin__ring--2"></span>${targetPinSvg}`, [40, 48], [9, 46], label);
+const guessIcon = (label = '') => pinIcon('pin--guess', `<span class="pin__shadow"></span>${guessPinSvg}`, PIN_SIZE, [14, 33], label);
+const targetIcon = (label = '') => pinIcon('pin--target', `<span class="pin__ring"></span><span class="pin__ring pin__ring--2"></span>${targetPinSvg}`, PIN_SIZE, [6, 33], label);
 
 /** Keep the parchment's top edge clear of the title bar. */
 const HOME_PADDING: L.FitBoundsOptions = { paddingTopLeft: [8, 58], paddingBottomRight: [8, 4] };
@@ -206,7 +209,7 @@ export class MapView {
       L.polyline([r.guess, r.anchor], { className: 'reveal-line reveal-line--static', interactive: false }).addTo(this.roundLayer);
       L.marker(r.guess, { icon: guessIcon(String(i + 1)), keyboard: false, interactive: false }).addTo(this.roundLayer);
       L.marker(r.place.latlng, { icon: targetIcon(), keyboard: false, title: r.place.name })
-        .bindTooltip(`${i + 1}. ${r.place.name}`, { direction: 'top', offset: [12, -44], className: 'place-tip' })
+        .bindTooltip(`${i + 1}. ${r.place.name}`, { direction: 'top', offset: [8, -31], className: 'place-tip' })
         .addTo(this.roundLayer);
       pts.push(r.guess, r.place.latlng);
     });
