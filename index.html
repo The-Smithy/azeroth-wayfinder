@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Azeroth Pinpoint · The daily World of Warcraft map game</title>
+    <meta name="description" content="Five places in Azeroth, every day. Drop a pin on the WoW: Forever world map as close as you can to each town, dungeon and zone – then share your score with your guild." />
+    <meta name="theme-color" content="#120d08" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href="%SITE_URL%/" />
+
+    <!-- Open Graph / social cards -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Azeroth Pinpoint" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:title" content="Azeroth Pinpoint – How well do you know Azeroth?" />
+    <meta property="og:description" content="A daily World of Warcraft geography game. Five places, one pin each – from Booty Bay to Blackrock Mountain. Can you score 5,000?" />
+    <meta property="og:image" content="%SITE_URL%/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Azeroth Pinpoint – a gold map pin over the parchment world map of Azeroth with five daily target flags." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Azeroth Pinpoint – How well do you know Azeroth?" />
+    <meta name="twitter:description" content="Five places in Azeroth every day. Drop your pin, beat your guild, keep your streak." />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.jpg" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div id="map" class="map" aria-label="World map of Azeroth – click to drop your pin"></div>
+      <div class="atmosphere" aria-hidden="true">
+        <div class="clouds clouds--a"></div>
+        <div class="clouds clouds--b"></div>
+        <div id="embers" class="embers"></div>
+        <div class="vignette"></div>
+      </div>
+
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand__crest" data-icon="crest"></span>
+          <div class="brand__text">
+            <h1 class="brand__title">Azeroth <span>Pinpoint</span></h1>
+            <p class="brand__sub" id="puzzle-label">Daily expedition</p>
+          </div>
+        </div>
+        <ol class="pips" id="pips" aria-label="Round progress"></ol>
+        <div class="topbar__right">
+          <div class="total" aria-live="polite">
+            <span class="total__label">Score</span>
+            <span class="total__value" id="total">0</span>
+          </div>
+          <nav class="iconbar" aria-label="Game menu">
+            <button class="iconbtn" id="btn-help" type="button" aria-label="How to play" data-icon="help"></button>
+            <button class="iconbtn" id="btn-stats" type="button" aria-label="Statistics" data-icon="stats"></button>
+            <button class="iconbtn" id="btn-sound" type="button" aria-label="Toggle sound" data-icon="sound"></button>
+            <button class="iconbtn" id="btn-settings" type="button" aria-label="Settings" data-icon="gear"></button>
+          </nav>
+        </div>
+      </header>
+
+      <div class="map-controls" role="toolbar" aria-label="Map controls">
+        <button class="iconbtn" id="zoom-in" type="button" aria-label="Zoom in" data-icon="plus"></button>
+        <button class="iconbtn" id="zoom-out" type="button" aria-label="Zoom out" data-icon="minus"></button>
+        <button class="iconbtn" id="zoom-home" type="button" aria-label="Show all of Azeroth" data-icon="home"></button>
+        <button class="iconbtn" id="map-style" type="button" aria-label="Map style" data-icon="layers"></button>
+      </div>
+
+      <div class="readout" id="readout" aria-hidden="true">
+        <span class="readout__zone" id="readout-zone"></span>
+        <span class="readout__coords" id="readout-coords"></span>
+      </div>
+
+      <section class="card" id="card" aria-live="polite">
+        <div class="card__frame">
+          <div class="card__meta">
+            <span class="badge" id="clue-kind"></span>
+            <span class="badge badge--faction" id="clue-faction"></span>
+            <span class="card__round" id="clue-round"></span>
+          </div>
+          <h2 class="card__name" id="clue-name">&nbsp;</h2>
+          <p class="card__prompt" id="clue-prompt"></p>
+
+          <div class="card__result" id="result" hidden>
+            <div class="result__score"><span id="result-score">0</span><small>/ 1000</small></div>
+            <div class="result__detail">
+              <p class="result__distance" id="result-distance"></p>
+              <p class="result__where" id="result-where"></p>
+            </div>
+          </div>
+
+          <div class="card__actions">
+            <button class="btn btn--ghost" id="btn-hint" type="button">
+              <span data-icon="compass"></span> Hint <small>−25%</small>
+            </button>
+            <button class="btn btn--primary" id="btn-confirm" type="button" disabled>Drop a pin on the map</button>
+            <button class="btn btn--primary" id="btn-next" type="button" hidden>Next location ▸</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+      <div class="loader" id="loader">
+        <div class="loader__crest" data-icon="crest"></div>
+        <p class="loader__title">Azeroth Pinpoint</p>
+        <p class="loader__text" id="loader-text">Unfurling the map of Azeroth…</p>
+        <div class="loader__bar"><span></span></div>
+      </div>
+    </div>
+
+    <!-- Dialogs -->
+    <dialog class="modal" id="dlg-help" aria-labelledby="help-title">
+      <form method="dialog" class="modal__frame">
+        <button class="iconbtn modal__close" value="close" aria-label="Close" data-icon="close"></button>
+        <h2 class="modal__title" id="help-title">How to play</h2>
+        <p class="modal__lede">Every day, the Cartographers' Guild names <strong>five places</strong> in Azeroth. Find them.</p>
+        <ol class="howto">
+          <li><span class="howto__n">1</span><div><strong>Read the clue.</strong> A town, dungeon entrance, capital or a whole zone.</div></li>
+          <li><span class="howto__n">2</span><div><strong>Drop your pin.</strong> Click or tap the map – drag the pin to fine-tune. Zoom in and the parchment gives way to the land itself.</div></li>
+          <li><span class="howto__n">3</span><div><strong>Confirm</strong> (or press <kbd>Enter</kbd>) to reveal the answer. Up to <strong>1,000 points</strong> per round; for zones and capitals anywhere inside counts as a bullseye.</div></li>
+          <li><span class="howto__n">4</span><div><strong>Stuck?</strong> The hint reveals the continent, at the cost of 25% of that round.</div></li>
+        </ol>
+        <div class="legend">
+          <span>🎯 950+</span><span>🟩 750+</span><span>🟨 500+</span><span>🟧 250+</span><span>🟥 under 250</span>
+        </div>
+        <p class="modal__fine">A new expedition unlocks every midnight (your local time). Same five places for everyone.</p>
+        <p class="modal__fine credits">
+          Fan-made and unofficial. Map imagery &amp; location data from the
+          <a href="https://wowforever.gg/en/atlas/" target="_blank" rel="noopener">wowforever.gg Azeroth Atlas</a>.
+          World of Warcraft and all related art © Blizzard Entertainment.
+        </p>
+        <button class="btn btn--primary btn--wide" value="close">To adventure!</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal modal--results" id="dlg-results" aria-labelledby="results-title">
+      <form method="dialog" class="modal__frame">
+        <button class="iconbtn modal__close" value="close" aria-label="Close" data-icon="close"></button>
+        <p class="modal__kicker" id="results-kicker">Expedition complete</p>
+        <h2 class="modal__title" id="results-title">Master Cartographer</h2>
+        <p class="modal__lede" id="results-flavor"></p>
+        <div class="bigscore"><span id="results-total">0</span><small>/ 5,000</small></div>
+        <ol class="rounds" id="results-rounds"></ol>
+        <div class="results__actions">
+          <button class="btn btn--primary" type="button" id="btn-share"><span data-icon="share"></span> Share result</button>
+          <button class="btn btn--ghost" type="button" id="btn-review">View on map</button>
+        </div>
+        <div class="stats" id="stats"></div>
+        <div class="next" id="next-wrap">
+          <span>Next expedition in</span>
+          <strong id="countdown">--:--:--</strong>
+        </div>
+        <button class="btn btn--ghost btn--wide" type="button" id="btn-practice">Practice with random places</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="dlg-settings" aria-labelledby="settings-title">
+      <form method="dialog" class="modal__frame">
+        <button class="iconbtn modal__close" value="close" aria-label="Close" data-icon="close"></button>
+        <h2 class="modal__title" id="settings-title">Settings</h2>
+        <label class="toggle"><input type="checkbox" id="set-sound" /><span class="toggle__ui"></span> Sound effects</label>
+        <label class="toggle"><input type="checkbox" id="set-zones" /><span class="toggle__ui"></span> Show zone names &amp; outlines on hover</label>
+        <fieldset class="segmented">
+          <legend>Map style</legend>
+          <label><input type="radio" name="map-style" value="auto" /> <span>Auto</span></label>
+          <label><input type="radio" name="map-style" value="parchment" /> <span>Parchment</span></label>
+          <label><input type="radio" name="map-style" value="terrain" /> <span>Terrain</span></label>
+        </fieldset>
+        <button class="btn btn--primary btn--wide" value="close">Done</button>
+      </form>
+    </dialog>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

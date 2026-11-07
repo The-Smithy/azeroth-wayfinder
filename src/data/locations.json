@@ -1,0 +1,1742 @@
+[
+ {
+  "id": "darnassus",
+  "name": "Darnassus",
+  "kind": "city",
+  "faction": "alliance",
+  "zoneId": 1457,
+  "zone": "Darnassus",
+  "continent": "Kalimdor",
+  "latlng": [
+   -17.859,
+   33.931
+  ],
+  "area": "1457"
+ },
+ {
+  "id": "ironforge",
+  "name": "Ironforge",
+  "kind": "city",
+  "faction": "alliance",
+  "zoneId": 1455,
+  "zone": "Ironforge",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -92.248,
+   240.317
+  ]
+ },
+ {
+  "id": "orgrimmar",
+  "name": "Orgrimmar",
+  "kind": "city",
+  "faction": "horde",
+  "zoneId": 1454,
+  "zone": "Orgrimmar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -78.454,
+   84.864
+  ],
+  "area": "1454"
+ },
+ {
+  "id": "stormwind-city",
+  "name": "Stormwind City",
+  "kind": "city",
+  "faction": "alliance",
+  "zoneId": 1453,
+  "zone": "Stormwind City",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -120.312,
+   225.594
+  ],
+  "area": "1453"
+ },
+ {
+  "id": "thunder-bluff",
+  "name": "Thunder Bluff",
+  "kind": "city",
+  "faction": "horde",
+  "zoneId": 1456,
+  "zone": "Thunder Bluff",
+  "continent": "Kalimdor",
+  "latlng": [
+   -100.984,
+   52.039
+  ],
+  "area": "1456"
+ },
+ {
+  "id": "undercity",
+  "name": "Undercity",
+  "kind": "city",
+  "faction": "horde",
+  "zoneId": 1458,
+  "zone": "Undercity",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -44.316,
+   229.049
+  ]
+ },
+ {
+  "id": "blackfathom-deeps",
+  "name": "Blackfathom Deeps",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1440,
+  "zone": "Ashenvale",
+  "continent": "Kalimdor",
+  "latlng": [
+   -60.73,
+   45.305
+  ]
+ },
+ {
+  "id": "blackrock-depths",
+  "name": "Blackrock Depths",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1427,
+  "zone": "Searing Gorge",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -111.344,
+   240.229
+  ]
+ },
+ {
+  "id": "blackrock-spire",
+  "name": "Blackrock Spire",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1428,
+  "zone": "Burning Steppes",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -115.73,
+   240.577
+  ]
+ },
+ {
+  "id": "dire-maul",
+  "name": "Dire Maul",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1444,
+  "zone": "Feralas",
+  "continent": "Kalimdor",
+  "latlng": [
+   -124.79,
+   41.999
+  ]
+ },
+ {
+  "id": "gnomeregan",
+  "name": "Gnomeregan",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -94.881,
+   227.519
+  ]
+ },
+ {
+  "id": "hall-of-thanes",
+  "name": "Hall of Thanes",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1455,
+  "zone": "Ironforge",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -92.287,
+   239.902
+  ]
+ },
+ {
+  "id": "maraudon",
+  "name": "Maraudon",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1443,
+  "zone": "Desolace",
+  "continent": "Kalimdor",
+  "latlng": [
+   -102.662,
+   30.062
+  ]
+ },
+ {
+  "id": "ragefire-chasm",
+  "name": "Ragefire Chasm",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1454,
+  "zone": "Orgrimmar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -78.442,
+   85.033
+  ]
+ },
+ {
+  "id": "razorfen-downs",
+  "name": "Razorfen Downs",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -127.274,
+   69.667
+  ]
+ },
+ {
+  "id": "razorfen-kraul",
+  "name": "Razorfen Kraul",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -125.258,
+   64.165
+  ]
+ },
+ {
+  "id": "ruins-of-lordaeron",
+  "name": "Ruins of Lordaeron",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1458,
+  "zone": "Undercity",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -42.496,
+   230.61
+  ]
+ },
+ {
+  "id": "scarlet-monastery",
+  "name": "Scarlet Monastery",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1420,
+  "zone": "Tirisfal Glades",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -34.494,
+   238.159
+  ]
+ },
+ {
+  "id": "scholomance",
+  "name": "Scholomance",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1422,
+  "zone": "Western Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -46.424,
+   251.128
+  ]
+ },
+ {
+  "id": "shadowfang-keep",
+  "name": "Shadowfang Keep",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1421,
+  "zone": "Silverpine Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -57.738,
+   220.237
+  ]
+ },
+ {
+  "id": "stratholme",
+  "name": "Stratholme",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1423,
+  "zone": "Eastern Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -31.967,
+   258.876
+  ]
+ },
+ {
+  "id": "temple-of-atalhakkar",
+  "name": "Temple of Atal'Hakkar",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1435,
+  "zone": "Swamp of Sorrows",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -134.177,
+   260.628
+  ]
+ },
+ {
+  "id": "the-deadmines",
+  "name": "The Deadmines",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1436,
+  "zone": "Westfall",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -139.049,
+   220.55
+  ]
+ },
+ {
+  "id": "the-stockade",
+  "name": "The Stockade",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1453,
+  "zone": "Stormwind City",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -120.765,
+   224.327
+  ]
+ },
+ {
+  "id": "uldaman",
+  "name": "Uldaman",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1418,
+  "zone": "Badlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -101.679,
+   255.901
+  ]
+ },
+ {
+  "id": "wailing-caverns",
+  "name": "Wailing Caverns",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -98.32,
+   67.265
+  ]
+ },
+ {
+  "id": "zulfarrak",
+  "name": "Zul'Farrak",
+  "kind": "dungeon",
+  "faction": "neutral",
+  "zoneId": 1446,
+  "zone": "Tanaris",
+  "continent": "Kalimdor",
+  "latlng": [
+   -142.962,
+   73.678
+  ]
+ },
+ {
+  "id": "gurubashi-arena",
+  "name": "Gurubashi Arena",
+  "kind": "landmark",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -155.081,
+   230.18
+  ]
+ },
+ {
+  "id": "blackwing-lair",
+  "name": "Blackwing Lair",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 1428,
+  "zone": "Burning Steppes",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -115.73,
+   240.577
+  ]
+ },
+ {
+  "id": "hyjal-summit",
+  "name": "Hyjal Summit",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 2482,
+  "zone": "Mount Hyjal",
+  "continent": "Kalimdor",
+  "latlng": [
+   -50.274,
+   82.104
+  ]
+ },
+ {
+  "id": "molten-core",
+  "name": "Molten Core",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 1427,
+  "zone": "Searing Gorge",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -111.344,
+   240.229
+  ]
+ },
+ {
+  "id": "naxxramas",
+  "name": "Naxxramas",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 1423,
+  "zone": "Eastern Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -33.902,
+   261.505
+  ]
+ },
+ {
+  "id": "onyxias-lair",
+  "name": "Onyxia's Lair",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 1445,
+  "zone": "Dustwallow Marsh",
+  "continent": "Kalimdor",
+  "latlng": [
+   -127.646,
+   80.142
+  ]
+ },
+ {
+  "id": "ruins-of-ahnqiraj",
+  "name": "Ruins of Ahn'Qiraj",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 1451,
+  "zone": "Silithus",
+  "continent": "Kalimdor",
+  "latlng": [
+   -152.925,
+   40.569
+  ]
+ },
+ {
+  "id": "temple-of-ahnqiraj",
+  "name": "Temple of Ahn'Qiraj",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 1451,
+  "zone": "Silithus",
+  "continent": "Kalimdor",
+  "latlng": [
+   -152.925,
+   40.569
+  ]
+ },
+ {
+  "id": "zulgurub",
+  "name": "Zul'Gurub",
+  "kind": "raid",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -145.372,
+   241.169
+  ]
+ },
+ {
+  "id": "aerie-peak",
+  "name": "Aerie Peak",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1425,
+  "zone": "The Hinterlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -53.855,
+   246.989
+  ]
+ },
+ {
+  "id": "astranaar",
+  "name": "Astranaar",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1440,
+  "zone": "Ashenvale",
+  "continent": "Kalimdor",
+  "latlng": [
+   -70.502,
+   53.955
+  ]
+ },
+ {
+  "id": "auberdine",
+  "name": "Auberdine",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1439,
+  "zone": "Darkshore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -44.237,
+   47.623
+  ]
+ },
+ {
+  "id": "bloodvenom-post",
+  "name": "Bloodvenom Post",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1448,
+  "zone": "Felwood",
+  "continent": "Kalimdor",
+  "latlng": [
+   -53.737,
+   54.35
+  ]
+ },
+ {
+  "id": "booty-bay",
+  "name": "Booty Bay",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -164.333,
+   228.266
+  ]
+ },
+ {
+  "id": "brackenwall-village",
+  "name": "Brackenwall Village",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1445,
+  "zone": "Dustwallow Marsh",
+  "continent": "Kalimdor",
+  "latlng": [
+   -115.387,
+   73.094
+  ]
+ },
+ {
+  "id": "camp-mojache",
+  "name": "Camp Mojache",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1444,
+  "zone": "Feralas",
+  "continent": "Kalimdor",
+  "latlng": [
+   -125.04,
+   50.281
+  ]
+ },
+ {
+  "id": "camp-taurajo",
+  "name": "Camp Taurajo",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -109.803,
+   65.768
+  ]
+ },
+ {
+  "id": "cenarion-hold",
+  "name": "Cenarion Hold",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 1451,
+  "zone": "Silithus",
+  "continent": "Kalimdor",
+  "latlng": [
+   -142.611,
+   46.031
+  ]
+ },
+ {
+  "id": "chillwind-camp",
+  "name": "Chillwind Camp",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1422,
+  "zone": "Western Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -49.025,
+   242.42
+  ]
+ },
+ {
+  "id": "crossroads",
+  "name": "Crossroads",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -95.108,
+   71.088
+  ]
+ },
+ {
+  "id": "darkshire",
+  "name": "Darkshire",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1431,
+  "zone": "Duskwood",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -134.815,
+   241.343
+  ]
+ },
+ {
+  "id": "everlook",
+  "name": "Everlook",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 1452,
+  "zone": "Winterspring",
+  "continent": "Kalimdor",
+  "latlng": [
+   -40.78,
+   87.39
+  ]
+ },
+ {
+  "id": "feathermoon",
+  "name": "Feathermoon",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1444,
+  "zone": "Feralas",
+  "continent": "Kalimdor",
+  "latlng": [
+   -124.692,
+   26.825
+  ]
+ },
+ {
+  "id": "flame-crest",
+  "name": "Flame Crest",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1428,
+  "zone": "Burning Steppes",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -112.248,
+   248.28
+  ]
+ },
+ {
+  "id": "freewind-post",
+  "name": "Freewind Post",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1441,
+  "zone": "Thousand Needles",
+  "continent": "Kalimdor",
+  "latlng": [
+   -132.53,
+   70.1
+  ]
+ },
+ {
+  "id": "gromgol-base-camp",
+  "name": "Grom'gol Base Camp",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -149.018,
+   230.659
+  ]
+ },
+ {
+  "id": "hammerfall",
+  "name": "Hammerfall",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1417,
+  "zone": "Arathi Highlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -62.76,
+   258.21
+  ]
+ },
+ {
+  "id": "kargath",
+  "name": "Kargath",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1418,
+  "zone": "Badlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -105.644,
+   248.153
+  ]
+ },
+ {
+  "id": "lakeshire",
+  "name": "Lakeshire",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -126.72,
+   249.494
+  ]
+ },
+ {
+  "id": "lights-hope-chapel",
+  "name": "Light's Hope Chapel",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 1423,
+  "zone": "Eastern Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -40.997,
+   275.057
+  ]
+ },
+ {
+  "id": "marshals-refuge",
+  "name": "Marshal's Refuge",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 1449,
+  "zone": "Un'Goro Crater",
+  "continent": "Kalimdor",
+  "latlng": [
+   -137.675,
+   60.488
+  ]
+ },
+ {
+  "id": "menethil-harbor",
+  "name": "Menethil Harbor",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1437,
+  "zone": "Wetlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -84.306,
+   237.713
+  ]
+ },
+ {
+  "id": "morgans-vigil",
+  "name": "Morgan's Vigil",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1428,
+  "zone": "Burning Steppes",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -118.69,
+   252.454
+  ]
+ },
+ {
+  "id": "nethergarde-keep",
+  "name": "Nethergarde Keep",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1419,
+  "zone": "Blasted Lands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -139.27,
+   257.644
+  ]
+ },
+ {
+  "id": "nighthaven",
+  "name": "Nighthaven",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 1450,
+  "zone": "Moonglade",
+  "continent": "Kalimdor",
+  "latlng": [
+   -33.509,
+   69.977
+  ]
+ },
+ {
+  "id": "nijels-point",
+  "name": "Nijel's Point",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1443,
+  "zone": "Desolace",
+  "continent": "Kalimdor",
+  "latlng": [
+   -90.858,
+   41.83
+  ]
+ },
+ {
+  "id": "powderfuse-port",
+  "name": "Powderfuse Port",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 2548,
+  "zone": "Riverglades",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -117.668,
+   275.36
+  ]
+ },
+ {
+  "id": "ratchet",
+  "name": "Ratchet",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -98.655,
+   80.208
+  ]
+ },
+ {
+  "id": "refuge-pointe",
+  "name": "Refuge Pointe",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1417,
+  "zone": "Arathi Highlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -65.28,
+   250.65
+  ]
+ },
+ {
+  "id": "revantusk-village",
+  "name": "Revantusk Village",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1425,
+  "zone": "The Hinterlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -60.592,
+   267.201
+  ]
+ },
+ {
+  "id": "ruttheran-village",
+  "name": "Rut'theran Village",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1438,
+  "zone": "Teldrassil",
+  "continent": "Kalimdor",
+  "latlng": [
+   -27.192,
+   45.539
+  ]
+ },
+ {
+  "id": "sentinel-hill",
+  "name": "Sentinel Hill",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1436,
+  "zone": "Westfall",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -135.6,
+   224.075
+  ]
+ },
+ {
+  "id": "shadowprey-village",
+  "name": "Shadowprey Village",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1443,
+  "zone": "Desolace",
+  "continent": "Kalimdor",
+  "latlng": [
+   -105.248,
+   27.331
+  ]
+ },
+ {
+  "id": "southshore",
+  "name": "Southshore",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1424,
+  "zone": "Hillsbrad Foothills",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -61.32,
+   235.76
+  ]
+ },
+ {
+  "id": "splintertree-post",
+  "name": "Splintertree Post",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1440,
+  "zone": "Ashenvale",
+  "continent": "Kalimdor",
+  "latlng": [
+   -74.538,
+   70.822
+  ]
+ },
+ {
+  "id": "steamwheedle-port",
+  "name": "Steamwheedle Port",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1446,
+  "zone": "Tanaris",
+  "continent": "Kalimdor",
+  "latlng": [
+   -146.067,
+   80.033
+  ]
+ },
+ {
+  "id": "stonard",
+  "name": "Stonard",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1435,
+  "zone": "Swamp of Sorrows",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -134.349,
+   256.585
+  ]
+ },
+ {
+  "id": "stonetalon-peak",
+  "name": "Stonetalon Peak",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1442,
+  "zone": "Stonetalon Mountains",
+  "continent": "Kalimdor",
+  "latlng": [
+   -71.835,
+   40.841
+  ]
+ },
+ {
+  "id": "stormwind-harbor",
+  "name": "Stormwind Harbor",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1453,
+  "zone": "Stormwind City",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -121.355,
+   227.679
+  ]
+ },
+ {
+  "id": "sun-rock-retreat",
+  "name": "Sun Rock Retreat",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1442,
+  "zone": "Stonetalon Mountains",
+  "continent": "Kalimdor",
+  "latlng": [
+   -84.534,
+   44.138
+  ]
+ },
+ {
+  "id": "talonbranch-glade",
+  "name": "Talonbranch Glade",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1448,
+  "zone": "Felwood",
+  "continent": "Kalimdor",
+  "latlng": [
+   -45.4,
+   66.425
+  ]
+ },
+ {
+  "id": "talrendis-point",
+  "name": "Talrendis Point",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1447,
+  "zone": "Azshara",
+  "continent": "Kalimdor",
+  "latlng": [
+   -71.464,
+   80.762
+  ]
+ },
+ {
+  "id": "tarren-mill",
+  "name": "Tarren Mill",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1424,
+  "zone": "Hillsbrad Foothills",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -55.88,
+   238.4
+  ]
+ },
+ {
+  "id": "thalanaar",
+  "name": "Thalanaar",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1444,
+  "zone": "Feralas",
+  "continent": "Kalimdor",
+  "latlng": [
+   -125.387,
+   57.579
+  ]
+ },
+ {
+  "id": "the-sepulcher",
+  "name": "The Sepulcher",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1421,
+  "zone": "Silverpine Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -52.32,
+   220.3
+  ]
+ },
+ {
+  "id": "thelsamar",
+  "name": "Thelsamar",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1432,
+  "zone": "Loch Modan",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -96.555,
+   253.78
+  ]
+ },
+ {
+  "id": "theramore-isle",
+  "name": "Theramore Isle",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1445,
+  "zone": "Dustwallow Marsh",
+  "continent": "Kalimdor",
+  "latlng": [
+   -120.637,
+   85.694
+  ]
+ },
+ {
+  "id": "thorium-point",
+  "name": "Thorium Point",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 1427,
+  "zone": "Searing Gorge",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -105.097,
+   240.614
+  ]
+ },
+ {
+  "id": "valormok",
+  "name": "Valormok",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1447,
+  "zone": "Azshara",
+  "continent": "Kalimdor",
+  "latlng": [
+   -64.364,
+   84.565
+  ]
+ },
+ {
+  "id": "zoramgar-outpost",
+  "name": "Zoram'gar Outpost",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1440,
+  "zone": "Ashenvale",
+  "continent": "Kalimdor",
+  "latlng": [
+   -66.466,
+   44.44
+  ]
+ },
+ {
+  "id": "alterac-mountains",
+  "name": "Alterac Mountains",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1416,
+  "zone": "Alterac Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -51.75,
+   236.625
+  ],
+  "area": "1416"
+ },
+ {
+  "id": "arathi-highlands",
+  "name": "Arathi Highlands",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1417,
+  "zone": "Arathi Highlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -66,
+   252
+  ],
+  "area": "1417"
+ },
+ {
+  "id": "ashenvale",
+  "name": "Ashenvale",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1440,
+  "zone": "Ashenvale",
+  "continent": "Kalimdor",
+  "latlng": [
+   -71.367,
+   60.875
+  ],
+  "area": "1440"
+ },
+ {
+  "id": "azshara",
+  "name": "Azshara",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1447,
+  "zone": "Azshara",
+  "continent": "Kalimdor",
+  "latlng": [
+   -64.617,
+   95.594
+  ],
+  "area": "1447"
+ },
+ {
+  "id": "badlands",
+  "name": "Badlands",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1418,
+  "zone": "Badlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -106.391,
+   256.922
+  ],
+  "area": "1418"
+ },
+ {
+  "id": "blasted-lands",
+  "name": "Blasted Lands",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1419,
+  "zone": "Blasted Lands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -143.625,
+   253.875
+  ],
+  "area": "1419"
+ },
+ {
+  "id": "burning-steppes",
+  "name": "Burning Steppes",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1428,
+  "zone": "Burning Steppes",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -116.055,
+   244.984
+  ],
+  "area": "1428"
+ },
+ {
+  "id": "darkshore",
+  "name": "Darkshore",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1439,
+  "zone": "Darkshore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -45.875,
+   54.5
+  ],
+  "area": "1439"
+ },
+ {
+  "id": "deadwind-pass",
+  "name": "Deadwind Pass",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1430,
+  "zone": "Deadwind Pass",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -136.25,
+   247.625
+  ],
+  "area": "1430"
+ },
+ {
+  "id": "desolace",
+  "name": "Desolace",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1443,
+  "zone": "Desolace",
+  "continent": "Kalimdor",
+  "latlng": [
+   -99.852,
+   37.109
+  ],
+  "area": "1443"
+ },
+ {
+  "id": "dun-morogh",
+  "name": "Dun Morogh",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -97.391,
+   236.953
+  ],
+  "area": "1426"
+ },
+ {
+  "id": "durotar",
+  "name": "Durotar",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1411,
+  "zone": "Durotar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -91.656,
+   86.547
+  ],
+  "area": "1411"
+ },
+ {
+  "id": "duskwood",
+  "name": "Duskwood",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1431,
+  "zone": "Duskwood",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -135.625,
+   235.875
+  ],
+  "area": "1431"
+ },
+ {
+  "id": "dustwallow-marsh",
+  "name": "Dustwallow Marsh",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1445,
+  "zone": "Dustwallow Marsh",
+  "continent": "Kalimdor",
+  "latlng": [
+   -120.375,
+   79
+  ],
+  "area": "1445"
+ },
+ {
+  "id": "eastern-plaguelands",
+  "name": "Eastern Plaguelands",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1423,
+  "zone": "Eastern Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -39.062,
+   265.055
+  ],
+  "area": "1423"
+ },
+ {
+  "id": "elwynn-forest",
+  "name": "Elwynn Forest",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -124.227,
+   233.5
+  ],
+  "area": "1429"
+ },
+ {
+  "id": "felwood",
+  "name": "Felwood",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1448,
+  "zone": "Felwood",
+  "continent": "Kalimdor",
+  "latlng": [
+   -52.875,
+   61.25
+  ],
+  "area": "1448"
+ },
+ {
+  "id": "feralas",
+  "name": "Feralas",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1444,
+  "zone": "Feralas",
+  "continent": "Kalimdor",
+  "latlng": [
+   -127.125,
+   37.25
+  ],
+  "area": "1444"
+ },
+ {
+  "id": "hillsbrad-foothills",
+  "name": "Hillsbrad Foothills",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1424,
+  "zone": "Hillsbrad Foothills",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -61,
+   236
+  ],
+  "area": "1424"
+ },
+ {
+  "id": "loch-modan",
+  "name": "Loch Modan",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1432,
+  "zone": "Loch Modan",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -96.555,
+   257.297
+  ],
+  "area": "1432"
+ },
+ {
+  "id": "moonglade",
+  "name": "Moonglade",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1450,
+  "zone": "Moonglade",
+  "continent": "Kalimdor",
+  "latlng": [
+   -34.086,
+   71.016
+  ],
+  "area": "1450"
+ },
+ {
+  "id": "mount-hyjal",
+  "name": "Mount Hyjal",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 2482,
+  "zone": "Mount Hyjal",
+  "continent": "Kalimdor",
+  "latlng": [
+   -53.398,
+   71.945
+  ],
+  "area": "2482",
+  "isNew": true
+ },
+ {
+  "id": "mulgore",
+  "name": "Mulgore",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1412,
+  "zone": "Mulgore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -105.383,
+   56.484
+  ],
+  "area": "1412"
+ },
+ {
+  "id": "redridge-mountains",
+  "name": "Redridge Mountains",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -125.742,
+   252.75
+  ],
+  "area": "1433"
+ },
+ {
+  "id": "riverglades",
+  "name": "Riverglades",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 2548,
+  "zone": "Riverglades",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -116.625,
+   264.375
+  ],
+  "area": "2548",
+  "isNew": true
+ },
+ {
+  "id": "searing-gorge",
+  "name": "Searing Gorge",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1427,
+  "zone": "Searing Gorge",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -107.328,
+   242.789
+  ],
+  "area": "1427"
+ },
+ {
+  "id": "shendralas",
+  "name": "Shen'dralas",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 2652,
+  "zone": "Shen'dralas",
+  "continent": "Kalimdor",
+  "latlng": [
+   -111.375,
+   44.5
+  ],
+  "area": "2652",
+  "isNew": true
+ },
+ {
+  "id": "silithus",
+  "name": "Silithus",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1451,
+  "zone": "Silithus",
+  "continent": "Kalimdor",
+  "latlng": [
+   -145.398,
+   46.031
+  ],
+  "area": "1451"
+ },
+ {
+  "id": "silverpine-forest",
+  "name": "Silverpine Forest",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1421,
+  "zone": "Silverpine Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -54,
+   221.875
+  ],
+  "area": "1421"
+ },
+ {
+  "id": "stonetalon-mountains",
+  "name": "Stonetalon Mountains",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1442,
+  "zone": "Stonetalon Mountains",
+  "continent": "Kalimdor",
+  "latlng": [
+   -82.336,
+   45.969
+  ],
+  "area": "1442"
+ },
+ {
+  "id": "stranglethorn-vale",
+  "name": "Stranglethorn Vale",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -155.719,
+   239.273
+  ],
+  "area": "1434"
+ },
+ {
+  "id": "swamp-of-sorrows",
+  "name": "Swamp of Sorrows",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1435,
+  "zone": "Swamp of Sorrows",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -133.891,
+   257.273
+  ],
+  "area": "1435"
+ },
+ {
+  "id": "tanaris",
+  "name": "Tanaris",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1446,
+  "zone": "Tanaris",
+  "continent": "Kalimdor",
+  "latlng": [
+   -153.312,
+   79.516
+  ],
+  "area": "1446"
+ },
+ {
+  "id": "teldrassil",
+  "name": "Teldrassil",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1438,
+  "zone": "Teldrassil",
+  "continent": "Kalimdor",
+  "latlng": [
+   -15.992,
+   42.484
+  ],
+  "area": "1438"
+ },
+ {
+  "id": "the-barrens",
+  "name": "The Barrens",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -105.242,
+   70.328
+  ],
+  "area": "1413"
+ },
+ {
+  "id": "the-hinterlands",
+  "name": "The Hinterlands",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1425,
+  "zone": "The Hinterlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -54.625,
+   258.25
+  ],
+  "area": "1425"
+ },
+ {
+  "id": "thousand-needles",
+  "name": "Thousand Needles",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1441,
+  "zone": "Thousand Needles",
+  "continent": "Kalimdor",
+  "latlng": [
+   -132.75,
+   71.75
+  ],
+  "area": "1441"
+ },
+ {
+  "id": "tirisfal-glades",
+  "name": "Tirisfal Glades",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1420,
+  "zone": "Tirisfal Glades",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -38.516,
+   226.195
+  ],
+  "area": "1420"
+ },
+ {
+  "id": "ungoro-crater",
+  "name": "Un'Goro Crater",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1449,
+  "zone": "Un'Goro Crater",
+  "continent": "Kalimdor",
+  "latlng": [
+   -146,
+   61.875
+  ],
+  "area": "1449"
+ },
+ {
+  "id": "western-plaguelands",
+  "name": "Western Plaguelands",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1422,
+  "zone": "Western Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -41.5,
+   245
+  ],
+  "area": "1422"
+ },
+ {
+  "id": "westfall",
+  "name": "Westfall",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1436,
+  "zone": "Westfall",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -135.25,
+   222.5
+  ],
+  "area": "1436"
+ },
+ {
+  "id": "wetlands",
+  "name": "Wetlands",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1437,
+  "zone": "Wetlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -82.445,
+   250.43
+  ],
+  "area": "1437"
+ },
+ {
+  "id": "winterspring",
+  "name": "Winterspring",
+  "kind": "zone",
+  "faction": "neutral",
+  "zoneId": 1452,
+  "zone": "Winterspring",
+  "continent": "Kalimdor",
+  "latlng": [
+   -45.75,
+   81
+  ],
+  "area": "1452"
+ }
+]

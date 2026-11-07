@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.cache/
+# Third-party map imagery – downloaded by `npm run fetch-map`, not redistributed here.
+public/map/
+*.log
+.DS_Store
