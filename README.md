@@ -56,6 +56,14 @@ Everything runs on Netlify.
   rate limits on both functions, input validation, row locks plus guarded updates so a
   round can only be scored once, and a `banned` flag on players.
 
+### Deploying
+
+The repository is linked to the Netlify project: **every push to `main` builds and deploys to
+production** (`npm run build`, publishing `dist/`, per `netlify.toml`). Database migrations in
+`netlify/database/migrations/` are applied to the production database just before each deploy
+is published, and a failed migration blocks the publish. Other branches and pull requests get
+preview deploys, each with its own copy of the database.
+
 ### Environment variables (Netlify → Project configuration → Environment variables)
 
 | Name | Purpose |
