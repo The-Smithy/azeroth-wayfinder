@@ -8,5 +8,5 @@ export function env(key: string): string | undefined {
   return process.env[key];
 }
 
-/** True under `netlify dev` / the Vite plugin and in tests – never on a deploy. */
-export const isLocalDev = () => env('NETLIFY_DEV') === 'true' || !!process.env.VITEST;
+/** True in tests – never on a deploy. Local dev sets PUZZLE_SECRET in .env instead. */
+export const isLocalDev = () => !!process.env.VITEST;

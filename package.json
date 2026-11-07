@@ -1,5 +1,5 @@
 {
-  "name": "azeroth-pinpoint",
+  "name": "wayfinder",
   "private": true,
   "version": "0.1.0",
   "description": "A daily Azeroth geo-guessing game: five places a day, drop a pin as close as you can on the WoW: Forever world map.",
@@ -13,7 +13,8 @@
     "test": "vitest run",
     "fetch-map": "node scripts/fetch-map.mjs",
     "build-data": "node scripts/build-data.mjs",
-    "make-og": "node scripts/make-og.mjs"
+    "make-og": "node scripts/make-og.mjs",
+    "db:migrate": "node scripts/db-migrate-local.mjs"
   },
   "dependencies": {
     "@fontsource/cinzel": "^5.3.0",
@@ -34,7 +35,9 @@
     "@types/canvas-confetti": "^1.9.0",
     "@types/leaflet": "^1.9.22",
     "@types/node": "^22.20.5",
+    "@types/pg": "^8.23.1",
     "@types/seedrandom": "^3.0.8",
+    "pg": "^8.23.1",
     "sharp": "^0.35.5",
     "typescript": "~5.9.3",
     "vite": "^8.3.6",

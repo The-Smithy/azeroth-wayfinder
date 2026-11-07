@@ -2,6 +2,11 @@
   command = "npm run build"   # prebuild downloads the map imagery (≈21 MB)
   publish = "dist"
 
+# Local development only (`npm run dev`). Production reads PUZZLE_SECRET and the
+# Discord credentials from the project's environment variables in Netlify.
+[context.dev.environment]
+  PUZZLE_SECRET = "local-dev-only"
+
 [[headers]]
   for = "/map/*"
   [headers.values]

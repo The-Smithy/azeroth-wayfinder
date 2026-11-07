@@ -1,7 +1,8 @@
 import { defineConfig, type Plugin } from 'vite';
+import netlify from '@netlify/vite-plugin';
 
 /**
- * Social cards need absolute URLs. Set SITE_URL (e.g. https://pinpoint.example.com)
+ * Social cards need absolute URLs. Set SITE_URL (e.g. https://wayfinder.example.com)
  * at build time; Netlify's URL and Vercel's production URL are picked up automatically.
  */
 function siteUrl(): Plugin {
@@ -25,6 +26,8 @@ function siteUrl(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [siteUrl()],
+  // The Netlify plugin runs Functions and a local Netlify Database under `npm run dev`.
+  // Edge Functions are off: the app doesn't use them, and their emulator needs Deno.
+  plugins: [siteUrl(), netlify({ edgeFunctions: { enabled: false } })],
   build: { target: 'es2022', chunkSizeWarningLimit: 700 },
 });

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Azeroth Pinpoint · The daily World of Warcraft map game</title>
+    <title>Wayfinder · The daily World of Warcraft map game</title>
     <meta name="description" content="Five places in Azeroth, every day. Drop a pin on the WoW: Forever world map as close as you can to each town, dungeon and zone – then share your score with your guild." />
     <meta name="theme-color" content="#120d08" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -12,16 +12,16 @@
 
     <!-- Open Graph / social cards -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Azeroth Pinpoint" />
+    <meta property="og:site_name" content="Wayfinder" />
     <meta property="og:url" content="%SITE_URL%/" />
-    <meta property="og:title" content="Azeroth Pinpoint – How well do you know Azeroth?" />
+    <meta property="og:title" content="Wayfinder – How well do you know Azeroth?" />
     <meta property="og:description" content="A daily World of Warcraft geography game. Five places, one pin each – from Booty Bay to Blackrock Mountain. Can you score 1,000?" />
     <meta property="og:image" content="%SITE_URL%/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Azeroth Pinpoint – a gold map pin over the parchment world map of Azeroth with five daily target flags." />
+    <meta property="og:image:alt" content="Wayfinder – a gold map pin over the parchment world map of Azeroth with five daily target flags." />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Azeroth Pinpoint – How well do you know Azeroth?" />
+    <meta name="twitter:title" content="Wayfinder – How well do you know Azeroth?" />
     <meta name="twitter:description" content="Five places in Azeroth every day. Drop your pin, beat your guild, keep your streak." />
     <meta name="twitter:image" content="%SITE_URL%/og-image.jpg" />
   </head>
@@ -39,7 +39,7 @@
         <div class="brand">
           <span class="brand__crest" data-icon="crest"></span>
           <div class="brand__text">
-            <h1 class="brand__title">Azeroth <span>Pinpoint</span></h1>
+            <h1 class="brand__title">Wayfinder</h1>
             <p class="brand__sub" id="puzzle-label">Daily expedition</p>
           </div>
         </div>
@@ -109,7 +109,7 @@
 
       <div class="loader" id="loader">
         <div class="loader__crest" data-icon="crest"></div>
-        <p class="loader__title">Azeroth Pinpoint</p>
+        <p class="loader__title">Wayfinder</p>
         <p class="loader__text" id="loader-text">Unfurling the map of Azeroth…</p>
         <div class="loader__bar"><span></span></div>
       </div>
@@ -151,7 +151,12 @@
         <div class="bigscore"><span id="results-total">0</span><small>/ 1,000</small></div>
         <div class="rankline" id="results-rank" hidden></div>
         <ol class="rounds" id="results-rounds"></ol>
-        <div class="results__actions">
+        <aside class="lore" id="results-lore" hidden aria-labelledby="lore-name">
+          <p class="lore__kicker"><span data-icon="scroll"></span> From the Archives</p>
+          <h3 class="lore__name" id="lore-name"></h3>
+          <p class="lore__text" id="lore-text"></p>
+        </aside>
+        <div class="results__actions" id="results-actions">
           <button class="btn btn--primary" type="button" id="btn-share"><span data-icon="share"></span> Share result</button>
           <button class="btn btn--ghost" type="button" id="btn-review">View on map</button>
           <button class="btn btn--ghost results__board" type="button" id="btn-results-board"><span data-icon="trophy"></span> Leaderboard</button>

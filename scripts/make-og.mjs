@@ -2,7 +2,7 @@
 // Renders the social preview card (public/og-image.jpg, 1200×630) from
 // scripts/og/og.html. Needs the map imagery (npm run fetch-map) and Playwright:
 //   npx playwright install chromium   # once, if you don't have a browser
-//   npm run make-og [-- --url pinpoint.example.com]
+//   npm run make-og [-- --url wayfinder.example.com]
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
