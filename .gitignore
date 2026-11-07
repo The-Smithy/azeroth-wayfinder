@@ -5,3 +5,6 @@ dist/
 public/map/
 *.log
 .DS_Store
+
+# Netlify CLI local state
+.netlify/
