@@ -85,7 +85,7 @@ export async function buildDigest(q: Queryable, serverId: string, day: number, s
 
   return {
     username: 'Wayfinder',
-    avatar_url: `${site}/apple-touch-icon.png`,
+    avatar_url: `${site}/wayfinder-logo-256.png`,
     allowed_mentions: { parse: [] },
     embeds: [{
       title: `🏆 Wayfinder results · ${date}`,

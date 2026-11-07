@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Wayfinder logo: compass rose and map pin on dark leather, sized for a circular crop. -->
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="62%">
+      <stop offset="0" stop-color="#3a2817"/>
+      <stop offset="0.55" stop-color="#1d140b"/>
+      <stop offset="1" stop-color="#0b0806"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff1c2"/>
+      <stop offset="0.45" stop-color="#e3b04b"/>
+      <stop offset="0.8" stop-color="#a8721c"/>
+      <stop offset="1" stop-color="#f6d98b"/>
+    </linearGradient>
+    <linearGradient id="goldDim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e8c372"/>
+      <stop offset="1" stop-color="#7a5418"/>
+    </linearGradient>
+    <radialGradient id="pin" cx="40%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#e2463c"/>
+      <stop offset="0.6" stop-color="#b3262e"/>
+      <stop offset="1" stop-color="#6e1218"/>
+    </radialGradient>
+    <radialGradient id="gem" cx="35%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.35" stop-color="#fff1c2"/>
+      <stop offset="1" stop-color="#d9a441"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffd98a" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffd98a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background disc + rings -->
+  <circle cx="256" cy="256" r="256" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="236" fill="none" stroke="url(#gold)" stroke-width="10"/>
+  <circle cx="256" cy="256" r="222" fill="none" stroke="#0b0806" stroke-width="4"/>
+  <circle cx="256" cy="256" r="196" fill="none" stroke="#d9a441" stroke-opacity="0.45" stroke-width="3" stroke-dasharray="4 10"/>
+  <circle cx="256" cy="256" r="190" fill="url(#glow)"/>
+
+  <!-- Compass rose: long N/S/E/W points, short diagonals -->
+  <g filter="url(#shadow)">
+    <path d="M256 70 L282 230 L256 256 Z" fill="url(#gold)"/>
+    <path d="M256 70 L230 230 L256 256 Z" fill="url(#goldDim)"/>
+    <path d="M256 442 L230 282 L256 256 Z" fill="url(#gold)"/>
+    <path d="M256 442 L282 282 L256 256 Z" fill="url(#goldDim)"/>
+    <path d="M70 256 L230 230 L256 256 Z" fill="url(#gold)"/>
+    <path d="M70 256 L230 282 L256 256 Z" fill="url(#goldDim)"/>
+    <path d="M442 256 L282 282 L256 256 Z" fill="url(#gold)"/>
+    <path d="M442 256 L282 230 L256 256 Z" fill="url(#goldDim)"/>
+    <g opacity="0.85">
+      <path d="M134 134 L248 240 L240 248 Z" fill="url(#goldDim)"/>
+      <path d="M378 134 L264 240 L272 248 Z" fill="url(#goldDim)"/>
+      <path d="M134 378 L240 264 L248 272 Z" fill="url(#goldDim)"/>
+      <path d="M378 378 L272 264 L264 272 Z" fill="url(#goldDim)"/>
+    </g>
+  </g>
+
+  <!-- Map pin -->
+  <g filter="url(#shadow)">
+    <path d="M256 124c-46 0-80 33-80 77 0 56 80 140 80 140s80-84 80-140c0-44-34-77-80-77Z"
+          fill="url(#pin)" stroke="#ffe6a8" stroke-width="9" stroke-linejoin="round"/>
+    <circle cx="256" cy="200" r="28" fill="url(#gem)" stroke="#5a1a0f" stroke-width="4"/>
+  </g>
+</svg>
