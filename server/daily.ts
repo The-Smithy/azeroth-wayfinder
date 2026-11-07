@@ -1,9 +1,9 @@
 import seedrandom from 'seedrandom';
-import type { Place } from '../types';
+import type { Place } from '../src/types';
 
-/** Day #1 is WoW: Forever's launch day. */
-export const EPOCH = { y: 2026, m: 11, d: 4 };
-const SEED = 'azeroth-pinpoint:v1';
+/** Day #1 is WoW: Forever's launch day. Days roll over at 00:00 UTC for everyone. */
+export const EPOCH_UTC = Date.UTC(2026, 10, 4);
+const DAY_MS = 86_400_000;
 
 /**
  * Each day pulls from three "bags" so every puzzle has a mix of difficulty.
@@ -11,27 +11,20 @@ const SEED = 'azeroth-pinpoint:v1';
  * the whole bag has been played (a new shuffle starts every cycle).
  */
 export const TIERS = {
-  realm: { kinds: ['city', 'zone'], label: 'Realm' },
-  settlement: { kinds: ['town', 'landmark'], label: 'Settlement' },
-  delve: { kinds: ['dungeon', 'raid'], label: 'Dungeon' },
+  realm: { kinds: ['city', 'zone'] },
+  settlement: { kinds: ['town', 'landmark'] },
+  delve: { kinds: ['dungeon', 'raid'] },
 } as const;
 export type TierName = keyof typeof TIERS;
 
 /** Round order for a day: an easy opener, a dungeon in the middle, settlements around it. */
 export const DAY_PLAN: TierName[] = ['realm', 'settlement', 'delve', 'settlement', 'settlement'];
 
-/** Puzzle number for a local calendar date (1-based). */
-export function dayNumber(date = new Date()): number {
-  const today = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
-  const epoch = Date.UTC(EPOCH.y, EPOCH.m - 1, EPOCH.d);
-  return Math.floor((today - epoch) / 86_400_000) + 1;
-}
+/** Puzzle number for a moment in time (1-based, UTC days). */
+export const dayNumber = (now = new Date()) => Math.floor((now.getTime() - EPOCH_UTC) / DAY_MS) + 1;
 
-/** Milliseconds until the next local midnight (when the next puzzle unlocks). */
-export function msUntilNextDay(now = new Date()): number {
-  const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-  return next.getTime() - now.getTime();
-}
+/** When the given puzzle day ends (next UTC midnight). */
+export const dayEndsAt = (day: number) => new Date(EPOCH_UTC + day * DAY_MS);
 
 function shuffled<T>(items: T[], seed: string): T[] {
   const rng = seedrandom(seed);
@@ -48,8 +41,15 @@ export function tierPool(places: Place[], tier: TierName): Place[] {
   return places.filter(p => kinds.includes(p.kind)).sort((a, b) => a.id.localeCompare(b.id));
 }
 
-/** The five places for a given puzzle number. Deterministic for everyone. */
-export function dailyPlaces(places: Place[], day: number): Place[] {
+/** Molten Core & Blackrock Depths share an entrance – never ask for both on one day. */
+const sameSpot = (a: Place, b: Place) => a.latlng[0] === b.latlng[0] && a.latlng[1] === b.latlng[1];
+
+/**
+ * The five places for a puzzle day. Deterministic for a given secret, but the
+ * secret lives only on the server, so future puzzles can't be computed from the
+ * public source code.
+ */
+export function dailyPlaces(places: Place[], day: number, secret: string): Place[] {
   const picked: Place[] = [];
   const perDay = new Map<TierName, number>();
   DAY_PLAN.forEach(t => perDay.set(t, (perDay.get(t) ?? 0) + 1));
@@ -65,7 +65,7 @@ export function dailyPlaces(places: Place[], day: number): Place[] {
     let i = n * perDay.get(tier)! + k;
     for (;;) {
       const cycle = Math.floor(i / pool.length);
-      const place = shuffled(pool, `${SEED}:${tier}:${cycle}`)[i % pool.length];
+      const place = shuffled(pool, `${secret}:${tier}:${cycle}`)[i % pool.length];
       if (!picked.some(p => p.id === place.id || sameSpot(p, place))) { picked.push(place); break; }
       i++;
     }
@@ -73,14 +73,14 @@ export function dailyPlaces(places: Place[], day: number): Place[] {
   return picked;
 }
 
-/** Practice mode: five random, distinct places. */
-export function practicePlaces(places: Place[], rng = Math.random): Place[] {
-  return DAY_PLAN.map(tier => tier).reduce<Place[]>((acc, tier) => {
-    const pool = tierPool(places, tier).filter(p => !acc.some(q => q.id === p.id || sameSpot(q, p)));
+/** Practice mode: five random, distinct places that aren't in today's puzzle. */
+export function practicePlaces(places: Place[], exclude: Set<string>, rng = Math.random): Place[] {
+  const blocked = places.filter(p => exclude.has(p.id));
+  return DAY_PLAN.reduce<Place[]>((acc, tier) => {
+    const pool = tierPool(places, tier).filter(
+      p => !exclude.has(p.id) && !blocked.some(b => sameSpot(b, p)) && !acc.some(q => q.id === p.id || sameSpot(q, p)),
+    );
     acc.push(pool[Math.floor(rng() * pool.length)]);
     return acc;
   }, []);
 }
-
-/** Molten Core & Blackrock Depths share an entrance – never ask for both on one day. */
-const sameSpot = (a: Place, b: Place) => a.latlng[0] === b.latlng[0] && a.latlng[1] === b.latlng[1];

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Distils the wowforever.gg Azeroth Atlas (≈76 MB) into the small, committed
 // location + zone datasets the game ships with:
-//   src/data/locations.json  – every guessable place, in world map coordinates
+//   server/data/places.json  – every guessable place with its answer (server-only)
 //   src/data/zones.json      – zone outlines (simplified) for hover labels & area targets
 //
 // Usage: npm run build-data            (uses .cache/ if present)
@@ -115,7 +115,7 @@ for (const r of atlas.records) {
 locations.sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));
 
 await writeFile('src/data/zones.json', JSON.stringify(zones));
-await writeFile('src/data/locations.json', JSON.stringify(locations, null, 1));
+await writeFile('server/data/places.json', JSON.stringify(locations, null, 1));
 
 const byKind = locations.reduce((m, l) => ({ ...m, [l.kind]: (m[l.kind] || 0) + 1 }), {});
 console.log(`zones: ${Object.keys(zones).length}, locations: ${locations.length}`, byKind);

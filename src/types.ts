@@ -35,15 +35,3 @@ export interface MapManifest {
   overviewBounds: [LatLngTuple, LatLngTuple];
   oceanBounds: [LatLngTuple, LatLngTuple];
 }
-
-export interface RoundResult {
-  placeId: string;
-  guess: LatLngTuple;
-  /** Distance to the target in yards (0 = bullseye / inside the area). */
-  yards: number;
-  /** Accuracy, 0–100. */
-  score: number;
-  /** Points banked: score × the round multiplier. */
-  points: number;
-  hint: boolean;
-}

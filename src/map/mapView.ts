@@ -1,6 +1,9 @@
 import L from 'leaflet';
 import { gsap } from 'gsap';
-import type { LatLngTuple, MapManifest, Place, Zone } from '../types';
+import type { LatLngTuple, MapManifest, Zone } from '../types';
+
+/** What a reveal needs to know about the answer. */
+export interface Target { name: string; latlng: LatLngTuple; area?: string; }
 import { zoneAt, zoneCoords } from '../game/geo';
 import { guessPinSvg, targetPinSvg } from '../ui/icons';
 import { TerrainLayer } from './terrain';
@@ -156,7 +159,7 @@ export class MapView {
   }
 
   /** Animate the answer: fly to fit, draw the line, raise the flag. */
-  async reveal(guess: LatLngTuple, anchor: LatLngTuple, place: Place, distanceLabel: string): Promise<void> {
+  async reveal(guess: LatLngTuple, anchor: LatLngTuple, place: Target, distanceLabel: string): Promise<void> {
     this.locked = true;
     this.hoverOutline.remove();
     this.guess?.dragging?.disable();
@@ -199,7 +202,7 @@ export class MapView {
   }
 
   /** Draw every round of a finished game. */
-  showSummary(rounds: { guess: LatLngTuple; anchor: LatLngTuple; place: Place }[]) {
+  showSummary(rounds: { guess: LatLngTuple; anchor: LatLngTuple; place: Target }[]) {
     this.clearRound();
     this.locked = true;
     const pts: LatLngTuple[] = [];

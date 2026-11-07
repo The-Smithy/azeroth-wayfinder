@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import locations from '../src/data/locations.json';
+import locations from '../server/data/places.json';
 import zonesJson from '../src/data/zones.json';
-import { dailyPlaces, dayNumber, DAY_PLAN, practicePlaces, tierPool, TIERS } from '../src/game/daily';
+import { dailyPlaces, dayEndsAt, dayNumber, DAY_PLAN, practicePlaces, tierPool, TIERS } from '../server/daily';
 import { distanceToZone, pointInZone, zoneAt, zoneCoords } from '../src/game/geo';
 import { emojiFor, MAX_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
 import type { Place, Zone } from '../src/types';
@@ -10,19 +10,23 @@ const places = locations as Place[];
 const zones = zonesJson as unknown as Record<string, Zone>;
 
 describe('daily puzzle', () => {
-  it('numbers days from the WoW: Forever launch (4 Nov 2026)', () => {
-    expect(dayNumber(new Date(2026, 10, 4, 0, 1))).toBe(1);
-    expect(dayNumber(new Date(2026, 10, 7, 23, 59))).toBe(4);
-    expect(dayNumber(new Date(2027, 0, 1, 12))).toBe(59);
+  it('numbers UTC days from the WoW: Forever launch (4 Nov 2026)', () => {
+    expect(dayNumber(new Date('2026-11-04T00:00:01Z'))).toBe(1);
+    expect(dayNumber(new Date('2026-11-07T23:59:59Z'))).toBe(4);
+    expect(dayNumber(new Date('2027-01-01T12:00:00Z'))).toBe(59);
+    expect(dayEndsAt(4).toISOString()).toBe('2026-11-08T00:00:00.000Z');
   });
 
-  it('is deterministic', () => {
-    expect(dailyPlaces(places, 42).map(p => p.id)).toEqual(dailyPlaces(places, 42).map(p => p.id));
+  it('is deterministic for a secret, and the secret changes the puzzle', () => {
+    expect(dailyPlaces(places, 42, 's').map(p => p.id)).toEqual(dailyPlaces(places, 42, 's').map(p => p.id));
+    const a = Array.from({ length: 10 }, (_, d) => dailyPlaces(places, d + 1, 'one').map(p => p.id).join());
+    const b = Array.from({ length: 10 }, (_, d) => dailyPlaces(places, d + 1, 'two').map(p => p.id).join());
+    expect(a).not.toEqual(b);
   });
 
   it('gives five distinct places that follow the day plan, every day for years', () => {
     for (let day = 1; day <= 1500; day++) {
-      const picks = dailyPlaces(places, day);
+      const picks = dailyPlaces(places, day, 'secret');
       expect(picks).toHaveLength(5);
       expect(new Set(picks.map(p => p.id)).size).toBe(5);
       expect(new Set(picks.map(p => p.latlng.join())).size).toBe(5);
@@ -34,14 +38,19 @@ describe('daily puzzle', () => {
     const pool = tierPool(places, 'delve');
     const seen = new Set<string>();
     for (let day = 1; day <= pool.length; day++) {
-      const id = dailyPlaces(places, day)[2].id;
+      const id = dailyPlaces(places, day, 'secret')[2].id;
       expect(seen.has(id)).toBe(false);
       seen.add(id);
     }
   });
 
-  it('practice rounds are distinct', () => {
-    for (let i = 0; i < 200; i++) expect(new Set(practicePlaces(places).map(p => p.id)).size).toBe(5);
+  it('practice rounds are distinct and skip excluded places', () => {
+    const exclude = new Set(dailyPlaces(places, 4, 'secret').map(p => p.id));
+    for (let i = 0; i < 200; i++) {
+      const picks = practicePlaces(places, exclude);
+      expect(new Set(picks.map(p => p.id)).size).toBe(5);
+      picks.forEach(p => expect(exclude.has(p.id)).toBe(false));
+    }
   });
 });
 

@@ -49,7 +49,12 @@
             <span class="total__label">Score</span>
             <span class="total__value" id="total">0</span>
           </div>
+          <button class="account" id="btn-account" type="button" aria-haspopup="dialog">
+            <span class="account__avatar" id="account-avatar" data-icon="discord"></span>
+            <span class="account__name" id="account-name">Sign in</span>
+          </button>
           <nav class="iconbar" aria-label="Game menu">
+            <button class="iconbtn" id="btn-leaderboard" type="button" aria-label="Leaderboard" data-icon="trophy"></button>
             <button class="iconbtn" id="btn-help" type="button" aria-label="How to play" data-icon="help"></button>
             <button class="iconbtn" id="btn-stats" type="button" aria-label="Statistics" data-icon="stats"></button>
             <button class="iconbtn" id="btn-sound" type="button" aria-label="Toggle sound" data-icon="sound"></button>
@@ -122,11 +127,12 @@
           <li><span class="howto__n">3</span><div><strong>Confirm</strong> (or press <kbd>Enter</kbd>) to reveal the answer. Each pin scores up to <strong>100 for accuracy</strong> – for zones and capitals, anywhere inside is a bullseye.</div></li>
           <li><span class="howto__n">4</span><div><strong>The stakes rise.</strong> Locations 1–2 are worth 100, location 3 is <strong>×2</strong> and locations 4–5 are <strong>×3</strong> – a perfect expedition scores <strong>1,000</strong>.</div></li>
           <li><span class="howto__n">5</span><div><strong>Stuck?</strong> The hint reveals the continent, at the cost of 25% of that round.</div></li>
+          <li><span class="howto__n">6</span><div><strong>Compete.</strong> Sign in with Discord to rank on the global board and on boards for every Discord server you share with other players. One attempt per day; ties go to the faster cartographer.</div></li>
         </ol>
         <div class="legend">
           <span>🎯 95+</span><span>🟩 75+</span><span>🟨 50+</span><span>🟧 25+</span><span>🟥 under 25</span>
         </div>
-        <p class="modal__fine">A new expedition unlocks every midnight (your local time). Same five places for everyone.</p>
+        <p class="modal__fine">A new expedition unlocks every day at 00:00 UTC. Same five places for everyone.</p>
         <p class="modal__fine credits">
           Fan-made and unofficial. Map imagery &amp; location data from the
           <a href="https://wowforever.gg/en/atlas/" target="_blank" rel="noopener">wowforever.gg Azeroth Atlas</a>.
@@ -143,10 +149,12 @@
         <h2 class="modal__title" id="results-title">Master Cartographer</h2>
         <p class="modal__lede" id="results-flavor"></p>
         <div class="bigscore"><span id="results-total">0</span><small>/ 1,000</small></div>
+        <div class="rankline" id="results-rank" hidden></div>
         <ol class="rounds" id="results-rounds"></ol>
         <div class="results__actions">
           <button class="btn btn--primary" type="button" id="btn-share"><span data-icon="share"></span> Share result</button>
           <button class="btn btn--ghost" type="button" id="btn-review">View on map</button>
+          <button class="btn btn--ghost results__board" type="button" id="btn-results-board"><span data-icon="trophy"></span> Leaderboard</button>
         </div>
         <div class="stats" id="stats"></div>
         <div class="next" id="next-wrap">
@@ -154,6 +162,36 @@
           <strong id="countdown">--:--:--</strong>
         </div>
         <button class="btn btn--ghost btn--wide" type="button" id="btn-practice">Practice with random places</button>
+      </form>
+    </dialog>
+
+    <dialog class="modal modal--board" id="dlg-leaderboard" aria-labelledby="board-title">
+      <form method="dialog" class="modal__frame">
+        <button class="iconbtn modal__close" value="close" aria-label="Close" data-icon="close"></button>
+        <p class="modal__kicker" id="board-kicker">Expedition</p>
+        <h2 class="modal__title" id="board-title">Leaderboard</h2>
+        <div class="board__controls">
+          <fieldset class="segmented segmented--tight" id="board-period">
+            <legend class="sr-only">Period</legend>
+            <label><input type="radio" name="board-period" value="day" checked /> <span>Today</span></label>
+            <label><input type="radio" name="board-period" value="week" /> <span>This week</span></label>
+          </fieldset>
+          <label class="select">
+            <span class="sr-only">Leaderboard</span>
+            <select id="board-scope"><option value="global">🌍 All of Azeroth</option></select>
+          </label>
+        </div>
+        <div class="board__cta" id="board-cta" hidden></div>
+        <ol class="board" id="board-list" aria-live="polite"></ol>
+        <div class="board__me" id="board-me" hidden></div>
+        <p class="modal__fine" id="board-foot"></p>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="dlg-account" aria-labelledby="account-title">
+      <form method="dialog" class="modal__frame">
+        <button class="iconbtn modal__close" value="close" aria-label="Close" data-icon="close"></button>
+        <div class="account-card" id="account-card"></div>
       </form>
     </dialog>
 
