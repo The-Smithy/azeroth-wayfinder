@@ -9,7 +9,7 @@ piece of lore from the archives, and leaderboards for all of Azeroth and for eve
 Discord server you share with other players.
 
 ```
-Wayfinder #4 📍 857/1,000
+Wayfinder · Nov 7, 2026 📍 857/1,000
 🎯🟩🟩🟨🎯
 ```
 
@@ -44,8 +44,8 @@ Everything runs on Netlify.
 | Nightly cleanup of expired sessions and idle guests (04:23 UTC) | `netlify/functions/cleanup.mts` |
 | Postgres via **Netlify Database** | `netlify/database/migrations/` (applied automatically on deploy) |
 
-- **Puzzles:** a new puzzle unlocks every day at 00:00 UTC (#1 = 4 Nov 2026, WoW: Forever
-  launch). The five places are drawn from shuffled "bags" seeded by the server-only
+- **Puzzles:** a new puzzle unlocks every day at midnight US Eastern time (EST/EDT; day 1 =
+  4 Nov 2026, WoW: Forever launch). The five places are drawn from shuffled "bags" seeded by the server-only
   `PUZZLE_SECRET`, then frozen in the `puzzles` table the first time a day is requested.
   Answers live in `server/data/places.json` and are never bundled into the client.
 - **Sessions:** a random token in an `httpOnly`, `SameSite=Lax` cookie. Only its SHA-256 is

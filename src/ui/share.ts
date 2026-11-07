@@ -1,7 +1,8 @@
 import { emojiFor, MAX_TOTAL } from '../game/scoring';
 
-export function shareText(opts: { day: number | null; total: number; scores: number[]; url: string }) {
-  const heading = opts.day ? `Wayfinder #${opts.day}` : 'Wayfinder · Practice';
+/** Spoiler-free result: date, total and one emoji per round – never the place names. */
+export function shareText(opts: { date: string | null; total: number; scores: number[]; url: string }) {
+  const heading = opts.date ? `Wayfinder · ${opts.date}` : 'Wayfinder · Practice';
   return [
     `${heading} 📍 ${opts.total.toLocaleString('en-US')}/${MAX_TOTAL.toLocaleString('en-US')}`,
     opts.scores.map(emojiFor).join(''),

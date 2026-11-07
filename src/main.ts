@@ -394,7 +394,7 @@ function finish(fresh: boolean) {
   const total = totalPoints();
   showSummaryOnMap();
   $('card').classList.add('is-finished');
-  $('clue-kind').innerHTML = `${kindIcons.landmark}<span>${game.mode === 'daily' ? `Expedition #${game.day}` : 'Practice'}</span>`;
+  $('clue-kind').innerHTML = `${kindIcons.landmark}<span>${game.mode === 'daily' ? 'Today\'s expedition' : 'Practice'}</span>`;
   $('clue-faction').hidden = true;
   $('clue-mult').hidden = true;
   $('clue-round').textContent = 'Complete';
@@ -469,7 +469,7 @@ function renderRankLine() {
 async function openResults(fresh: boolean) {
   const total = totalPoints();
   const [, title, flavor] = titleFor(total);
-  $('results-kicker').textContent = game.mode === 'daily' ? `Expedition #${game.day} complete` : 'Practice complete';
+  $('results-kicker').textContent = game.mode === 'daily' ? `${puzzleDate('long')} · complete` : 'Practice complete';
   $('results-title').textContent = title;
   $('results-flavor').textContent = flavor;
   $('results-rounds').innerHTML = game.played.map(({ clue, outcome: r }) => {
@@ -567,7 +567,7 @@ function openLeaderboard() {
   const cta = $('board-cta');
   cta.hidden = !!me.player?.discord;
   if (!cta.hidden) cta.innerHTML = `<p>Sign in to rank globally and on your Discord servers' boards.</p>${signInButton()}`;
-  $('board-kicker').textContent = `Expedition #${me.day || game.day}`;
+  $('board-kicker').textContent = puzzleDate('long');
   openDialog('dlg-leaderboard');
   void loadBoard();
 }
@@ -607,6 +607,14 @@ function boardRow(e: LeaderboardEntry, period: Period) {
     <span class="entry__time">${fmtTime(e.ms)}</span>
     <span class="entry__points">${e.points.toLocaleString('en-US')}</span>
   </li>`;
+}
+
+/** Today's puzzle date in US Eastern time (puzzles roll over at midnight Eastern). */
+function puzzleDate(style: 'long' | 'short') {
+  const at = new Date((game.resetsAt || Date.now() + 1) - 1);
+  return at.toLocaleDateString('en-US', style === 'long'
+    ? { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'America/New_York' }
+    : { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/New_York' });
 }
 
 const fmtTime = (ms: number) => {
@@ -705,7 +713,7 @@ function wireControls() {
   });
 
   $('btn-share').addEventListener('click', async () => {
-    const text = shareText({ day: game.mode === 'daily' ? game.day : null, total: totalPoints(), scores: game.played.map(r => r.outcome.score), url: location.origin });
+    const text = shareText({ date: game.mode === 'daily' ? puzzleDate('short') : null, total: totalPoints(), scores: game.played.map(r => r.outcome.score), url: location.origin });
     const outcome = await shareResult(text);
     toast(outcome === 'copied' ? 'Result copied – paste it in guild chat!' : outcome === 'shared' ? 'Shared!' : 'Could not share – try again');
   });

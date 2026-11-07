@@ -1,0 +1,11 @@
+{
+  "_comment": "Hand-checked fixes where WoW: Forever moved things. Each anchor must be a Forever source; see docs/locations.md for the evidence.",
+  "the-stockade": {
+    "anchor": { "npc": "Warden Thelwater" },
+    "why": "Stormwind was redrawn for Forever, so the Classic entrance coordinates land at the city's west edge. Warden Thelwater stands at the Stockade gate in the Forever database, beside the Forever meeting stone."
+  },
+  "stormwind-harbor": {
+    "anchor": { "transportStop": "Stormwind" },
+    "why": "Both the Classic flight-point position and the NPC centre fall in the middle of the city; the Forever routing survey records the boat dock on the west-side piers."
+  }
+}

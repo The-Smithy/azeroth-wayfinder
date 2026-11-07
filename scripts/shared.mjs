@@ -6,6 +6,8 @@ export const SOURCE = 'https://wowforever.gg';
 export const ATLAS_URL = `${SOURCE}/de/atlas/data/atlas.json`;
 export const ASSETS = `${SOURCE}/de/atlas/assets`;
 export const CATALOG_URL = `${ASSETS}/terrain/catalog.json`;
+/** The Atlas' Forever routing survey (flight paths, boat & zeppelin stops). */
+export const ROUTING_URL = `${SOURCE}/de/atlas/shared/mapwise-routing-data/catalog.json`;
 export const UA = 'wayfinder-asset-fetcher/0.1 (+https://github.com/the-smithy/azeroth-maptap)';
 
 export async function exists(path) {

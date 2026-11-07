@@ -10,11 +10,20 @@ const places = locations as Place[];
 const zones = zonesJson as unknown as Record<string, Zone>;
 
 describe('daily puzzle', () => {
-  it('numbers UTC days from the WoW: Forever launch (4 Nov 2026)', () => {
-    expect(dayNumber(new Date('2026-11-04T00:00:01Z'))).toBe(1);
-    expect(dayNumber(new Date('2026-11-07T23:59:59Z'))).toBe(4);
-    expect(dayNumber(new Date('2027-01-01T12:00:00Z'))).toBe(59);
-    expect(dayEndsAt(4).toISOString()).toBe('2026-11-08T00:00:00.000Z');
+  it('rolls days over at midnight US Eastern, counting from the WoW: Forever launch', () => {
+    // 4 Nov 2026 00:00 EST = 05:00 UTC
+    expect(dayNumber(new Date('2026-11-04T04:59:59Z'))).toBe(0);
+    expect(dayNumber(new Date('2026-11-04T05:00:00Z'))).toBe(1);
+    expect(dayNumber(new Date('2026-11-08T04:59:59Z'))).toBe(4);
+    expect(dayNumber(new Date('2026-11-08T05:00:00Z'))).toBe(5);
+    expect(dayEndsAt(4).toISOString()).toBe('2026-11-08T05:00:00.000Z');
+    // Summer: EDT, so midnight Eastern is 04:00 UTC – and the day count stays continuous.
+    const july1 = dayNumber(new Date('2027-07-01T12:00:00Z'));
+    expect(dayEndsAt(july1).toISOString()).toBe('2027-07-02T04:00:00.000Z');
+    expect(dayNumber(new Date('2027-07-02T03:59:59Z'))).toBe(july1);
+    expect(dayNumber(new Date('2027-07-02T04:00:00Z'))).toBe(july1 + 1);
+    // DST transitions (8 Mar 2027 starts EDT, 7 Nov 2027 ends it) don't skip or repeat days.
+    for (let d = 1; d < 800; d++) expect(dayNumber(new Date(dayEndsAt(d).getTime() - 1000))).toBe(d);
   });
 
   it('is deterministic for a secret, and the secret changes the puzzle', () => {
@@ -73,8 +82,18 @@ describe('geometry & scoring', () => {
     const booty = places.find(p => p.id === 'booty-bay')!;
     expect(zoneAt(booty.latlng, zones)?.[1].name).toBe('Stranglethorn Vale');
     const [x, y] = zoneCoords(booty.latlng, zones['1434']);
-    expect(x).toBeCloseTo(27, 0);
-    expect(y).toBeCloseTo(77, 0);
+    expect(Math.abs(x - 27)).toBeLessThan(2); // town centre, near the old flight point (27, 77)
+    expect(Math.abs(y - 77)).toBeLessThan(2);
+  });
+
+  it('uses Forever positions where Forever redrew the map', () => {
+    const at = (id: string, zoneId: string) => zoneCoords(places.find(p => p.id === id)!.latlng, zones[zoneId]);
+    // The Stockade gate (Warden Thelwater, Forever DB) – not the Classic (40.3, 55.2).
+    const [sx, sy] = at('the-stockade', '1453');
+    expect(Math.hypot(sx - 51.49, sy - 69.38)).toBeLessThan(0.5);
+    // Stormwind Harbor sits on the west-side docks (Forever routing survey boat stop).
+    const [hx, hy] = at('stormwind-harbor', '1453');
+    expect(Math.hypot(hx - 21.79, hy - 56.86)).toBeLessThan(0.5);
   });
 
   it('area targets: inside is a bullseye, outside measures to the edge', () => {

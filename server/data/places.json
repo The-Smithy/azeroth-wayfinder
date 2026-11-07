@@ -22,8 +22,8 @@
   "zone": "Ironforge",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -92.248,
-   240.317
+   -92.01,
+   240.381
   ]
  },
  {
@@ -77,8 +77,8 @@
   "zone": "Undercity",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -44.316,
-   229.049
+   -43.776,
+   230.302
   ]
  },
  {
@@ -311,8 +311,8 @@
   "zone": "Stormwind City",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -120.765,
-   224.327
+   -121.996,
+   225.788
   ]
  },
  {
@@ -480,8 +480,8 @@
   "zone": "The Hinterlands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -53.855,
-   246.989
+   -53.372,
+   247.688
   ]
  },
  {
@@ -493,8 +493,8 @@
   "zone": "Ashenvale",
   "continent": "Kalimdor",
   "latlng": [
-   -70.502,
-   53.955
+   -71.338,
+   54.584
   ]
  },
  {
@@ -506,8 +506,8 @@
   "zone": "Darkshore",
   "continent": "Kalimdor",
   "latlng": [
-   -44.237,
-   47.623
+   -42.993,
+   48.335
   ]
  },
  {
@@ -519,8 +519,8 @@
   "zone": "Felwood",
   "continent": "Kalimdor",
   "latlng": [
-   -53.737,
-   54.35
+   -53.793,
+   54.686
   ]
  },
  {
@@ -532,8 +532,8 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -164.333,
-   228.266
+   -164.29,
+   228.814
   ]
  },
  {
@@ -545,8 +545,8 @@
   "zone": "Dustwallow Marsh",
   "continent": "Kalimdor",
   "latlng": [
-   -115.387,
-   73.094
+   -115.348,
+   73.554
   ]
  },
  {
@@ -558,8 +558,8 @@
   "zone": "Feralas",
   "continent": "Kalimdor",
   "latlng": [
-   -125.04,
-   50.281
+   -124.788,
+   50.154
   ]
  },
  {
@@ -571,8 +571,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -109.803,
-   65.768
+   -109.879,
+   66.536
   ]
  },
  {
@@ -584,8 +584,8 @@
   "zone": "Silithus",
   "continent": "Kalimdor",
   "latlng": [
-   -142.611,
-   46.031
+   -143.134,
+   46.183
   ]
  },
  {
@@ -597,8 +597,8 @@
   "zone": "Western Plaguelands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -49.025,
-   242.42
+   -48.819,
+   242.704
   ]
  },
  {
@@ -610,8 +610,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -95.108,
-   71.088
+   -95.128,
+   71.81
   ]
  },
  {
@@ -623,8 +623,8 @@
   "zone": "Duskwood",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -134.815,
-   241.343
+   -135.026,
+   240.778
   ]
  },
  {
@@ -636,8 +636,8 @@
   "zone": "Winterspring",
   "continent": "Kalimdor",
   "latlng": [
-   -40.78,
-   87.39
+   -41.444,
+   87.049
   ]
  },
  {
@@ -649,8 +649,8 @@
   "zone": "Feralas",
   "continent": "Kalimdor",
   "latlng": [
-   -124.692,
-   26.825
+   -124.847,
+   27.378
   ]
  },
  {
@@ -662,8 +662,8 @@
   "zone": "Burning Steppes",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -112.248,
-   248.28
+   -112.235,
+   248.436
   ]
  },
  {
@@ -675,8 +675,8 @@
   "zone": "Thousand Needles",
   "continent": "Kalimdor",
   "latlng": [
-   -132.53,
-   70.1
+   -132.996,
+   70.3
   ]
  },
  {
@@ -688,8 +688,8 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -149.018,
-   230.659
+   -148.999,
+   230.597
   ]
  },
  {
@@ -701,8 +701,8 @@
   "zone": "Arathi Highlands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -62.76,
-   258.21
+   -62.891,
+   258.437
   ]
  },
  {
@@ -714,8 +714,8 @@
   "zone": "Badlands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -105.644,
-   248.153
+   -105.884,
+   248.176
   ]
  },
  {
@@ -753,8 +753,8 @@
   "zone": "Un'Goro Crater",
   "continent": "Kalimdor",
   "latlng": [
-   -137.675,
-   60.488
+   -138.08,
+   60.238
   ]
  },
  {
@@ -766,8 +766,8 @@
   "zone": "Wetlands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -84.306,
-   237.713
+   -84.324,
+   238.199
   ]
  },
  {
@@ -779,8 +779,8 @@
   "zone": "Burning Steppes",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -118.69,
-   252.454
+   -118.738,
+   252.526
   ]
  },
  {
@@ -792,8 +792,8 @@
   "zone": "Blasted Lands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -139.27,
-   257.644
+   -138.214,
+   257.847
   ]
  },
  {
@@ -805,8 +805,8 @@
   "zone": "Moonglade",
   "continent": "Kalimdor",
   "latlng": [
-   -33.509,
-   69.977
+   -33.241,
+   70.203
   ]
  },
  {
@@ -818,8 +818,8 @@
   "zone": "Desolace",
   "continent": "Kalimdor",
   "latlng": [
-   -90.858,
-   41.83
+   -90.274,
+   42.582
   ]
  },
  {
@@ -844,8 +844,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -98.655,
-   80.208
+   -99.296,
+   79.62
   ]
  },
  {
@@ -857,8 +857,8 @@
   "zone": "Arathi Highlands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -65.28,
-   250.65
+   -65.448,
+   250.914
   ]
  },
  {
@@ -870,8 +870,8 @@
   "zone": "The Hinterlands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -60.592,
-   267.201
+   -60.545,
+   266.618
   ]
  },
  {
@@ -883,8 +883,8 @@
   "zone": "Teldrassil",
   "continent": "Kalimdor",
   "latlng": [
-   -27.192,
-   45.539
+   -27.067,
+   44.875
   ]
  },
  {
@@ -896,8 +896,8 @@
   "zone": "Westfall",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -135.6,
-   224.075
+   -135.843,
+   224.279
   ]
  },
  {
@@ -909,8 +909,8 @@
   "zone": "Desolace",
   "continent": "Kalimdor",
   "latlng": [
-   -105.248,
-   27.331
+   -104.644,
+   28.23
   ]
  },
  {
@@ -922,8 +922,8 @@
   "zone": "Hillsbrad Foothills",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -61.32,
-   235.76
+   -62.371,
+   236.187
   ]
  },
  {
@@ -935,8 +935,8 @@
   "zone": "Ashenvale",
   "continent": "Kalimdor",
   "latlng": [
-   -74.538,
-   70.822
+   -74.49,
+   71.022
   ]
  },
  {
@@ -948,8 +948,8 @@
   "zone": "Tanaris",
   "continent": "Kalimdor",
   "latlng": [
-   -146.067,
-   80.033
+   -145.706,
+   80.398
   ]
  },
  {
@@ -961,8 +961,8 @@
   "zone": "Swamp of Sorrows",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -134.349,
-   256.585
+   -134.463,
+   256.538
   ]
  },
  {
@@ -974,8 +974,8 @@
   "zone": "Stonetalon Mountains",
   "continent": "Kalimdor",
   "latlng": [
-   -71.835,
-   40.841
+   -71.755,
+   40.728
   ]
  },
  {
@@ -987,8 +987,8 @@
   "zone": "Stormwind City",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -121.355,
-   227.679
+   -120.909,
+   221.917
   ]
  },
  {
@@ -1000,8 +1000,8 @@
   "zone": "Stonetalon Mountains",
   "continent": "Kalimdor",
   "latlng": [
-   -84.534,
-   44.138
+   -84.615,
+   44.588
   ]
  },
  {
@@ -1013,8 +1013,8 @@
   "zone": "Felwood",
   "continent": "Kalimdor",
   "latlng": [
-   -45.4,
-   66.425
+   -45.53,
+   66.537
   ]
  },
  {
@@ -1039,8 +1039,8 @@
   "zone": "Hillsbrad Foothills",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -55.88,
-   238.4
+   -56.124,
+   238.903
   ]
  },
  {
@@ -1052,8 +1052,8 @@
   "zone": "Feralas",
   "continent": "Kalimdor",
   "latlng": [
-   -125.387,
-   57.579
+   -125.702,
+   57.78
   ]
  },
  {
@@ -1065,8 +1065,8 @@
   "zone": "Silverpine Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -52.32,
-   220.3
+   -52.083,
+   219.806
   ]
  },
  {
@@ -1078,8 +1078,8 @@
   "zone": "Loch Modan",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -96.555,
-   253.78
+   -96.334,
+   254.312
   ]
  },
  {
@@ -1091,8 +1091,8 @@
   "zone": "Dustwallow Marsh",
   "continent": "Kalimdor",
   "latlng": [
-   -120.637,
-   85.694
+   -119.845,
+   85.564
   ]
  },
  {
@@ -1104,8 +1104,8 @@
   "zone": "Searing Gorge",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -105.097,
-   240.614
+   -105.193,
+   240.771
   ]
  },
  {
@@ -1117,8 +1117,8 @@
   "zone": "Azshara",
   "continent": "Kalimdor",
   "latlng": [
-   -64.364,
-   84.565
+   -64.894,
+   84.93
   ]
  },
  {
@@ -1130,8 +1130,8 @@
   "zone": "Ashenvale",
   "continent": "Kalimdor",
   "latlng": [
-   -66.466,
-   44.44
+   -66.697,
+   44.315
   ]
  },
  {

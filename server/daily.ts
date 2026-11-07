@@ -1,9 +1,38 @@
 import seedrandom from 'seedrandom';
 import type { Place } from '../src/types';
 
-/** Day #1 is WoW: Forever's launch day. Days roll over at 00:00 UTC for everyone. */
-export const EPOCH_UTC = Date.UTC(2026, 10, 4);
+/**
+ * A new puzzle unlocks at midnight US Eastern time (EST, or EDT in summer) for everyone.
+ * Day #1 is 4 Nov 2026, WoW: Forever's launch day. Puzzle numbers are internal only.
+ */
+export const TIME_ZONE = 'America/New_York';
+const EPOCH_DATE = Date.UTC(2026, 10, 4);
 const DAY_MS = 86_400_000;
+
+/** The calendar date (as UTC midnight of that date) that the clock in TIME_ZONE shows at `instant`. */
+function zonedDate(instant: Date): number {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, year: 'numeric', month: 'numeric', day: 'numeric' })
+      .formatToParts(instant).map(p => [p.type, p.value]),
+  );
+  return Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
+}
+
+/** Milliseconds TIME_ZONE is ahead of UTC at `instant` (negative for US Eastern). */
+function zoneOffset(instant: number): number {
+  const p = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', { timeZone: TIME_ZONE, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' })
+      .formatToParts(new Date(instant)).map(x => [x.type, x.value]),
+  );
+  return Date.UTC(Number(p.year), Number(p.month) - 1, Number(p.day), Number(p.hour), Number(p.minute), Number(p.second)) - Math.floor(instant / 1000) * 1000;
+}
+
+/** The instant the clock in TIME_ZONE reads 00:00 on the given calendar date. */
+function zonedMidnight(dateUtc: number): Date {
+  let t = dateUtc - zoneOffset(dateUtc);
+  t = dateUtc - zoneOffset(t); // settle across DST changes
+  return new Date(t);
+}
 
 /**
  * Each day pulls from three "bags" so every puzzle has a mix of difficulty.
@@ -20,11 +49,11 @@ export type TierName = keyof typeof TIERS;
 /** Round order for a day: an easy opener, a dungeon in the middle, settlements around it. */
 export const DAY_PLAN: TierName[] = ['realm', 'settlement', 'delve', 'settlement', 'settlement'];
 
-/** Puzzle number for a moment in time (1-based, UTC days). */
-export const dayNumber = (now = new Date()) => Math.floor((now.getTime() - EPOCH_UTC) / DAY_MS) + 1;
+/** Puzzle number for a moment in time (1-based, US Eastern calendar days). */
+export const dayNumber = (now = new Date()) => Math.round((zonedDate(now) - EPOCH_DATE) / DAY_MS) + 1;
 
-/** When the given puzzle day ends (next UTC midnight). */
-export const dayEndsAt = (day: number) => new Date(EPOCH_UTC + day * DAY_MS);
+/** When the given puzzle day ends: the next midnight in US Eastern time. */
+export const dayEndsAt = (day: number) => zonedMidnight(EPOCH_DATE + day * DAY_MS);
 
 function shuffled<T>(items: T[], seed: string): T[] {
   const rng = seedrandom(seed);

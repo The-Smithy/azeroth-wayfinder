@@ -6,8 +6,8 @@
 //
 // Usage: npm run build-data            (uses .cache/ if present)
 //        npm run build-data -- --fresh (re-download the atlas)
-import { writeFile } from 'node:fs/promises';
-import { ATLAS_URL, CATALOG_URL, download, readJson } from './shared.mjs';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { ATLAS_URL, CATALOG_URL, ROUTING_URL, download, readJson } from './shared.mjs';
 
 const fresh = process.argv.includes('--fresh');
 const atlasPath = await download(ATLAS_URL, '.cache/atlas.json', { force: fresh });
@@ -71,8 +71,25 @@ for (const [id, z] of Object.entries(catalog.markerZones)) {
 }
 
 // ------------------------------------------------------------ locations ----
+// Every place collects candidate positions from several independent sources, and the
+// best one is chosen by explicit rules. docs/locations.md records the decision.
+//
+//   atlas      the Atlas place record: Classic instance entrances / Classic flight
+//              points ("travel"), or Forever-confirmed entrances and observations
+//   centre     WoW: Forever game database (QuestieDB Forever): median position of the
+//              town's service NPCs (innkeeper, vendors, trainers, flight master …)
+//   override   hand-checked fixes in scripts/location-overrides.json, anchored on a
+//              Forever source (an NPC from the Forever database, or a boat/zeppelin
+//              stop from the Forever routing survey)
 const KINDS = new Set(['city', 'town', 'dungeon', 'raid', 'landmark', 'zone']);
 const isMailbox = r => /briefkasten|mailbox/i.test(r.name);
+const YARDS = 1600 / 3 / 4;
+/** Snap a town to its Forever centre only when both agree on the place (sanity check). */
+const SNAP_MAX_YARDS = 300;
+const SERVICES = new Set(['innkeeper', 'flightmaster', 'vendor', 'repair', 'trainer', 'banker', 'stablemaster', 'class']);
+
+const routing = await readJson(await download(ROUTING_URL, '.cache/mapwise/catalog.json', { force: fresh }));
+const overrides = await readJson('scripts/location-overrides.json');
 
 function toLatLng(pos) {
   const zone = zones[pos.zoneId];
@@ -81,11 +98,52 @@ function toLatLng(pos) {
   const [cx, cy] = pos.coords;
   return [round(n - (cy / 100) * (n - s)), round(w + (cx / 100) * (e - w))];
 }
+const yardsBetween = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]) * YARDS;
+const median = xs => { const v = [...xs].sort((a, b) => a - b); const m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+const isForeverDb = (r, p) => (p.sourceId ?? (r.sourceIds || []).join(',')).includes('questiedb');
+
+// Forever NPC positions, indexed by linked place and by English name.
+const npcsByPlace = new Map();
+const npcByName = new Map();
+for (const r of atlas.records) {
+  if (r.kind !== 'npc') continue;
+  const pts = (r.positions || []).filter(p => isForeverDb(r, p)).map(p => ({ zoneId: p.zoneId, latlng: toLatLng(p) })).filter(p => p.latlng);
+  if (!pts.length) continue;
+  if (r.en && !npcByName.has(r.en)) npcByName.set(r.en, pts);
+  if (!(r.services || []).some(s => SERVICES.has(s))) continue;
+  for (const pid of r.placeIds || []) {
+    if (!npcsByPlace.has(pid)) npcsByPlace.set(pid, []);
+    npcsByPlace.get(pid).push(...pts.map(p => p.latlng));
+  }
+}
+
+/** Robust town centre: median, drop stragglers > 600 yd, median again. */
+function serviceCentre(placeId) {
+  const pts = npcsByPlace.get(placeId);
+  if (!pts || pts.length < 3) return null;
+  const m1 = [median(pts.map(p => p[0])), median(pts.map(p => p[1]))];
+  const core = pts.filter(p => yardsBetween(p, m1) < 600);
+  if (core.length < 3) return null;
+  return { latlng: [round(median(core.map(p => p[0]))), round(median(core.map(p => p[1])))], n: core.length };
+}
+
+function resolveAnchor(anchor, zoneId) {
+  if (anchor.npc) {
+    const pts = npcByName.get(anchor.npc) || [];
+    return (pts.find(p => p.zoneId === zoneId) ?? pts[0])?.latlng ?? null;
+  }
+  if (anchor.transportStop) {
+    const stop = routing.transportStops.find(s => s.n === anchor.transportStop && Number(s.zone) === zoneId);
+    return stop ? toLatLng({ zoneId, coords: [stop.mx * 100, stop.my * 100] }) : null;
+  }
+  return null;
+}
 
 const slug = s => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
   .replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 const locations = [];
+const report = [];
 const seen = new Set();
 for (const r of atlas.records) {
   if (!KINDS.has(r.kind) || isMailbox(r)) continue;
@@ -97,8 +155,30 @@ for (const r of atlas.records) {
   if (seen.has(id)) continue;
   seen.add(id);
   const zone = zones[pos.zoneId];
-  // Zones and cities are judged against their outline (pin inside = bullseye).
+  // Zones and cities with an outline are judged against it (pin inside = bullseye).
   const area = (r.kind === 'zone' || r.kind === 'city') && zone.rings.length ? String(pos.zoneId) : undefined;
+
+  const atlasSource = pos.sourceId ?? (r.sourceIds || []).join('+');
+  const atlasPos = toLatLng(pos);
+  let latlng = atlasPos, chosen = `atlas (${atlasSource})`, note = '';
+  const candidates = [`atlas (${atlasSource})`];
+
+  const centre = !area && ['town', 'city', 'landmark'].includes(r.kind) ? serviceCentre(r.id) : null;
+  if (centre) {
+    const d = yardsBetween(centre.latlng, atlasPos);
+    candidates.push(`Forever town centre (${centre.n} NPCs, ${Math.round(d)} yd away)`);
+    if (d <= SNAP_MAX_YARDS) { latlng = centre.latlng; chosen = 'Forever town centre'; }
+    else note = `town centre ${Math.round(d)} yd away – not trusted, kept atlas`;
+  }
+  const fix = overrides[id];
+  if (fix) {
+    const anchored = resolveAnchor(fix.anchor, pos.zoneId);
+    if (!anchored) throw new Error(`Override for ${id} could not be resolved`);
+    candidates.push(`override → ${JSON.stringify(fix.anchor)} (${Math.round(yardsBetween(anchored, atlasPos))} yd from atlas)`);
+    latlng = anchored; chosen = 'override (Forever anchor)'; note = fix.why;
+  }
+
+  report.push({ name, kind: r.kind, zone: zone.name, chosen, moved: Math.round(yardsBetween(latlng, atlasPos)), candidates, note, area: !!area });
   locations.push({
     id,
     name,
@@ -107,12 +187,27 @@ for (const r of atlas.records) {
     zoneId: pos.zoneId,
     zone: zone.name,
     continent: zone.continent,
-    latlng: toLatLng(pos),
+    latlng,
     ...(area ? { area } : {}),
     ...(r.new ? { isNew: true } : {}),
   });
 }
 locations.sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));
+report.sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));
+
+const md = [
+  '# Location sources',
+  '',
+  'Generated by `npm run build-data`. Each place lists the candidate positions considered and the one used.',
+  'Zones and capitals with an outline are scored against the outline, so their point is only used for display.',
+  '',
+  '| Place | Kind | Zone | Used | Moved | Candidates | Note |',
+  '| --- | --- | --- | --- | ---: | --- | --- |',
+  ...report.map(x => `| ${x.name} | ${x.kind} | ${x.zone} | ${x.area ? 'zone outline' : x.chosen} | ${x.moved ? `${x.moved} yd` : '–'} | ${x.candidates.join('<br>')} | ${x.note} |`),
+  '',
+].join('\n');
+await mkdir('docs', { recursive: true });
+await writeFile('docs/locations.md', md);
 
 await writeFile('src/data/zones.json', JSON.stringify(zones));
 await writeFile('server/data/places.json', JSON.stringify(locations, null, 1));

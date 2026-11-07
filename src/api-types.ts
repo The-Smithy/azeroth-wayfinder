@@ -48,7 +48,7 @@ export interface RankInfo { rank: number; of: number; }
 
 export interface DailyState {
   day: number;
-  /** ISO time the next puzzle unlocks (00:00 UTC). */
+  /** ISO time the next puzzle unlocks (midnight US Eastern). */
   resetsAt: string;
   rounds: PlayedRound[];
   /** The dealt-but-unguessed clue, if any. */
