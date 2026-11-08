@@ -10,7 +10,7 @@ import { dailyState, dealNextRound, places, practiceClues, practiceGuess, puzzle
 import { HttpError } from '../server/http';
 import { leaderboard, me, stats } from '../server/leaderboard';
 import { buildDigest, parseWebhook, postDailyDigest } from '../server/discord-digest';
-import { handleInteraction, verifyDiscordRequest } from '../server/discord-interactions';
+import { completeDeferred, deferredResponse, planInteraction, respondFast, verifyDiscordRequest } from '../server/discord-interactions';
 import { type CookieJar, ensurePlayer, type Player, SESSION_COOKIE, currentPlayer } from '../server/session';
 import { measure, scoreFor } from '../src/game/scoring';
 
@@ -366,9 +366,9 @@ describe('/wayfinder slash command', () => {
 
   it('answers pings, refuses DMs, and posts the board for the calling server', { timeout: 30_000 }, async () => {
     const base = { application_id: '42424242424', token: 'tok' };
-    expect(handleInteraction(pool, { ...base, type: 1 }, 'https://w.test').response).toEqual({ type: 1 });
-    const dm = handleInteraction(pool, { ...base, type: 2, data: { name: 'wayfinder' } }, 'https://w.test');
-    expect(dm.response).toMatchObject({ type: 4, data: { flags: 64 } });
+    expect(await respondFast(pool, planInteraction({ ...base, type: 1 }), 'https://w.test')).toEqual({ type: 1 });
+    expect(await respondFast(pool, planInteraction({ ...base, type: 2, data: { name: 'wayfinder' } }), 'https://w.test'))
+      .toMatchObject({ type: 4, data: { flags: 64 } });
 
     // A server member who finished today.
     const { rows } = await pool.query<{ id: string }>(`INSERT INTO players (discord_id, name) VALUES ('333333333333', 'Jaina') RETURNING id`);
@@ -384,17 +384,32 @@ describe('/wayfinder slash command', () => {
     }) as typeof fetch;
 
     for (const [board, title, flags] of [['today', 'standings so far', 0], ['yesterday', 'results', 0], ['week', 'last 7 expeditions', 64]] as const) {
-      const r = handleInteraction(pool, {
+      const plan = planInteraction({
         ...base, type: 2, guild_id: SERVER,
         data: { name: 'wayfinder', options: [{ name: 'board', value: board }, ...(flags ? [{ name: 'private', value: true }] : [])] },
-      }, 'https://w.test', fetcher);
-      expect(r.response).toEqual({ type: 5, data: { flags } });
-      await (r as { followUp: () => Promise<void> }).followUp();
+      });
+      if (plan.kind !== 'board') throw new Error('expected a board plan');
+
+      // Fast path: the board itself, straight back to Discord.
+      const fast = await respondFast(pool, plan, 'https://w.test') as { type: number; data: any };
+      expect(fast.type).toBe(4);
+      expect(fast.data.flags).toBe(flags);
+      expect(fast.data.allowed_mentions).toEqual({ parse: [] });
+      expect(fast.data.embeds[0].title).toContain(title);
+      if (board !== 'yesterday') expect(fast.data.embeds[0].description).toContain('<@333333333333>');
+
+      // Slow path: "thinking…", then the background function edits the reply.
+      expect(deferredResponse(plan)).toEqual({ type: 5, data: { flags } });
+      await completeDeferred(pool, plan, 'https://w.test', fetcher);
       const last = edits.at(-1)!;
       expect(last.url).toBe('https://discord.com/api/v10/webhooks/42424242424/tok/messages/@original');
-      expect(last.body.allowed_mentions).toEqual({ parse: [] });
       expect(last.body.embeds[0].title).toContain(title);
-      if (board !== 'yesterday') expect(last.body.embeds[0].description).toContain('<@333333333333>');
+      expect(last.body.allowed_mentions).toEqual({ parse: [] });
     }
+  });
+
+  it('falls back to the deferred reply when the board is slow', async () => {
+    const plan = planInteraction({ application_id: '1', token: 't', type: 2, guild_id: SERVER, data: { name: 'wayfinder' } });
+    expect(await respondFast(pool, plan, 'https://w.test', 0)).toBeNull();
   });
 });
