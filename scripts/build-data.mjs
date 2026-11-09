@@ -105,11 +105,14 @@ const isForeverDb = (r, p) => (p.sourceId ?? (r.sourceIds || []).join(',')).incl
 // Forever NPC positions, indexed by linked place and by English name.
 const npcsByPlace = new Map();
 const npcByName = new Map();
+/** Every Forever NPC that offers something (quests, vendors, trainers …) – i.e. townsfolk, not mobs. */
+const forever_townsfolk = [];
 for (const r of atlas.records) {
   if (r.kind !== 'npc') continue;
   const pts = (r.positions || []).filter(p => isForeverDb(r, p)).map(p => ({ zoneId: p.zoneId, latlng: toLatLng(p) })).filter(p => p.latlng);
   if (!pts.length) continue;
   if (r.en && !npcByName.has(r.en)) npcByName.set(r.en, pts);
+  if ((r.services || []).some(s => s !== 'rare')) forever_townsfolk.push(...pts);
   if (!(r.services || []).some(s => SERVICES.has(s))) continue;
   for (const pid of r.placeIds || []) {
     if (!npcsByPlace.has(pid)) npcsByPlace.set(pid, []);
@@ -127,17 +130,40 @@ function serviceCentre(placeId) {
   return { latlng: [round(median(core.map(p => p[0]))), round(median(core.map(p => p[1])))], n: core.length };
 }
 
-function resolveAnchor(anchor, zoneId) {
-  if (anchor.npc) {
-    const pts = npcByName.get(anchor.npc) || [];
-    return (pts.find(p => p.zoneId === zoneId) ?? pts[0])?.latlng ?? null;
-  }
-  if (anchor.transportStop) {
-    const stop = routing.transportStops.find(s => s.n === anchor.transportStop && Number(s.zone) === zoneId);
-    return stop ? toLatLng({ zoneId, coords: [stop.mx * 100, stop.my * 100] }) : null;
+/** A flight point or boat/zeppelin stop from the Forever routing survey, by name, in a zone. */
+function surveyPoint(name, zoneId, kinds = ['flightNodes', 'transportStops']) {
+  const norm = s => s.toLowerCase().replace(/[^a-z]/g, '');
+  for (const list of kinds) {
+    const hit = routing[list].find(s => s.n && Number(s.zone) === zoneId && norm(s.n.split(',')[0]) === norm(name));
+    if (hit) return { latlng: toLatLng({ zoneId, coords: [hit.mx * 100, hit.my * 100] }), kind: list === 'flightNodes' ? 'flight point' : hit.transportKind ?? 'stop' };
   }
   return null;
 }
+
+/** Median of the Forever townsfolk within `radius` yards of a point in the same zone. */
+function townsfolkCentre(point, zoneId, radius) {
+  const near = forever_townsfolk.filter(p => p.zoneId === zoneId && yardsBetween(p.latlng, point) <= radius).map(p => p.latlng);
+  if (near.length < 3) return null;
+  return { latlng: [round(median(near.map(p => p[0]))), round(median(near.map(p => p[1])))], n: near.length };
+}
+
+function resolveAnchor(anchor, zoneId) {
+  let point = null;
+  if (anchor.npc) {
+    const pts = npcByName.get(anchor.npc) || [];
+    point = (pts.find(p => p.zoneId === zoneId) ?? pts[0])?.latlng ?? null;
+  } else if (anchor.transportStop) {
+    point = surveyPoint(anchor.transportStop, zoneId, ['transportStops'])?.latlng ?? null;
+  } else if (anchor.flightNode) {
+    point = surveyPoint(anchor.flightNode, zoneId, ['flightNodes'])?.latlng ?? null;
+  }
+  // Optionally move to the centre of the Forever townsfolk gathered around that point.
+  if (point && anchor.npcCentre) point = townsfolkCentre(point, zoneId, anchor.npcCentre)?.latlng ?? point;
+  return point;
+}
+
+/** Towns further than this from their own Forever flight point / dock get flagged for review. */
+const SURVEY_WARN_YARDS = 250;
 
 const slug = s => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
   .replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -171,11 +197,26 @@ for (const r of atlas.records) {
     else note = `town centre ${Math.round(d)} yd away – not trusted, kept atlas`;
   }
   const fix = overrides[id];
-  if (fix) {
+  if (fix?.keep) {
+    note = fix.why; // reviewed by hand: keep the position chosen above
+  } else if (fix) {
     const anchored = resolveAnchor(fix.anchor, pos.zoneId);
     if (!anchored) throw new Error(`Override for ${id} could not be resolved`);
     candidates.push(`override → ${JSON.stringify(fix.anchor)} (${Math.round(yardsBetween(anchored, atlasPos))} yd from atlas)`);
     latlng = anchored; chosen = 'override (Forever anchor)'; note = fix.why;
+  }
+
+  // Cross-check settlements against the Forever routing survey (flight point or dock).
+  if (!area && ['town', 'city', 'landmark'].includes(r.kind)) {
+    const survey = surveyPoint(name, pos.zoneId);
+    if (survey) {
+      const d = Math.round(yardsBetween(survey.latlng, latlng));
+      candidates.push(`Forever survey ${survey.kind} (${d} yd from the position used)`);
+      if (d > SURVEY_WARN_YARDS && !fix?.keep) {
+        note = `⚠ ${d} yd from its Forever ${survey.kind} – needs review. ${note}`.trim();
+        console.warn(`[build-data] ⚠ ${name}: ${d} yd from its Forever ${survey.kind}`);
+      }
+    }
   }
 
   report.push({ name, kind: r.kind, zone: zone.name, chosen, moved: Math.round(yardsBetween(latlng, atlasPos)), candidates, note, area: !!area });

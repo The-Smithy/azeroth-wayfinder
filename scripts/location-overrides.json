@@ -1,11 +1,26 @@
 {
   "_comment": "Hand-checked fixes where WoW: Forever moved things. Each anchor must be a Forever source; see docs/locations.md for the evidence.",
   "the-stockade": {
-    "anchor": { "npc": "Warden Thelwater" },
+    "anchor": {
+      "npc": "Warden Thelwater"
+    },
     "why": "Stormwind was redrawn for Forever, so the Classic entrance coordinates land at the city's west edge. Warden Thelwater stands at the Stockade gate in the Forever database, beside the Forever meeting stone."
   },
   "stormwind-harbor": {
-    "anchor": { "transportStop": "Stormwind" },
+    "anchor": {
+      "transportStop": "Stormwind"
+    },
     "why": "Both the Classic flight-point position and the NPC centre fall in the middle of the city; the Forever routing survey records the boat dock on the west-side piers."
+  },
+  "lights-hope-chapel": {
+    "keep": true,
+    "why": "Reviewed: the Atlas position (81, 59) is on the chapel in both the terrain and the in-game map this game draws. Live-Forever sources put it ~480 yd west only because the live EPL map is re-scaled – every EPL point (towers, Stratholme stone, Darrowshire, Tirion) shifts the same way – so they are not used here."
+  },
+  "steamwheedle-port": {
+    "anchor": {
+      "transportStop": "Steamwheedle Port",
+      "npcCentre": 300
+    },
+    "why": "The Atlas position (51, 29) is Gadgetzan's flight point, not the port. Uses the Forever boat dock and the Forever port NPCs around it (Jabbey, Yeh'kinya, Prospector Ironboot) at ~(67.0, 23.9)."
   }
 }

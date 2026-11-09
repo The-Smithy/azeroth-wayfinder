@@ -10,7 +10,7 @@ Zones and capitals with an outline are scored against the outline, so their poin
 | Orgrimmar | city | Orgrimmar | zone outline | – | atlas (local-maps+travel+questiedb-forever) |  |
 | Stormwind City | city | Stormwind City | zone outline | – | atlas (local-maps+questiedb-forever) |  |
 | Thunder Bluff | city | Thunder Bluff | zone outline | – | atlas (local-maps+questiedb-forever) |  |
-| Undercity | city | Undercity | Forever town centre | 182 yd | atlas (local-maps+travel+questiedb-forever)<br>Forever town centre (91 NPCs, 182 yd away) |  |
+| Undercity | city | Undercity | Forever town centre | 182 yd | atlas (local-maps+travel+questiedb-forever)<br>Forever town centre (91 NPCs, 182 yd away)<br>Forever survey flight point (74 yd from the position used) |  |
 | Blackfathom Deeps | dungeon | Ashenvale | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
 | Blackrock Depths | dungeon | Searing Gorge | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
 | Blackrock Spire | dungeon | Burning Steppes | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
@@ -41,57 +41,57 @@ Zones and capitals with an outline are scored against the outline, so their poin
 | Ruins of Ahn'Qiraj | raid | Silithus | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
 | Temple of Ahn'Qiraj | raid | Silithus | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
 | Zul'Gurub | raid | Stranglethorn Vale | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
-| Aerie Peak | town | The Hinterlands | Forever town centre | 113 yd | atlas (travel)<br>Forever town centre (7 NPCs, 113 yd away) |  |
-| Astranaar | town | Ashenvale | Forever town centre | 139 yd | atlas (travel)<br>Forever town centre (14 NPCs, 139 yd away) |  |
-| Auberdine | town | Darkshore | Forever town centre | 191 yd | atlas (travel)<br>Forever town centre (21 NPCs, 191 yd away) |  |
-| Bloodvenom Post | town | Felwood | Forever town centre | 45 yd | atlas (travel)<br>Forever town centre (4 NPCs, 45 yd away) |  |
-| Booty Bay | town | Stranglethorn Vale | Forever town centre | 73 yd | atlas (travel)<br>Forever town centre (34 NPCs, 73 yd away) |  |
-| Brackenwall Village | town | Dustwallow Marsh | Forever town centre | 62 yd | atlas (travel)<br>Forever town centre (7 NPCs, 62 yd away) |  |
-| Camp Mojache | town | Feralas | Forever town centre | 38 yd | atlas (travel)<br>Forever town centre (14 NPCs, 38 yd away) |  |
-| Camp Taurajo | town | The Barrens | Forever town centre | 103 yd | atlas (travel)<br>Forever town centre (9 NPCs, 103 yd away) |  |
-| Cenarion Hold | town | Silithus | Forever town centre | 73 yd | atlas (travel)<br>Forever town centre (9 NPCs, 73 yd away) |  |
-| Chillwind Camp | town | Western Plaguelands | Forever town centre | 47 yd | atlas (travel)<br>Forever town centre (4 NPCs, 47 yd away) |  |
-| Crossroads | town | The Barrens | Forever town centre | 96 yd | atlas (travel)<br>Forever town centre (21 NPCs, 96 yd away) |  |
-| Darkshire | town | Duskwood | Forever town centre | 80 yd | atlas (travel)<br>Forever town centre (19 NPCs, 80 yd away) |  |
-| Everlook | town | Winterspring | Forever town centre | 100 yd | atlas (travel)<br>Forever town centre (13 NPCs, 100 yd away) |  |
-| Feathermoon | town | Feralas | Forever town centre | 77 yd | atlas (travel)<br>Forever town centre (16 NPCs, 77 yd away) |  |
-| Flame Crest | town | Burning Steppes | Forever town centre | 21 yd | atlas (travel)<br>Forever town centre (3 NPCs, 21 yd away) |  |
-| Freewind Post | town | Thousand Needles | Forever town centre | 68 yd | atlas (travel)<br>Forever town centre (8 NPCs, 68 yd away) |  |
+| Aerie Peak | town | The Hinterlands | Forever town centre | 113 yd | atlas (travel)<br>Forever town centre (7 NPCs, 113 yd away)<br>Forever survey flight point (111 yd from the position used) |  |
+| Astranaar | town | Ashenvale | Forever town centre | 139 yd | atlas (travel)<br>Forever town centre (14 NPCs, 139 yd away)<br>Forever survey flight point (91 yd from the position used) |  |
+| Auberdine | town | Darkshore | Forever town centre | 191 yd | atlas (travel)<br>Forever town centre (21 NPCs, 191 yd away)<br>Forever survey flight point (205 yd from the position used) |  |
+| Bloodvenom Post | town | Felwood | Forever town centre | 45 yd | atlas (travel)<br>Forever town centre (4 NPCs, 45 yd away)<br>Forever survey flight point (33 yd from the position used) |  |
+| Booty Bay | town | Stranglethorn Vale | Forever town centre | 73 yd | atlas (travel)<br>Forever town centre (34 NPCs, 73 yd away)<br>Forever survey flight point (85 yd from the position used) |  |
+| Brackenwall Village | town | Dustwallow Marsh | Forever town centre | 62 yd | atlas (travel)<br>Forever town centre (7 NPCs, 62 yd away)<br>Forever survey flight point (47 yd from the position used) |  |
+| Camp Mojache | town | Feralas | Forever town centre | 38 yd | atlas (travel)<br>Forever town centre (14 NPCs, 38 yd away)<br>Forever survey flight point (67 yd from the position used) |  |
+| Camp Taurajo | town | The Barrens | Forever town centre | 103 yd | atlas (travel)<br>Forever town centre (9 NPCs, 103 yd away)<br>Forever survey flight point (56 yd from the position used) |  |
+| Cenarion Hold | town | Silithus | Forever town centre | 73 yd | atlas (travel)<br>Forever town centre (9 NPCs, 73 yd away)<br>Forever survey flight point (61 yd from the position used) |  |
+| Chillwind Camp | town | Western Plaguelands | Forever town centre | 47 yd | atlas (travel)<br>Forever town centre (4 NPCs, 47 yd away)<br>Forever survey flight point (26 yd from the position used) |  |
+| Crossroads | town | The Barrens | Forever town centre | 96 yd | atlas (travel)<br>Forever town centre (21 NPCs, 96 yd away)<br>Forever survey flight point (52 yd from the position used) |  |
+| Darkshire | town | Duskwood | Forever town centre | 80 yd | atlas (travel)<br>Forever town centre (19 NPCs, 80 yd away)<br>Forever survey flight point (94 yd from the position used) |  |
+| Everlook | town | Winterspring | Forever town centre | 100 yd | atlas (travel)<br>Forever town centre (13 NPCs, 100 yd away)<br>Forever survey flight point (91 yd from the position used) |  |
+| Feathermoon | town | Feralas | Forever town centre | 77 yd | atlas (travel)<br>Forever town centre (16 NPCs, 77 yd away)<br>Forever survey flight point (56 yd from the position used) |  |
+| Flame Crest | town | Burning Steppes | Forever town centre | 21 yd | atlas (travel)<br>Forever town centre (3 NPCs, 21 yd away)<br>Forever survey flight point (7 yd from the position used) |  |
+| Freewind Post | town | Thousand Needles | Forever town centre | 68 yd | atlas (travel)<br>Forever town centre (8 NPCs, 68 yd away)<br>Forever survey flight point (64 yd from the position used) |  |
 | Grom'gol Base Camp | town | Stranglethorn Vale | Forever town centre | 9 yd | atlas (travel)<br>Forever town centre (15 NPCs, 9 yd away) |  |
-| Hammerfall | town | Arathi Highlands | Forever town centre | 35 yd | atlas (travel)<br>Forever town centre (15 NPCs, 35 yd away) |  |
-| Kargath | town | Badlands | Forever town centre | 32 yd | atlas (travel)<br>Forever town centre (5 NPCs, 32 yd away) |  |
-| Lakeshire | town | Redridge Mountains | atlas (travel) | – | atlas (travel) |  |
-| Light's Hope Chapel | town | Eastern Plaguelands | atlas (travel) | – | atlas (travel) |  |
-| Marshal's Refuge | town | Un'Goro Crater | Forever town centre | 63 yd | atlas (travel)<br>Forever town centre (3 NPCs, 63 yd away) |  |
-| Menethil Harbor | town | Wetlands | Forever town centre | 65 yd | atlas (travel)<br>Forever town centre (22 NPCs, 65 yd away) |  |
-| Morgan's Vigil | town | Burning Steppes | Forever town centre | 12 yd | atlas (travel)<br>Forever town centre (3 NPCs, 12 yd away) |  |
-| Nethergarde Keep | town | Blasted Lands | Forever town centre | 143 yd | atlas (travel)<br>Forever town centre (4 NPCs, 143 yd away) |  |
-| Nighthaven | town | Moonglade | Forever town centre | 47 yd | atlas (travel)<br>Forever town centre (6 NPCs, 47 yd away) |  |
-| Nijel's Point | town | Desolace | Forever town centre | 127 yd | atlas (travel)<br>Forever town centre (6 NPCs, 127 yd away) |  |
-| Powderfuse Port | town | Riverglades | atlas (own-mapwise-survey-20261025) | – | atlas (own-mapwise-survey-20261025) |  |
-| Ratchet | town | The Barrens | Forever town centre | 116 yd | atlas (travel)<br>Forever town centre (16 NPCs, 116 yd away) |  |
-| Refuge Pointe | town | Arathi Highlands | Forever town centre | 42 yd | atlas (travel)<br>Forever town centre (10 NPCs, 42 yd away) |  |
-| Revantusk Village | town | The Hinterlands | Forever town centre | 78 yd | atlas (travel)<br>Forever town centre (8 NPCs, 78 yd away) |  |
-| Rut'theran Village | town | Teldrassil | Forever town centre | 90 yd | atlas (travel)<br>Forever town centre (3 NPCs, 90 yd away) |  |
-| Sentinel Hill | town | Westfall | Forever town centre | 42 yd | atlas (travel)<br>Forever town centre (8 NPCs, 42 yd away) |  |
-| Shadowprey Village | town | Desolace | Forever town centre | 144 yd | atlas (travel)<br>Forever town centre (10 NPCs, 144 yd away) |  |
-| Southshore | town | Hillsbrad Foothills | Forever town centre | 151 yd | atlas (travel)<br>Forever town centre (15 NPCs, 151 yd away) |  |
-| Splintertree Post | town | Ashenvale | Forever town centre | 27 yd | atlas (travel)<br>Forever town centre (4 NPCs, 27 yd away) |  |
-| Steamwheedle Port | town | Tanaris | Forever town centre | 68 yd | atlas (travel)<br>Forever town centre (16 NPCs, 68 yd away) |  |
-| Stonard | town | Swamp of Sorrows | Forever town centre | 16 yd | atlas (travel)<br>Forever town centre (18 NPCs, 16 yd away) |  |
-| Stonetalon Peak | town | Stonetalon Mountains | Forever town centre | 18 yd | atlas (travel)<br>Forever town centre (4 NPCs, 18 yd away) |  |
+| Hammerfall | town | Arathi Highlands | Forever town centre | 35 yd | atlas (travel)<br>Forever town centre (15 NPCs, 35 yd away)<br>Forever survey flight point (28 yd from the position used) |  |
+| Kargath | town | Badlands | Forever town centre | 32 yd | atlas (travel)<br>Forever town centre (5 NPCs, 32 yd away)<br>Forever survey flight point (29 yd from the position used) |  |
+| Lakeshire | town | Redridge Mountains | atlas (travel) | – | atlas (travel)<br>Forever survey flight point (101 yd from the position used) |  |
+| Light's Hope Chapel | town | Eastern Plaguelands | atlas (travel) | – | atlas (travel)<br>Forever survey flight point (483 yd from the position used) | Reviewed: the Atlas position (81, 59) is on the chapel in both the terrain and the in-game map this game draws. Live-Forever sources put it ~480 yd west only because the live EPL map is re-scaled – every EPL point (towers, Stratholme stone, Darrowshire, Tirion) shifts the same way – so they are not used here. |
+| Marshal's Refuge | town | Un'Goro Crater | Forever town centre | 63 yd | atlas (travel)<br>Forever town centre (3 NPCs, 63 yd away)<br>Forever survey flight point (54 yd from the position used) |  |
+| Menethil Harbor | town | Wetlands | Forever town centre | 65 yd | atlas (travel)<br>Forever town centre (22 NPCs, 65 yd away)<br>Forever survey flight point (46 yd from the position used) |  |
+| Morgan's Vigil | town | Burning Steppes | Forever town centre | 12 yd | atlas (travel)<br>Forever town centre (3 NPCs, 12 yd away)<br>Forever survey flight point (2 yd from the position used) |  |
+| Nethergarde Keep | town | Blasted Lands | Forever town centre | 143 yd | atlas (travel)<br>Forever town centre (4 NPCs, 143 yd away)<br>Forever survey flight point (151 yd from the position used) |  |
+| Nighthaven | town | Moonglade | Forever town centre | 47 yd | atlas (travel)<br>Forever town centre (6 NPCs, 47 yd away)<br>Forever survey flight point (47 yd from the position used) |  |
+| Nijel's Point | town | Desolace | Forever town centre | 127 yd | atlas (travel)<br>Forever town centre (6 NPCs, 127 yd away)<br>Forever survey flight point (115 yd from the position used) |  |
+| Powderfuse Port | town | Riverglades | atlas (own-mapwise-survey-20261025) | – | atlas (own-mapwise-survey-20261025)<br>Forever survey flight point (170 yd from the position used) |  |
+| Ratchet | town | The Barrens | Forever town centre | 116 yd | atlas (travel)<br>Forever town centre (16 NPCs, 116 yd away)<br>Forever survey flight point (119 yd from the position used) |  |
+| Refuge Pointe | town | Arathi Highlands | Forever town centre | 42 yd | atlas (travel)<br>Forever town centre (10 NPCs, 42 yd away)<br>Forever survey flight point (20 yd from the position used) |  |
+| Revantusk Village | town | The Hinterlands | Forever town centre | 78 yd | atlas (travel)<br>Forever town centre (8 NPCs, 78 yd away)<br>Forever survey flight point (109 yd from the position used) |  |
+| Rut'theran Village | town | Teldrassil | Forever town centre | 90 yd | atlas (travel)<br>Forever town centre (3 NPCs, 90 yd away)<br>Forever survey flight point (110 yd from the position used) |  |
+| Sentinel Hill | town | Westfall | Forever town centre | 42 yd | atlas (travel)<br>Forever town centre (8 NPCs, 42 yd away)<br>Forever survey flight point (18 yd from the position used) |  |
+| Shadowprey Village | town | Desolace | Forever town centre | 144 yd | atlas (travel)<br>Forever town centre (10 NPCs, 144 yd away)<br>Forever survey flight point (125 yd from the position used) |  |
+| Southshore | town | Hillsbrad Foothills | Forever town centre | 151 yd | atlas (travel)<br>Forever town centre (15 NPCs, 151 yd away)<br>Forever survey flight point (144 yd from the position used) |  |
+| Splintertree Post | town | Ashenvale | Forever town centre | 27 yd | atlas (travel)<br>Forever town centre (4 NPCs, 27 yd away)<br>Forever survey flight point (34 yd from the position used) |  |
+| Steamwheedle Port | town | Tanaris | override (Forever anchor) | 1128 yd | atlas (travel)<br>Forever town centre (16 NPCs, 68 yd away)<br>override → {"transportStop":"Steamwheedle Port","npcCentre":300} (1128 yd from atlas)<br>Forever survey boat (117 yd from the position used) | The Atlas position (51, 29) is Gadgetzan's flight point, not the port. Uses the Forever boat dock and the Forever port NPCs around it (Jabbey, Yeh'kinya, Prospector Ironboot) at ~(67.0, 23.9). |
+| Stonard | town | Swamp of Sorrows | Forever town centre | 16 yd | atlas (travel)<br>Forever town centre (18 NPCs, 16 yd away)<br>Forever survey flight point (9 yd from the position used) |  |
+| Stonetalon Peak | town | Stonetalon Mountains | Forever town centre | 18 yd | atlas (travel)<br>Forever town centre (4 NPCs, 18 yd away)<br>Forever survey flight point (45 yd from the position used) |  |
 | Stormwind Harbor | town | Stormwind City | override (Forever anchor) | 771 yd | atlas (travel)<br>Forever town centre (20 NPCs, 79 yd away)<br>override → {"transportStop":"Stormwind"} (771 yd from atlas) | Both the Classic flight-point position and the NPC centre fall in the middle of the city; the Forever routing survey records the boat dock on the west-side piers. |
-| Sun Rock Retreat | town | Stonetalon Mountains | Forever town centre | 61 yd | atlas (travel)<br>Forever town centre (9 NPCs, 61 yd away) |  |
-| Talonbranch Glade | town | Felwood | Forever town centre | 23 yd | atlas (travel)<br>Forever town centre (6 NPCs, 23 yd away) |  |
-| Talrendis Point | town | Azshara | atlas (travel) | – | atlas (travel) |  |
-| Tarren Mill | town | Hillsbrad Foothills | Forever town centre | 75 yd | atlas (travel)<br>Forever town centre (12 NPCs, 75 yd away) |  |
-| Thalanaar | town | Feralas | Forever town centre | 50 yd | atlas (travel)<br>Forever town centre (4 NPCs, 50 yd away) |  |
-| The Sepulcher | town | Silverpine Forest | Forever town centre | 73 yd | atlas (travel)<br>Forever town centre (14 NPCs, 73 yd away) |  |
-| Thelsamar | town | Loch Modan | Forever town centre | 77 yd | atlas (travel)<br>Forever town centre (13 NPCs, 77 yd away) |  |
+| Sun Rock Retreat | town | Stonetalon Mountains | Forever town centre | 61 yd | atlas (travel)<br>Forever town centre (9 NPCs, 61 yd away)<br>Forever survey flight point (55 yd from the position used) |  |
+| Talonbranch Glade | town | Felwood | Forever town centre | 23 yd | atlas (travel)<br>Forever town centre (6 NPCs, 23 yd away)<br>Forever survey flight point (15 yd from the position used) |  |
+| Talrendis Point | town | Azshara | atlas (travel) | – | atlas (travel)<br>Forever survey flight point (48 yd from the position used) |  |
+| Tarren Mill | town | Hillsbrad Foothills | Forever town centre | 75 yd | atlas (travel)<br>Forever town centre (12 NPCs, 75 yd away)<br>Forever survey flight point (63 yd from the position used) |  |
+| Thalanaar | town | Feralas | Forever town centre | 50 yd | atlas (travel)<br>Forever town centre (4 NPCs, 50 yd away)<br>Forever survey flight point (5 yd from the position used) |  |
+| The Sepulcher | town | Silverpine Forest | Forever town centre | 73 yd | atlas (travel)<br>Forever town centre (14 NPCs, 73 yd away)<br>Forever survey flight point (99 yd from the position used) |  |
+| Thelsamar | town | Loch Modan | Forever town centre | 77 yd | atlas (travel)<br>Forever town centre (13 NPCs, 77 yd away)<br>Forever survey flight point (63 yd from the position used) |  |
 | Theramore Isle | town | Dustwallow Marsh | Forever town centre | 107 yd | atlas (travel)<br>Forever town centre (21 NPCs, 107 yd away) |  |
-| Thorium Point | town | Searing Gorge | Forever town centre | 25 yd | atlas (travel)<br>Forever town centre (3 NPCs, 25 yd away) |  |
-| Valormok | town | Azshara | Forever town centre | 86 yd | atlas (travel)<br>Forever town centre (3 NPCs, 86 yd away) |  |
-| Zoram'gar Outpost | town | Ashenvale | Forever town centre | 35 yd | atlas (travel)<br>Forever town centre (3 NPCs, 35 yd away) |  |
+| Thorium Point | town | Searing Gorge | Forever town centre | 25 yd | atlas (travel)<br>Forever town centre (3 NPCs, 25 yd away)<br>Forever survey flight point (7 yd from the position used) |  |
+| Valormok | town | Azshara | Forever town centre | 86 yd | atlas (travel)<br>Forever town centre (3 NPCs, 86 yd away)<br>Forever survey flight point (47 yd from the position used) |  |
+| Zoram'gar Outpost | town | Ashenvale | Forever town centre | 35 yd | atlas (travel)<br>Forever town centre (3 NPCs, 35 yd away)<br>Forever survey flight point (28 yd from the position used) |  |
 | Alterac Mountains | zone | Alterac Mountains | zone outline | – | atlas (local-maps) |  |
 | Arathi Highlands | zone | Arathi Highlands | zone outline | – | atlas (local-maps) |  |
 | Ashenvale | zone | Ashenvale | zone outline | – | atlas (local-maps) |  |

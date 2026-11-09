@@ -95,6 +95,12 @@ describe('geometry & scoring', () => {
     // Stormwind Harbor sits on the west-side docks (Forever routing survey boat stop).
     const [hx, hy] = at('stormwind-harbor', '1453');
     expect(Math.hypot(hx - 21.79, hy - 56.86)).toBeLessThan(0.5);
+    // Steamwheedle Port is on the Tanaris coast – not Gadgetzan's flight point (51, 29).
+    const [px, py] = at('steamwheedle-port', '1446');
+    expect(Math.hypot(px - 67.0, py - 23.9)).toBeLessThan(1);
+    // Light's Hope Chapel stays on the chapel in the map frame this game draws (81, 59).
+    const [lx, ly] = at('lights-hope-chapel', '1423');
+    expect(Math.hypot(lx - 81, ly - 59)).toBeLessThan(0.5);
   });
 
   it('area targets: inside is a bullseye, outside measures to the edge', () => {
