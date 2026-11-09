@@ -10,6 +10,9 @@ export const kindIcons: Record<LocationKind, string> = {
   raid: svg('<path d="m3 6 4 3 5-6 5 6 4-3-2 11H5zM5 19h14v2H5z" fill="currentColor"/>'),
   zone: svg('<path d="m2 20 7-12 4 6 3-4 6 10z" fill="currentColor"/><circle cx="17" cy="5" r="2" fill="currentColor"/>'),
   landmark: svg('<path d="M6 21v-2h1V9H6V7l6-4 6 4v2h-1v10h1v2zm4-12v10h4V9z" fill="currentColor"/>'),
+  // A hooded figure (famous characters) and crossed swords (quest targets).
+  npc: svg('<circle cx="12" cy="7" r="4" fill="currentColor"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z" fill="currentColor"/>'),
+  mob: svg('<path d="m3 3 7.5 7.5-1.4 1.4L4 6.8V3zm18 0v3.8l-5.1 5.1-1.4-1.4L22 3zM9.3 13.3l1.4 1.4-4.2 4.2 1.4 1.4-1.4 1.4-2.1-2.1L2 22l-1-1 2.4-2.4-2.1-2.1 1.4-1.4 1.4 1.4zm5.4 0 4.2 4.2 1.4-1.4 1.4 1.4-2.1 2.1L22 21l-1 1-2.4-2.4-2.1 2.1-1.4-1.4 1.4-1.4-4.2-4.2z" fill="currentColor"/>'),
 };
 
 export const kindLabels: Record<LocationKind, string> = {
@@ -19,6 +22,8 @@ export const kindLabels: Record<LocationKind, string> = {
   raid: 'Raid entrance',
   zone: 'Zone',
   landmark: 'Landmark',
+  npc: 'Notable character',
+  mob: 'Quest target',
 };
 
 export const factionLabels: Record<Faction, string> = { alliance: 'Alliance', horde: 'Horde', neutral: 'Neutral' };

@@ -1,6 +1,7 @@
 export type LatLngTuple = [number, number];
 
-export type LocationKind = 'city' | 'town' | 'dungeon' | 'raid' | 'landmark' | 'zone';
+/** npc = a famous character; mob = a quest target / named enemy. */
+export type LocationKind = 'city' | 'town' | 'dungeon' | 'raid' | 'landmark' | 'zone' | 'npc' | 'mob';
 export type Faction = 'alliance' | 'horde' | 'neutral';
 
 export interface Place {
@@ -15,6 +16,8 @@ export interface Place {
   /** Zone id whose outline counts as a bullseye (zones & cities). */
   area?: string;
   isNew?: boolean;
+  /** A well-known hub town (dealt in the ×1 rounds). */
+  popular?: boolean;
 }
 
 export interface Zone {

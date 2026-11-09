@@ -40,14 +40,22 @@ function zonedMidnight(dateUtc: number): Date {
  * the whole bag has been played (a new shuffle starts every cycle).
  */
 export const TIERS = {
-  realm: { kinds: ['city', 'zone'] },
-  settlement: { kinds: ['town', 'landmark'] },
-  delve: { kinds: ['dungeon', 'raid'] },
+  /** ×1 – zones and capital cities */
+  realm: { match: (p: Place) => p.kind === 'city' || p.kind === 'zone' },
+  /** ×1 – the big, well-known town hubs */
+  hub: { match: (p: Place) => p.kind === 'town' && !!p.popular },
+  /** ×2 – lesser-known towns, landmarks, dungeons and raids */
+  outpost: { match: (p: Place) => (p.kind === 'town' && !p.popular) || ['landmark', 'dungeon', 'raid'].includes(p.kind) },
+  /** ×3 – famous characters and quest targets */
+  legend: { match: (p: Place) => p.kind === 'npc' || p.kind === 'mob' },
 } as const;
 export type TierName = keyof typeof TIERS;
 
-/** Round order for a day: an easy opener, a dungeon in the middle, settlements around it. */
-export const DAY_PLAN: TierName[] = ['realm', 'settlement', 'delve', 'settlement', 'settlement'];
+/**
+ * Round order for a day, matched to the round multipliers (×1, ×1, ×2, ×3, ×3): towns and
+ * cities early, characters and quest targets in the high-stakes rounds.
+ */
+export const DAY_PLAN: TierName[] = ['realm', 'hub', 'outpost', 'legend', 'legend'];
 
 /** Puzzle number for a moment in time (1-based, US Eastern calendar days). */
 export const dayNumber = (now = new Date()) => Math.round((zonedDate(now) - EPOCH_DATE) / DAY_MS) + 1;
@@ -66,8 +74,7 @@ function shuffled<T>(items: T[], seed: string): T[] {
 }
 
 export function tierPool(places: Place[], tier: TierName): Place[] {
-  const kinds = TIERS[tier].kinds as readonly string[];
-  return places.filter(p => kinds.includes(p.kind)).sort((a, b) => a.id.localeCompare(b.id));
+  return places.filter(TIERS[tier].match).sort((a, b) => a.id.localeCompare(b.id));
 }
 
 /** Molten Core & Blackrock Depths share an entrance – never ask for both on one day. */

@@ -235,7 +235,7 @@ function showRound() {
 
   $('clue-kind').innerHTML = `${kindIcons[clue.kind]}<span>${kindLabels[clue.kind]}</span>`;
   const faction = $('clue-faction');
-  faction.hidden = clue.kind === 'zone' || clue.kind === 'dungeon' || clue.kind === 'raid';
+  faction.hidden = clue.kind === 'zone' || clue.kind === 'dungeon' || clue.kind === 'raid' || clue.kind === 'mob';
   faction.innerHTML = `${shield(clue.faction)}<span>${factionLabels[clue.faction]}</span>`;
   // Practice games say so on the card, since they don't count towards the boards.
   $('clue-round').textContent = `${game.mode === 'practice' ? 'Practice · ' : ''}Location ${game.current + 1} of ${ROUNDS}`;
@@ -249,7 +249,9 @@ function showRound() {
       ? 'Drop your pin anywhere inside it.'
       : clue.kind === 'dungeon' || clue.kind === 'raid'
         ? 'Drop your pin on the entrance.'
-        : 'Drop your pin where you think it lies.';
+        : clue.kind === 'npc' || clue.kind === 'mob'
+          ? 'Drop your pin where you\'d find them.'
+          : 'Drop your pin where you think it lies.';
   }
   $('result').hidden = true;
   $('btn-next').hidden = true;

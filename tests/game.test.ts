@@ -40,12 +40,12 @@ describe('daily puzzle', () => {
       expect(picks).toHaveLength(5);
       expect(new Set(picks.map(p => p.id)).size).toBe(5);
       expect(new Set(picks.map(p => p.latlng.join())).size).toBe(5);
-      picks.forEach((p, i) => expect(TIERS[DAY_PLAN[i]].kinds as readonly string[]).toContain(p.kind));
+      picks.forEach((p, i) => expect(TIERS[DAY_PLAN[i]].match(p)).toBe(true));
     }
   });
 
   it('never repeats a place within a tier until its bag is exhausted', () => {
-    const pool = tierPool(places, 'delve');
+    const pool = tierPool(places, 'outpost');
     const seen = new Set<string>();
     for (let day = 1; day <= pool.length; day++) {
       const id = dailyPlaces(places, day, 'secret')[2].id;

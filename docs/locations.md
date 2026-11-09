@@ -33,6 +33,75 @@ Zones and capitals with an outline are scored against the outline, so their poin
 | Wailing Caverns | dungeon | The Barrens | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
 | Zul'Farrak | dungeon | Tanaris | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
 | Gurubashi Arena | landmark | Stranglethorn Vale | atlas (local-maps) | – | atlas (local-maps) |  |
+| Arra'chea | mob | Mulgore | Forever database (1 position) | – | Forever database: Arra'chea |  |
+| Azuregos | mob | Azshara | Forever database (1 position) | – | Forever database: Azuregos |  |
+| Barak Kodobane | mob | The Barrens | Forever database (1 position) | – | Forever database: Barak Kodobane |  |
+| Bellygrub | mob | Redridge Mountains | Forever database (1 position) | – | Forever database: Bellygrub |  |
+| Colonel Kurzen | mob | Stranglethorn Vale | Forever database (1 position) | – | Forever database: Colonel Kurzen |  |
+| Echeyakee | mob | The Barrens | Forever database (1 position) | – | Forever database: Echeyakee |  |
+| Fedfennel | mob | Elwynn Forest | Forever database (4 positions) | – | Forever database: Fedfennel |  |
+| Fozruk | mob | Arathi Highlands | Forever database (1 position) | – | Forever database: Fozruk |  |
+| Gath'Ilzogg | mob | Redridge Mountains | Forever database (1 position) | – | Forever database: Gath'Ilzogg |  |
+| Gazz'uz | mob | Durotar | Forever database (1 position) | – | Forever database: Gazz'uz |  |
+| Goldtooth | mob | Elwynn Forest | Forever database (1 position) | – | Forever database: Goldtooth |  |
+| Gorlash | mob | Stranglethorn Vale | Forever database (1 position) | – | Forever database: Gorlash |  |
+| Grik'nir the Cold | mob | Dun Morogh | Forever database (1 position) | – | Forever database: Grik'nir the Cold |  |
+| Gruff Swiftbite | mob | Elwynn Forest | Forever database (5 positions) | – | Forever database: Gruff Swiftbite |  |
+| Hezrul Bloodmark | mob | The Barrens | Forever database (1 position) | – | Forever database: Hezrul Bloodmark |  |
+| Hogger | mob | Elwynn Forest | Forever database (1 position) | – | Forever database: Hogger |  |
+| Humar the Pridelord | mob | The Barrens | Forever database (1 position) | – | Forever database: Humar the Pridelord |  |
+| Kazon | mob | Redridge Mountains | Forever database (4 positions) | – | Forever database: Kazon |  |
+| King Bangalash | mob | Stranglethorn Vale | Forever database (1 position) | – | Forever database: King Bangalash |  |
+| Kreenig Snarlsnout | mob | The Barrens | Forever database (1 position) | – | Forever database: Kreenig Snarlsnout |  |
+| Lord Kazzak | mob | Blasted Lands | Forever database (1 position) | – | Forever database: Lord Kazzak |  |
+| Lord Melenas | mob | Teldrassil | Forever database (3 positions) | – | Forever database: Lord Melenas |  |
+| Mangeclaw | mob | Dun Morogh | Forever database (1 position) | – | Forever database: Mangeclaw |  |
+| Mankrik's Wife | mob | The Barrens | Forever database (1 position) | – | Forever database: Beaten Corpse |  |
+| Mazzranache | mob | Mulgore | Forever database (1 position) | – | Forever database: Mazzranache |  |
+| Mor'Ladim | mob | Duskwood | Forever database (1 position) | – | Forever database: Mor'Ladim |  |
+| Morbent Fel | mob | Duskwood | Forever database (1 position) | – | Forever database: Morbent Fel |  |
+| Morgan the Collector | mob | Elwynn Forest | Forever database (1 position) | – | Forever database: Morgan the Collector |  |
+| Mother Fang | mob | Elwynn Forest | Forever database (1 position) | – | Forever database: Mother Fang |  |
+| Mug'thol | mob | Alterac Mountains | Forever database (1 position) | – | Forever database: Mug'thol |  |
+| Old Blanchy | mob | Westfall | Forever database (1 position) | – | Forever database: Old Blanchy |  |
+| Old Icebeard | mob | Dun Morogh | Forever database (1 position) | – | Forever database: Old Icebeard |  |
+| Old Murk-Eye | mob | Westfall | Forever database (1 position) | – | Forever database: Old Murk-Eye |  |
+| Princess the Pig | mob | Elwynn Forest | Forever database (1 position) | – | Forever database: Princess |  |
+| Sarkoth | mob | Durotar | Forever database (1 position) | – | Forever database: Sarkoth |  |
+| Snort the Heckler | mob | The Barrens | Forever database (1 position) | – | Forever database: Snort the Heckler |  |
+| Stitches | mob | Duskwood | Forever database (1 position) | – | Forever database: Stitches |  |
+| The Rake | mob | Mulgore | Forever database (1 position) | – | Forever database: The Rake |  |
+| Thule Ravenclaw | mob | Silverpine Forest | Forever database (1 position) | – | Forever database: Thule Ravenclaw |  |
+| Vagash | mob | Dun Morogh | Forever database (1 position) | – | Forever database: Vagash |  |
+| Archmage Xylem | npc | Azshara | Forever database (1 position) | – | Forever database: Archmage Xylem |  |
+| Baron Revilgaz | npc | Stranglethorn Vale | Forever database (1 position) | – | Forever database: Baron Revilgaz |  |
+| Cairne Bloodhoof | npc | Thunder Bluff | Forever database (1 position) | – | Forever database: Cairne Bloodhoof |  |
+| Dirge Quikcleave | npc | Tanaris | Forever database (1 position) | – | Forever database: Dirge Quikcleave |  |
+| Eitrigg | npc | Orgrimmar | Forever database (1 position) | – | Forever database: Eitrigg |  |
+| Foreman Oslow | npc | Redridge Mountains | Forever database (1 position) | – | Forever database: Foreman Oslow |  |
+| Gazlowe | npc | The Barrens | Forever database (1 position) | – | Forever database: Gazlowe |  |
+| Gryan Stoutmantle | npc | Westfall | Forever database (1 position) | – | Forever database: Gryan Stoutmantle |  |
+| Hemet Nesingwary | npc | Stranglethorn Vale | Forever database (1 position) | – | Forever database: Hemet Nesingwary |  |
+| Highlord Bolvar Fordragon | npc | Stormwind City | Forever database (1 position) | – | Forever database: Highlord Bolvar Fordragon |  |
+| Keeper Remulos | npc | Moonglade | Forever database (1 position) | – | Forever database: Keeper Remulos |  |
+| King Magni Bronzebeard | npc | Ironforge | Forever database (1 position) | – | Forever database: King Magni Bronzebeard |  |
+| Krazek | npc | Stranglethorn Vale | Forever database (1 position) | – | Forever database: Krazek |  |
+| Lady Jaina Proudmoore | npc | Dustwallow Marsh | Forever database (1 position) | – | Forever database: Lady Jaina Proudmoore |  |
+| Lady Katrana Prestor | npc | Stormwind City | Forever database (1 position) | – | Forever database: Lady Katrana Prestor |  |
+| Lady Sylvanas Windrunner | npc | Undercity | Forever database (1 position) | – | Forever database: Lady Sylvanas Windrunner |  |
+| Magistrate Solomon | npc | Redridge Mountains | Forever database (1 position) | – | Forever database: Magistrate Solomon |  |
+| Mankrik | npc | The Barrens | Forever database (1 position) | – | Forever database: Mankrik |  |
+| Marin Noggenfogger | npc | Tanaris | Forever database (1 position) | – | Forever database: Marin Noggenfogger |  |
+| Marshal Dughan | npc | Elwynn Forest | Forever database (1 position) | – | Forever database: Marshal Dughan |  |
+| Nat Pagle | npc | Dustwallow Marsh | Forever database (1 position) | – | Forever database: Nat Pagle |  |
+| Old Man Heming | npc | Stranglethorn Vale | Forever database (1 position) | – | Forever database: Old Man Heming |  |
+| Ragged John | npc | Burning Steppes | Forever database (1 position) | – | Forever database: Ragged John |  |
+| Rexxar | npc | – | skipped | – |  | position falls outside its zone |
+| Thrall | npc | Orgrimmar | Forever database (1 position) | – | Forever database: Thrall |  |
+| Tinkee Steamboil | npc | Burning Steppes | Forever database (1 position) | – | Forever database: Tinkee Steamboil |  |
+| Tyrande Whisperwind | npc | Darnassus | Forever database (1 position) | – | Forever database: Tyrande Whisperwind |  |
+| Varimathras | npc | Undercity | Forever database (1 position) | – | Forever database: Varimathras |  |
+| Vol'jin | npc | Orgrimmar | Forever database (1 position) | – | Forever database: Vol'jin |  |
 | Blackwing Lair | raid | Burning Steppes | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |
 | Hyjal Summit | raid | Mount Hyjal | atlas (confirmed-forever-instance-entrances) | – | atlas (confirmed-forever-instance-entrances) |  |
 | Molten Core | raid | Searing Gorge | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances) |  |

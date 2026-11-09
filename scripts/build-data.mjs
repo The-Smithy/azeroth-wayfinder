@@ -90,6 +90,16 @@ const SERVICES = new Set(['innkeeper', 'flightmaster', 'vendor', 'repair', 'trai
 
 const routing = await readJson(await download(ROUTING_URL, '.cache/mapwise/catalog.json', { force: fresh }));
 const overrides = await readJson('scripts/location-overrides.json');
+/**
+ * The big, well-known hubs. These are dealt in the ×1 "hub" round; every other town is
+ * dealt in the ×2 round alongside dungeons and raids.
+ */
+const POPULAR_TOWNS = new Set([
+  'Booty Bay', 'Crossroads', 'Ratchet', 'Southshore', 'Tarren Mill', 'Menethil Harbor',
+  'Theramore Isle', 'Auberdine', 'Astranaar', 'Darkshire', 'Lakeshire', 'Sentinel Hill',
+  'Thelsamar', "Grom'gol Base Camp", 'Camp Taurajo', 'Everlook', 'Cenarion Hold',
+  'The Sepulcher', 'Stormwind Harbor', "Light's Hope Chapel", 'Hammerfall', 'Refuge Pointe',
+]);
 
 function toLatLng(pos) {
   const zone = zones[pos.zoneId];
@@ -231,6 +241,57 @@ for (const r of atlas.records) {
     latlng,
     ...(area ? { area } : {}),
     ...(r.new ? { isNew: true } : {}),
+    ...(r.kind === 'town' && POPULAR_TOWNS.has(name) ? { popular: true } : {}),
+  });
+}
+
+// ------------------------------------------------- characters & quest targets --
+// Famous NPCs and named mobs (scripts/notable-npcs.json), positioned from the WoW:
+// Forever database. Skipped: anything that roams (spawns spread out), has no outdoor
+// position (inside an instance), lies in a zone whose live map frame doesn't match the
+// map we draw, or doesn't land inside its own zone.
+const notable = await readJson('scripts/notable-npcs.json');
+/** Zones where live-Forever coordinates don't line up with our map (see docs/locations.md). */
+const FRAME_MISMATCH = new Set([1423]); // Eastern Plaguelands: the live zone map is re-scaled
+const MAX_SPREAD_YARDS = 250;
+const npcRecords = new Map();
+for (const r of atlas.records) if (r.kind === 'npc' && r.en && !npcRecords.has(r.en)) npcRecords.set(r.en, r);
+
+const inZone = (p, zone) => zone.rings.some(ring => {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [ai, bi] = ring[i], [aj, bj] = ring[j];
+    if ((ai > p[0]) !== (aj > p[0]) && p[1] < ((bj - bi) * (p[0] - ai)) / (aj - ai) + bi) inside = !inside;
+  }
+  return inside;
+});
+
+for (const entry of notable.entries) {
+  const r = npcRecords.get(entry.npc);
+  const name = entry.name ?? entry.npc;
+  const skip = why => { console.warn(`[build-data] skipped ${name}: ${why}`); report.push({ name, kind: entry.kind, zone: '–', chosen: 'skipped', moved: 0, candidates: [], note: why, area: false }); };
+  if (!r) { skip('not in the Forever database'); continue; }
+  const pts = (r.positions || []).filter(p => isForeverDb(r, p) && zones[p.zoneId]).map(p => ({ zoneId: p.zoneId, latlng: toLatLng(p) }));
+  if (!pts.length) { skip('no outdoor Forever position'); continue; }
+  const zoneId = pts[0].zoneId;
+  if (pts.some(p => p.zoneId !== zoneId)) { skip('appears in several zones'); continue; }
+  if (FRAME_MISMATCH.has(zoneId)) { skip('zone map frame mismatch (Eastern Plaguelands)'); continue; }
+  const latlng = [round(median(pts.map(p => p.latlng[0]))), round(median(pts.map(p => p.latlng[1])))];
+  const spread = Math.max(...pts.map(p => yardsBetween(p.latlng, latlng)));
+  if (spread > MAX_SPREAD_YARDS) { skip(`roams (spawns spread over ${Math.round(spread)} yd)`); continue; }
+  const zone = zones[zoneId];
+  if (zone.rings.length && !inZone(latlng, zone)) { skip('position falls outside its zone'); continue; }
+  const id = `${entry.kind}-${slug(name)}`;
+  report.push({ name, kind: entry.kind, zone: zone.name, chosen: `Forever database (${pts.length} position${pts.length > 1 ? 's' : ''})`, moved: 0, candidates: [`Forever database: ${entry.npc}`], note: '', area: false });
+  locations.push({
+    id,
+    name,
+    kind: entry.kind,
+    faction: ['alliance', 'horde'].includes(r.faction) ? r.faction : 'neutral',
+    zoneId,
+    zone: zone.name,
+    continent: zone.continent,
+    latlng,
   });
 }
 locations.sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));

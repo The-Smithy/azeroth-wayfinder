@@ -368,6 +368,890 @@
   ]
  },
  {
+  "id": "mob-arrachea",
+  "name": "Arra'chea",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1412,
+  "zone": "Mulgore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -97.636,
+   57.061
+  ]
+ },
+ {
+  "id": "mob-azuregos",
+  "name": "Azuregos",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1447,
+  "zone": "Azshara",
+  "continent": "Kalimdor",
+  "latlng": [
+   -72.334,
+   96.834
+  ]
+ },
+ {
+  "id": "mob-barak-kodobane",
+  "name": "Barak Kodobane",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -91.824,
+   64.856
+  ]
+ },
+ {
+  "id": "mob-bellygrub",
+  "name": "Bellygrub",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -125.667,
+   246.334
+  ]
+ },
+ {
+  "id": "mob-colonel-kurzen",
+  "name": "Colonel Kurzen",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -141.026,
+   239.245
+  ]
+ },
+ {
+  "id": "mob-echeyakee",
+  "name": "Echeyakee",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -88.617,
+   74.782
+  ]
+ },
+ {
+  "id": "mob-fedfennel",
+  "name": "Fedfennel",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -122.53,
+   238.195
+  ]
+ },
+ {
+  "id": "mob-fozruk",
+  "name": "Fozruk",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1417,
+  "zone": "Arathi Highlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -62.4,
+   255.753
+  ]
+ },
+ {
+  "id": "mob-gathilzogg",
+  "name": "Gath'Ilzogg",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -126.371,
+   255.114
+  ]
+ },
+ {
+  "id": "mob-gazzuz",
+  "name": "Gazz'uz",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1411,
+  "zone": "Durotar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -80.769,
+   87.582
+  ]
+ },
+ {
+  "id": "mob-goldtooth",
+  "name": "Goldtooth",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -129.092,
+   231.342
+  ]
+ },
+ {
+  "id": "mob-gorlash",
+  "name": "Gorlash",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -162.014,
+   233.028
+  ]
+ },
+ {
+  "id": "mob-griknir-the-cold",
+  "name": "Grik'nir the Cold",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -104.815,
+   229.743
+  ]
+ },
+ {
+  "id": "mob-gruff-swiftbite",
+  "name": "Gruff Swiftbite",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -130.86,
+   227.344
+  ]
+ },
+ {
+  "id": "mob-hezrul-bloodmark",
+  "name": "Hezrul Bloodmark",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -100.753,
+   67.319
+  ]
+ },
+ {
+  "id": "mob-hogger",
+  "name": "Hogger",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -131.674,
+   226.997
+  ]
+ },
+ {
+  "id": "mob-humar-the-pridelord",
+  "name": "Humar the Pridelord",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -96.795,
+   79.486
+  ]
+ },
+ {
+  "id": "mob-kazon",
+  "name": "Kazon",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -121.271,
+   249.594
+  ]
+ },
+ {
+  "id": "mob-king-bangalash",
+  "name": "King Bangalash",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -151.118,
+   233.631
+  ]
+ },
+ {
+  "id": "mob-kreenig-snarlsnout",
+  "name": "Kreenig Snarlsnout",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -93.608,
+   76.803
+  ]
+ },
+ {
+  "id": "mob-lord-kazzak",
+  "name": "Lord Kazzak",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1419,
+  "zone": "Blasted Lands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -147.809,
+   250.242
+  ]
+ },
+ {
+  "id": "mob-lord-melenas",
+  "name": "Lord Melenas",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1438,
+  "zone": "Teldrassil",
+  "continent": "Kalimdor",
+  "latlng": [
+   -16.046,
+   42.985
+  ]
+ },
+ {
+  "id": "mob-mangeclaw",
+  "name": "Mangeclaw",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -94.376,
+   247.41
+  ]
+ },
+ {
+  "id": "mob-mankriks-wife",
+  "name": "Mankrik's Wife",
+  "kind": "mob",
+  "faction": "horde",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -105.404,
+   69.819
+  ]
+ },
+ {
+  "id": "mob-mazzranache",
+  "name": "Mazzranache",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1412,
+  "zone": "Mulgore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -104.986,
+   56.055
+  ]
+ },
+ {
+  "id": "mob-morladim",
+  "name": "Mor'Ladim",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1431,
+  "zone": "Duskwood",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -133.917,
+   229.126
+  ]
+ },
+ {
+  "id": "mob-morbent-fel",
+  "name": "Morbent Fel",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1431,
+  "zone": "Duskwood",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -133.384,
+   229.172
+  ]
+ },
+ {
+  "id": "mob-morgan-the-collector",
+  "name": "Morgan the Collector",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -129.547,
+   238.99
+  ]
+ },
+ {
+  "id": "mob-mother-fang",
+  "name": "Mother Fang",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -123.888,
+   236.66
+  ]
+ },
+ {
+  "id": "mob-mugthol",
+  "name": "Mug'thol",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1416,
+  "zone": "Alterac Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -52.345,
+   233.618
+  ]
+ },
+ {
+  "id": "mob-old-blanchy",
+  "name": "Old Blanchy",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1436,
+  "zone": "Westfall",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -129.899,
+   225.065
+  ]
+ },
+ {
+  "id": "mob-old-icebeard",
+  "name": "Old Icebeard",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -98.42,
+   232.72
+  ]
+ },
+ {
+  "id": "mob-old-murk-eye",
+  "name": "Old Murk-Eye",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1436,
+  "zone": "Westfall",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -139.791,
+   217.058
+  ]
+ },
+ {
+  "id": "mob-princess-the-pig",
+  "name": "Princess the Pig",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -129.304,
+   238.618
+  ]
+ },
+ {
+  "id": "mob-sarkoth",
+  "name": "Sarkoth",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1411,
+  "zone": "Durotar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -96.106,
+   82.78
+  ]
+ },
+ {
+  "id": "mob-snort-the-heckler",
+  "name": "Snort the Heckler",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -91.171,
+   63.602
+  ]
+ },
+ {
+  "id": "mob-stitches",
+  "name": "Stitches",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1431,
+  "zone": "Duskwood",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -133.141,
+   231.614
+  ]
+ },
+ {
+  "id": "mob-the-rake",
+  "name": "The Rake",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1412,
+  "zone": "Mulgore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -98.424,
+   57.209
+  ]
+ },
+ {
+  "id": "mob-thule-ravenclaw",
+  "name": "Thule Ravenclaw",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1421,
+  "zone": "Silverpine Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -48.471,
+   226.824
+  ]
+ },
+ {
+  "id": "mob-vagash",
+  "name": "Vagash",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -96.418,
+   241.615
+  ]
+ },
+ {
+  "id": "npc-archmage-xylem",
+  "name": "Archmage Xylem",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1447,
+  "zone": "Azshara",
+  "continent": "Kalimdor",
+  "latlng": [
+   -62.135,
+   87.702
+  ]
+ },
+ {
+  "id": "npc-baron-revilgaz",
+  "name": "Baron Revilgaz",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -164.292,
+   228.376
+  ]
+ },
+ {
+  "id": "npc-cairne-bloodhoof",
+  "name": "Cairne Bloodhoof",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1456,
+  "zone": "Thunder Bluff",
+  "continent": "Kalimdor",
+  "latlng": [
+   -101.072,
+   52.845
+  ]
+ },
+ {
+  "id": "npc-dirge-quikcleave",
+  "name": "Dirge Quikcleave",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1446,
+  "zone": "Tanaris",
+  "continent": "Kalimdor",
+  "latlng": [
+   -145.76,
+   80.877
+  ]
+ },
+ {
+  "id": "npc-eitrigg",
+  "name": "Eitrigg",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1454,
+  "zone": "Orgrimmar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -77.707,
+   83.211
+  ]
+ },
+ {
+  "id": "npc-foreman-oslow",
+  "name": "Foreman Oslow",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -125.595,
+   249.013
+  ]
+ },
+ {
+  "id": "npc-gazlowe",
+  "name": "Gazlowe",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -98.265,
+   79.965
+  ]
+ },
+ {
+  "id": "npc-gryan-stoutmantle",
+  "name": "Gryan Stoutmantle",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1436,
+  "zone": "Westfall",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -134.816,
+   224.162
+  ]
+ },
+ {
+  "id": "npc-hemet-nesingwary",
+  "name": "Hemet Nesingwary",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -143.215,
+   232.41
+  ]
+ },
+ {
+  "id": "npc-highlord-bolvar-fordragon",
+  "name": "Highlord Bolvar Fordragon",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1453,
+  "zone": "Stormwind City",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -119.3,
+   229.531
+  ]
+ },
+ {
+  "id": "npc-keeper-remulos",
+  "name": "Keeper Remulos",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1450,
+  "zone": "Moonglade",
+  "continent": "Kalimdor",
+  "latlng": [
+   -33.138,
+   68.623
+  ]
+ },
+ {
+  "id": "npc-king-magni-bronzebeard",
+  "name": "King Magni Bronzebeard",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1455,
+  "zone": "Ironforge",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -92.493,
+   239.67
+  ]
+ },
+ {
+  "id": "npc-krazek",
+  "name": "Krazek",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -164.4,
+   228.242
+  ]
+ },
+ {
+  "id": "npc-lady-jaina-proudmoore",
+  "name": "Lady Jaina Proudmoore",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1445,
+  "zone": "Dustwallow Marsh",
+  "continent": "Kalimdor",
+  "latlng": [
+   -120.123,
+   85.406
+  ]
+ },
+ {
+  "id": "npc-lady-katrana-prestor",
+  "name": "Lady Katrana Prestor",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1453,
+  "zone": "Stormwind City",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -119.285,
+   229.516
+  ]
+ },
+ {
+  "id": "npc-lady-sylvanas-windrunner",
+  "name": "Lady Sylvanas Windrunner",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1458,
+  "zone": "Undercity",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -46.322,
+   229.628
+  ]
+ },
+ {
+  "id": "npc-magistrate-solomon",
+  "name": "Magistrate Solomon",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -125.14,
+   248.663
+  ]
+ },
+ {
+  "id": "npc-mankrik",
+  "name": "Mankrik",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1413,
+  "zone": "The Barrens",
+  "continent": "Kalimdor",
+  "latlng": [
+   -95.908,
+   71.81
+  ]
+ },
+ {
+  "id": "npc-marin-noggenfogger",
+  "name": "Marin Noggenfogger",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1446,
+  "zone": "Tanaris",
+  "continent": "Kalimdor",
+  "latlng": [
+   -145.95,
+   80.452
+  ]
+ },
+ {
+  "id": "npc-marshal-dughan",
+  "name": "Marshal Dughan",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -126.992,
+   231.446
+  ]
+ },
+ {
+  "id": "npc-nat-pagle",
+  "name": "Nat Pagle",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1445,
+  "zone": "Dustwallow Marsh",
+  "continent": "Kalimdor",
+  "latlng": [
+   -123.016,
+   82.39
+  ]
+ },
+ {
+  "id": "npc-old-man-heming",
+  "name": "Old Man Heming",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1434,
+  "zone": "Stranglethorn Vale",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -164.385,
+   228.467
+  ]
+ },
+ {
+  "id": "npc-ragged-john",
+  "name": "Ragged John",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1428,
+  "zone": "Burning Steppes",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -112.213,
+   248.282
+  ]
+ },
+ {
+  "id": "npc-thrall",
+  "name": "Thrall",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1454,
+  "zone": "Orgrimmar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -77.599,
+   82.942
+  ]
+ },
+ {
+  "id": "npc-tinkee-steamboil",
+  "name": "Tinkee Steamboil",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1428,
+  "zone": "Burning Steppes",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -112.248,
+   248.332
+  ]
+ },
+ {
+  "id": "npc-tyrande-whisperwind",
+  "name": "Tyrande Whisperwind",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1457,
+  "zone": "Darnassus",
+  "continent": "Kalimdor",
+  "latlng": [
+   -19.531,
+   33.066
+  ]
+ },
+ {
+  "id": "npc-varimathras",
+  "name": "Varimathras",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1458,
+  "zone": "Undercity",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -46.342,
+   229.498
+  ]
+ },
+ {
+  "id": "npc-voljin",
+  "name": "Vol'jin",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1454,
+  "zone": "Orgrimmar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -77.495,
+   83.217
+  ]
+ },
+ {
   "id": "blackwing-lair",
   "name": "Blackwing Lair",
   "kind": "raid",
@@ -495,7 +1379,8 @@
   "latlng": [
    -71.338,
    54.584
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "auberdine",
@@ -508,7 +1393,8 @@
   "latlng": [
    -42.993,
    48.335
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "bloodvenom-post",
@@ -534,7 +1420,8 @@
   "latlng": [
    -164.29,
    228.814
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "brackenwall-village",
@@ -573,7 +1460,8 @@
   "latlng": [
    -109.879,
    66.536
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "cenarion-hold",
@@ -586,7 +1474,8 @@
   "latlng": [
    -143.134,
    46.183
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "chillwind-camp",
@@ -612,7 +1501,8 @@
   "latlng": [
    -95.128,
    71.81
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "darkshire",
@@ -625,7 +1515,8 @@
   "latlng": [
    -135.026,
    240.778
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "everlook",
@@ -638,7 +1529,8 @@
   "latlng": [
    -41.444,
    87.049
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "feathermoon",
@@ -690,7 +1582,8 @@
   "latlng": [
    -148.999,
    230.597
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "hammerfall",
@@ -703,7 +1596,8 @@
   "latlng": [
    -62.891,
    258.437
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "kargath",
@@ -729,7 +1623,8 @@
   "latlng": [
    -126.72,
    249.494
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "lights-hope-chapel",
@@ -742,7 +1637,8 @@
   "latlng": [
    -40.997,
    275.057
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "marshals-refuge",
@@ -768,7 +1664,8 @@
   "latlng": [
    -84.324,
    238.199
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "morgans-vigil",
@@ -846,7 +1743,8 @@
   "latlng": [
    -99.296,
    79.62
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "refuge-pointe",
@@ -859,7 +1757,8 @@
   "latlng": [
    -65.448,
    250.914
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "revantusk-village",
@@ -898,7 +1797,8 @@
   "latlng": [
    -135.843,
    224.279
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "shadowprey-village",
@@ -924,7 +1824,8 @@
   "latlng": [
    -62.371,
    236.187
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "splintertree-post",
@@ -989,7 +1890,8 @@
   "latlng": [
    -120.909,
    221.917
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "sun-rock-retreat",
@@ -1041,7 +1943,8 @@
   "latlng": [
    -56.124,
    238.903
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "thalanaar",
@@ -1067,7 +1970,8 @@
   "latlng": [
    -52.083,
    219.806
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "thelsamar",
@@ -1080,7 +1984,8 @@
   "latlng": [
    -96.334,
    254.312
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "theramore-isle",
@@ -1093,7 +1998,8 @@
   "latlng": [
    -119.845,
    85.564
-  ]
+  ],
+  "popular": true
  },
  {
   "id": "thorium-point",

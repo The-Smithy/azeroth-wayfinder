@@ -1,7 +1,8 @@
 # Wayfinder 🧭
 
 A daily World of Warcraft geography game. Every day you get **five places in Azeroth**
-(a capital or zone, three settlements and a dungeon entrance) and drop a pin on the
+(a zone or capital, a famous town, a lesser-known town or dungeon, and two famous
+characters or quest targets – think Hogger, Thrall or Mankrik's wife) and drop a pin on the
 **WoW: Forever** world map as close as you can. Each pin scores up to 100 for accuracy,
 and the stakes rise: locations 1–2 count ×1, location 3 ×2 and locations 4–5 ×3, so a
 perfect day is **1,000 points**. Same puzzle for everyone, a shareable emoji result, a
@@ -45,7 +46,9 @@ Everything runs on Netlify.
 | Postgres via **Netlify Database** | `netlify/database/migrations/` (applied automatically on deploy) |
 
 - **Puzzles:** a new puzzle unlocks every day at midnight US Eastern time (EST/EDT; day 1 =
-  4 Nov 2026, WoW: Forever launch). The five places are drawn from shuffled "bags" seeded by the server-only
+  4 Nov 2026, WoW: Forever launch). Rounds follow the multipliers: ×1 zone or capital, ×1
+  popular town hub, ×2 lesser-known town / landmark / dungeon / raid, ×3 and ×3 famous
+  character or quest target. The five places are drawn from shuffled "bags" seeded by the server-only
   `PUZZLE_SECRET`, then frozen in the `puzzles` table the first time a day is requested.
   Answers live in `server/data/places.json` and are never bundled into the client.
 - **Sessions:** a random token in an `httpOnly`, `SameSite=Lax` cookie. Only its SHA-256 is
@@ -157,7 +160,10 @@ a fan-made interactive map of WoW: Forever.
   illustration, bakes the atlas' water masks into the tiles, and writes calibrated bounds to
   `public/map/manifest.json`. **These files are git-ignored and not redistributed here.** They
   are fetched at dev and build time.
-- `npm run build-data` reduces the atlas dataset to `server/data/places.json` (130 places,
+- `npm run build-data` reduces the atlas dataset to `server/data/places.json` (198 places:
+  zones, capitals, towns, dungeons and raids, plus famous characters and quest targets from
+  `scripts/notable-npcs.json` positioned from the WoW: Forever database; popular town hubs are
+  listed in the script,
   server-only) and `src/data/zones.json` (49 simplified zone outlines).
 - `src/data/lore.json` holds the original lore notes shown after each expedition.
 - `npm run make-og` re-renders `public/og-image.jpg` from `scripts/og/og.html` (needs Playwright).
