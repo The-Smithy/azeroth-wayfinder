@@ -128,8 +128,9 @@ describe('geometry & scoring', () => {
 
 describe('share text', () => {
   it('is spoiler-free and names the site without a link', () => {
-    const text = shareText({ date: 'Nov 7, 2026', total: 857, scores: [100, 94, 75, 71, 100], site: 'azeroth-wayfinder.netlify.app' });
-    expect(text).toBe('Wayfinder · Nov 7, 2026 📍 857/1,000\n🎯🟩🟩🟨🎯\nazeroth-wayfinder.netlify.app');
+    const rounds = [[100, 100], [94, 94], [75, 150], [71, 213], [100, 300]].map(([score, points]) => ({ score, points }));
+    const text = shareText({ date: 'Nov 7, 2026', total: 857, rounds, site: 'azeroth-wayfinder.netlify.app' });
+    expect(text).toBe('Wayfinder · Nov 7, 2026 📍 857/1,000\n🎯 100 · 🟩 94 · 🟩 150 · 🟨 213 · 🎯 300\nazeroth-wayfinder.netlify.app');
     expect(text).not.toMatch(/https?:/);
     for (const p of places) expect(text).not.toContain(p.name);
   });

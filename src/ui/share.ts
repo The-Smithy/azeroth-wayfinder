@@ -1,15 +1,16 @@
 import { emojiFor, MAX_TOTAL } from '../game/scoring';
 
 /**
- * Spoiler-free result: date, total and one emoji per round – never the place names.
+ * Spoiler-free result: date, total and each round's emoji (accuracy) with the points it
+ * earned – never the place names.
  * Ends with the site's name as plain text (no https://), so chat apps don't turn it
  * into a link with a big preview card.
  */
-export function shareText(opts: { date: string | null; total: number; scores: number[]; site: string }) {
+export function shareText(opts: { date: string | null; total: number; rounds: { score: number; points: number }[]; site: string }) {
   const heading = opts.date ? `Wayfinder · ${opts.date}` : 'Wayfinder · Practice';
   return [
     `${heading} 📍 ${opts.total.toLocaleString('en-US')}/${MAX_TOTAL.toLocaleString('en-US')}`,
-    opts.scores.map(emojiFor).join(''),
+    opts.rounds.map(r => `${emojiFor(r.score)} ${r.points}`).join(' · '),
     opts.site,
   ].join('\n');
 }

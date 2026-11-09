@@ -10,7 +10,7 @@ Discord server you share with other players.
 
 ```
 Wayfinder · Nov 7, 2026 📍 857/1,000
-🎯🟩🟩🟨🎯
+🎯 100 · 🟩 94 · 🟩 150 · 🟨 213 · 🎯 300
 ```
 
 ## Features
