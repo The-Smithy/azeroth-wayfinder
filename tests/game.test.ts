@@ -101,6 +101,27 @@ describe('geometry & scoring', () => {
     // Light's Hope Chapel stays on the chapel in the map frame this game draws (81, 59).
     const [lx, ly] = at('lights-hope-chapel', '1423');
     expect(Math.hypot(lx - 81, ly - 59)).toBeLessThan(0.5);
+    // Lakeshire is the town north of the lake (Polestar's townsfolk), not the flight point
+    // across the water.
+    const [kx, ky] = at('lakeshire', '1433');
+    expect(Math.hypot(kx - 21.8, ky - 45.65)).toBeLessThan(0.5);
+  });
+
+  it('places Eastern Plaguelands characters through the Era frame its imagery is drawn in', () => {
+    // Polestar's world-yard spawns land on the well-known Classic coordinates.
+    const at = (id: string) => zoneCoords(places.find(p => p.id === id)!.latlng, zones['1423']);
+    for (const [id, x, y] of [['npc-tirion-fordring', 7.5, 43.7], ['npc-nathanos-blightcaller', 26.5, 74.7], ['npc-pamela-redpath', 36.5, 90.8]] as const) {
+      const [px, py] = at(id);
+      expect(Math.hypot(px - x, py - y), id).toBeLessThan(0.5);
+    }
+  });
+
+  it('keeps capital-city characters in their capital', () => {
+    const zoneOf = (id: string) => places.find(p => p.id === id)!.zone;
+    expect(zoneOf('npc-king-magni-bronzebeard')).toBe('Ironforge');
+    expect(zoneOf('npc-lady-sylvanas-windrunner')).toBe('Undercity');
+    expect(zoneOf('npc-thrall')).toBe('Orgrimmar');
+    expect(places.some(p => p.id === 'npc-rexxar')).toBe(false); // roams Desolace
   });
 
   it('area targets: inside is a bullseye, outside measures to the edge', () => {

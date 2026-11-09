@@ -1,0 +1,13 @@
+{
+  "_comment": "Zone-map frames in world yards (left/right = y west edge/east edge, top/bottom = x north/south). WoW: Forever re-framed four zone maps; for every other zone the Era (Classic) frame and the live frame are the same. Era frames from Polestar's map-frames table (github.com/fitzforge/polestar, rust/tests/golden/data/expected/map-frames.json at the pinned commit). Live frames are not listed: they are our zone bounds, and build-data checks them against Polestar's ui_map table on every run.",
+  "era": {
+    "1412": { "name": "Mulgore", "left": 2047.917, "right": -3089.583, "top": -272.917, "bottom": -3697.917 },
+    "1423": { "name": "Eastern Plaguelands", "left": -2185.417, "right": -6056.25, "top": 3800, "bottom": 1218.75 },
+    "1433": { "name": "Redridge Mountains", "left": -1570.833, "right": -3741.667, "top": -8575, "bottom": -10022.916 },
+    "1453": { "name": "Stormwind City", "left": 1380.971, "right": 36.701, "top": -8278.851, "bottom": -9175.205 }
+  },
+  "imageryEra": {
+    "_comment": "Zones whose map imagery (the wowforever.gg terrain we draw) is laid out in the Era frame, stretched over the live zone bounds. Checked by eye: in Eastern Plaguelands the Light's Hope gryphon master, innkeeper and Lord Maxwell Tyrosus land on the chapel only through the Era frame (through the live frame they fall ~500 yd west, in the blight); in Mulgore, Redridge and Stormwind the innkeepers land on their inns through the live frame.",
+    "zones": [1423]
+  }
+}

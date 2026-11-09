@@ -376,8 +376,8 @@
   "zone": "Mulgore",
   "continent": "Kalimdor",
   "latlng": [
-   -97.636,
-   57.061
+   -97.638,
+   57.046
   ]
  },
  {
@@ -389,8 +389,8 @@
   "zone": "Azshara",
   "continent": "Kalimdor",
   "latlng": [
-   -72.334,
-   96.834
+   -72.335,
+   96.835
   ]
  },
  {
@@ -403,7 +403,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -91.824,
-   64.856
+   64.855
   ]
  },
  {
@@ -416,7 +416,7 @@
   "continent": "Eastern Kingdoms",
   "latlng": [
    -125.667,
-   246.334
+   246.332
   ]
  },
  {
@@ -428,7 +428,7 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -141.026,
+   -141.027,
    239.245
   ]
  },
@@ -442,7 +442,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -88.617,
-   74.782
+   74.781
   ]
  },
  {
@@ -467,8 +467,8 @@
   "zone": "Arathi Highlands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -62.4,
-   255.753
+   -62.401,
+   255.752
   ]
  },
  {
@@ -480,8 +480,8 @@
   "zone": "Redridge Mountains",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -126.371,
-   255.114
+   -126.372,
+   255.115
   ]
  },
  {
@@ -494,7 +494,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -80.769,
-   87.582
+   87.584
   ]
  },
  {
@@ -506,8 +506,8 @@
   "zone": "Elwynn Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -129.092,
-   231.342
+   -129.091,
+   231.344
   ]
  },
  {
@@ -519,8 +519,8 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -162.014,
-   233.028
+   -162.012,
+   233.027
   ]
  },
  {
@@ -532,8 +532,8 @@
   "zone": "Dun Morogh",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -104.815,
-   229.743
+   -104.814,
+   229.742
   ]
  },
  {
@@ -545,8 +545,8 @@
   "zone": "Elwynn Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -130.86,
-   227.344
+   -130.861,
+   227.342
   ]
  },
  {
@@ -558,7 +558,7 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -100.753,
+   -100.752,
    67.319
   ]
  },
@@ -571,7 +571,7 @@
   "zone": "Elwynn Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -131.674,
+   -131.675,
    226.997
   ]
  },
@@ -584,8 +584,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -96.795,
-   79.486
+   -96.796,
+   79.487
   ]
  },
  {
@@ -597,8 +597,8 @@
   "zone": "Redridge Mountains",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -121.271,
-   249.594
+   -121.209,
+   249.621
   ]
  },
  {
@@ -610,7 +610,7 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -151.118,
+   -151.119,
    233.631
   ]
  },
@@ -623,8 +623,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -93.608,
-   76.803
+   -93.609,
+   76.802
   ]
  },
  {
@@ -636,8 +636,8 @@
   "zone": "Blasted Lands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -147.809,
-   250.242
+   -147.758,
+   250.238
   ]
  },
  {
@@ -649,7 +649,7 @@
   "zone": "Teldrassil",
   "continent": "Kalimdor",
   "latlng": [
-   -16.046,
+   -16.047,
    42.985
   ]
  },
@@ -662,8 +662,8 @@
   "zone": "Dun Morogh",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -94.376,
-   247.41
+   -94.377,
+   247.409
   ]
  },
  {
@@ -675,8 +675,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -105.404,
-   69.819
+   -105.402,
+   69.82
   ]
  },
  {
@@ -689,7 +689,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -104.986,
-   56.055
+   56.054
   ]
  },
  {
@@ -701,8 +701,8 @@
   "zone": "Duskwood",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -133.917,
-   229.126
+   -133.918,
+   229.127
   ]
  },
  {
@@ -714,7 +714,7 @@
   "zone": "Duskwood",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -133.384,
+   -133.385,
    229.172
   ]
  },
@@ -727,8 +727,21 @@
   "zone": "Elwynn Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -129.547,
+   -129.549,
    238.99
+  ]
+ },
+ {
+  "id": "mob-morganth",
+  "name": "Morganth",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1433,
+  "zone": "Redridge Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -125.686,
+   256.825
   ]
  },
  {
@@ -740,8 +753,8 @@
   "zone": "Elwynn Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -123.888,
-   236.66
+   -123.886,
+   236.661
   ]
  },
  {
@@ -753,8 +766,21 @@
   "zone": "Alterac Mountains",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -52.345,
-   233.618
+   -52.344,
+   233.616
+  ]
+ },
+ {
+  "id": "mob-myzrael",
+  "name": "Myzrael",
+  "kind": "mob",
+  "faction": "neutral",
+  "zoneId": 1417,
+  "zone": "Arathi Highlands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -63.132,
+   255.407
   ]
  },
  {
@@ -766,8 +792,8 @@
   "zone": "Westfall",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -129.899,
-   225.065
+   -129.897,
+   225.066
   ]
  },
  {
@@ -792,8 +818,8 @@
   "zone": "Westfall",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -139.791,
-   217.058
+   -139.79,
+   217.06
   ]
  },
  {
@@ -805,8 +831,8 @@
   "zone": "Elwynn Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -129.304,
-   238.618
+   -129.305,
+   238.619
   ]
  },
  {
@@ -818,8 +844,8 @@
   "zone": "Durotar",
   "continent": "Kalimdor",
   "latlng": [
-   -96.106,
-   82.78
+   -96.113,
+   82.786
   ]
  },
  {
@@ -870,8 +896,8 @@
   "zone": "Silverpine Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -48.471,
-   226.824
+   -48.47,
+   226.825
   ]
  },
  {
@@ -883,8 +909,34 @@
   "zone": "Dun Morogh",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -96.418,
+   -96.417,
    241.615
+  ]
+ },
+ {
+  "id": "npc-arch-druid-hamuul-runetotem",
+  "name": "Arch Druid Hamuul Runetotem",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1456,
+  "zone": "Thunder Bluff",
+  "continent": "Kalimdor",
+  "latlng": [
+   -99.871,
+   54.284
+  ]
+ },
+ {
+  "id": "npc-archmage-ansirem-runeweaver",
+  "name": "Archmage Ansirem Runeweaver",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1416,
+  "zone": "Alterac Mountains",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -55.737,
+   230.076
   ]
  },
  {
@@ -897,7 +949,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -62.135,
-   87.702
+   87.704
   ]
  },
  {
@@ -910,7 +962,7 @@
   "continent": "Eastern Kingdoms",
   "latlng": [
    -164.292,
-   228.376
+   228.377
   ]
  },
  {
@@ -922,8 +974,8 @@
   "zone": "Thunder Bluff",
   "continent": "Kalimdor",
   "latlng": [
-   -101.072,
-   52.845
+   -101.065,
+   52.853
   ]
  },
  {
@@ -936,7 +988,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -145.76,
-   80.877
+   80.875
   ]
  },
  {
@@ -948,7 +1000,7 @@
   "zone": "Orgrimmar",
   "continent": "Kalimdor",
   "latlng": [
-   -77.707,
+   -77.705,
    83.211
   ]
  },
@@ -961,8 +1013,8 @@
   "zone": "Redridge Mountains",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -125.595,
-   249.013
+   -125.596,
+   249.014
   ]
  },
  {
@@ -974,8 +1026,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -98.265,
-   79.965
+   -98.266,
+   79.964
   ]
  },
  {
@@ -987,7 +1039,7 @@
   "zone": "Westfall",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -134.816,
+   -134.817,
    224.162
   ]
  },
@@ -1000,8 +1052,8 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -143.215,
-   232.41
+   -143.214,
+   232.409
   ]
  },
  {
@@ -1014,7 +1066,20 @@
   "continent": "Eastern Kingdoms",
   "latlng": [
    -119.3,
-   229.531
+   229.529
+  ]
+ },
+ {
+  "id": "npc-highlord-taelan-fordring",
+  "name": "Highlord Taelan Fordring",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1422,
+  "zone": "Western Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -33.931,
+   242.425
   ]
  },
  {
@@ -1026,8 +1091,8 @@
   "zone": "Moonglade",
   "continent": "Kalimdor",
   "latlng": [
-   -33.138,
-   68.623
+   -33.136,
+   68.624
   ]
  },
  {
@@ -1039,8 +1104,8 @@
   "zone": "Ironforge",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -92.493,
-   239.67
+   -92.495,
+   239.669
   ]
  },
  {
@@ -1052,7 +1117,7 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -164.4,
+   -164.401,
    228.242
   ]
  },
@@ -1065,8 +1130,8 @@
   "zone": "Dustwallow Marsh",
   "continent": "Kalimdor",
   "latlng": [
-   -120.123,
-   85.406
+   -120.121,
+   85.405
   ]
  },
  {
@@ -1079,7 +1144,7 @@
   "continent": "Eastern Kingdoms",
   "latlng": [
    -119.285,
-   229.516
+   229.517
   ]
  },
  {
@@ -1091,8 +1156,8 @@
   "zone": "Undercity",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -46.322,
-   229.628
+   -46.317,
+   229.624
   ]
  },
  {
@@ -1104,8 +1169,8 @@
   "zone": "Redridge Mountains",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -125.14,
-   248.663
+   -125.139,
+   248.665
   ]
  },
  {
@@ -1117,8 +1182,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -95.908,
-   71.81
+   -95.907,
+   71.811
   ]
  },
  {
@@ -1130,8 +1195,8 @@
   "zone": "Tanaris",
   "continent": "Kalimdor",
   "latlng": [
-   -145.95,
-   80.452
+   -145.951,
+   80.451
   ]
  },
  {
@@ -1143,8 +1208,21 @@
   "zone": "Elwynn Forest",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -126.992,
-   231.446
+   -126.991,
+   231.445
+  ]
+ },
+ {
+  "id": "npc-master-mathias-shaw",
+  "name": "Master Mathias Shaw",
+  "kind": "npc",
+  "faction": "alliance",
+  "zoneId": 1453,
+  "zone": "Stormwind City",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -122.112,
+   229.281
   ]
  },
  {
@@ -1161,6 +1239,19 @@
   ]
  },
  {
+  "id": "npc-nathanos-blightcaller",
+  "name": "Nathanos Blightcaller",
+  "kind": "npc",
+  "faction": "horde",
+  "zoneId": 1423,
+  "zone": "Eastern Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -44.38,
+   257.483
+  ]
+ },
+ {
   "id": "npc-old-man-heming",
   "name": "Old Man Heming",
   "kind": "npc",
@@ -1169,8 +1260,21 @@
   "zone": "Stranglethorn Vale",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -164.385,
+   -164.386,
    228.467
+  ]
+ },
+ {
+  "id": "npc-pamela-redpath",
+  "name": "Pamela Redpath",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1423,
+  "zone": "Eastern Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -47.836,
+   260.684
   ]
  },
  {
@@ -1182,7 +1286,7 @@
   "zone": "Burning Steppes",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -112.213,
+   -112.212,
    248.282
   ]
  },
@@ -1195,8 +1299,8 @@
   "zone": "Orgrimmar",
   "continent": "Kalimdor",
   "latlng": [
-   -77.599,
-   82.942
+   -77.6,
+   82.941
   ]
  },
  {
@@ -1208,8 +1312,21 @@
   "zone": "Burning Steppes",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -112.248,
-   248.332
+   -112.246,
+   248.331
+  ]
+ },
+ {
+  "id": "npc-tirion-fordring",
+  "name": "Tirion Fordring",
+  "kind": "npc",
+  "faction": "neutral",
+  "zoneId": 1423,
+  "zone": "Eastern Plaguelands",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -37.704,
+   251.356
   ]
  },
  {
@@ -1222,7 +1339,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -19.531,
-   33.066
+   33.059
   ]
  },
  {
@@ -1234,8 +1351,8 @@
   "zone": "Undercity",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -46.342,
-   229.498
+   -46.336,
+   229.499
   ]
  },
  {
@@ -1248,7 +1365,7 @@
   "continent": "Kalimdor",
   "latlng": [
    -77.495,
-   83.217
+   83.219
   ]
  },
  {
@@ -1621,8 +1738,8 @@
   "zone": "Redridge Mountains",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -126.72,
-   249.494
+   -125.27,
+   248.159
   ],
   "popular": true
  },
@@ -1728,8 +1845,8 @@
   "zone": "Riverglades",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -117.668,
-   275.36
+   -117.515,
+   274.697
   ]
  },
  {

@@ -4,17 +4,13 @@
     "anchor": {
       "npc": "Warden Thelwater"
     },
-    "why": "Stormwind was redrawn for Forever, so the Classic entrance coordinates land at the city's west edge. Warden Thelwater stands at the Stockade gate in the Forever database, beside the Forever meeting stone."
+    "why": "Forever re-framed the Stormwind City map, so the Classic entrance coordinates (Era frame) land at the city's west edge if read as live coordinates; converted to the live frame they come within ~30 yd. Warden Thelwater stands at the Stockade gate in the Forever database, beside the Forever meeting stone, so the gate itself is used."
   },
   "stormwind-harbor": {
     "anchor": {
       "transportStop": "Stormwind"
     },
     "why": "Both the Classic flight-point position and the NPC centre fall in the middle of the city; the Forever routing survey records the boat dock on the west-side piers."
-  },
-  "lights-hope-chapel": {
-    "keep": true,
-    "why": "Reviewed: the Atlas position (81, 59) is on the chapel in both the terrain and the in-game map this game draws. Live-Forever sources put it ~480 yd west only because the live EPL map is re-scaled – every EPL point (towers, Stratholme stone, Darrowshire, Tirion) shifts the same way – so they are not used here."
   },
   "steamwheedle-port": {
     "anchor": {

@@ -1,5 +1,5 @@
 {
-  "_comment": "Famous characters and quest targets added as puzzle places. 'npc' is the English name in the Forever database; 'name' overrides how the clue reads; 'kind' is npc (notable character) or mob (quest target). Positions come from the WoW: Forever database; entries that roam, sit inside instances, or fall in zones whose live map frame differs from ours are skipped by build-data.",
+  "_comment": "Famous characters and quest targets added as puzzle places. 'npc' is the English name in Polestar's forever-db (the lowest id with spawn points is used; 'id' picks another); 'name' overrides how the clue reads; 'kind' is npc (notable character) or mob (quest target); 'faction' overrides the faction badge; 'skip' leaves an entry out with a reason. Positions come from Polestar's world-yard spawns; entries that roam, sit inside instances or fall outside every zone outline are skipped by build-data.",
   "entries": [
     { "npc": "Thrall", "kind": "npc" },
     { "npc": "Cairne Bloodhoof", "kind": "npc" },
@@ -8,7 +8,7 @@
     { "npc": "Varimathras", "kind": "npc" },
     { "npc": "Eitrigg", "kind": "npc" },
     { "npc": "Mankrik", "kind": "npc" },
-    { "npc": "Rexxar", "kind": "npc" },
+    { "npc": "Rexxar", "kind": "npc", "skip": "patrols the length of Desolace's road; no single spot to guess" },
     { "npc": "King Magni Bronzebeard", "kind": "npc" },
     { "npc": "Highlord Bolvar Fordragon", "kind": "npc" },
     { "npc": "Lady Katrana Prestor", "kind": "npc" },
@@ -70,6 +70,15 @@
     { "npc": "Mug'thol", "kind": "mob" },
     { "npc": "Fozruk", "kind": "mob" },
     { "npc": "Azuregos", "kind": "mob" },
-    { "npc": "Lord Kazzak", "kind": "mob" }
+    { "npc": "Lord Kazzak", "kind": "mob" },
+    { "npc": "Tirion Fordring", "kind": "npc", "faction": "neutral" },
+    { "npc": "Nathanos Blightcaller", "kind": "npc", "faction": "horde" },
+    { "npc": "Pamela Redpath", "kind": "npc", "faction": "neutral" },
+    { "npc": "Highlord Taelan Fordring", "kind": "npc", "faction": "neutral" },
+    { "npc": "Master Mathias Shaw", "kind": "npc", "faction": "alliance" },
+    { "npc": "Arch Druid Hamuul Runetotem", "kind": "npc", "faction": "horde" },
+    { "npc": "Archmage Ansirem Runeweaver", "kind": "npc", "faction": "alliance" },
+    { "npc": "Myzrael", "kind": "mob" },
+    { "npc": "Morganth", "kind": "mob" }
   ]
 }

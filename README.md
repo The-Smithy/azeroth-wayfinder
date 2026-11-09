@@ -160,14 +160,24 @@ a fan-made interactive map of WoW: Forever.
   illustration, bakes the atlas' water masks into the tiles, and writes calibrated bounds to
   `public/map/manifest.json`. **These files are git-ignored and not redistributed here.** They
   are fetched at dev and build time.
-- `npm run build-data` reduces the atlas dataset to `server/data/places.json` (198 places:
+- `npm run build-data` reduces the atlas dataset to `server/data/places.json` (207 places:
   zones, capitals, towns, dungeons and raids, plus famous characters and quest targets from
-  `scripts/notable-npcs.json` positioned from the WoW: Forever database; popular town hubs are
-  listed in the script,
-  server-only) and `src/data/zones.json` (49 simplified zone outlines).
+  `scripts/notable-npcs.json`; popular town hubs are listed in the script; server-only) and
+  `src/data/zones.json` (49 simplified zone outlines). Every place is checked against several
+  independent sources, and `docs/locations.md` records the candidates and the one used.
+- Characters, quest targets and town centres are also drawn from **[Polestar's forever-db](https://github.com/fitzforge/polestar/tree/main/forever-db)**
+  (`scripts/polestar.mjs`, pinned to a commit and cached in `.cache/`). Its spawn points are
+  in world yards, so they don't depend on any zone-map frame. WoW: Forever re-framed four zone
+  maps (`scripts/zone-frames.json`), so Classic-era coordinates are converted to the live frame,
+  except in Eastern Plaguelands, whose map imagery is still drawn in the Era frame. The build
+  checks our zone bounds against Polestar's live frames on every run.
 - `src/data/lore.json` holds the original lore notes shown after each expedition.
 - `npm run make-og` re-renders `public/og-image.jpg` from `scripts/og/og.html` (needs Playwright).
 
+Location data from Polestar's forever-db is used under its licences: the database tables
+under GPL-3.0 and the curated layer under CC BY 4.0 (© the Polestar contributors; sources
+credited in [forever-db/NOTICE.md](https://github.com/fitzforge/polestar/blob/main/forever-db/NOTICE.md)).
+
 World of Warcraft, its maps and all related art are © Blizzard Entertainment. This is an
-unofficial fan project, not affiliated with Blizzard or wowforever.gg. Please check with the
+unofficial fan project, not affiliated with Blizzard, wowforever.gg or Polestar. Please check with the
 wowforever.gg operator that they're happy for their imagery to be used.
