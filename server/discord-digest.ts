@@ -4,7 +4,7 @@
 import type { Queryable } from './db';
 import { dayEndsAt, dayNumber, TIME_ZONE } from './daily';
 import { rankBoard } from './leaderboard';
-import { emojiFor, MAX_TOTAL } from '../src/game/scoring';
+import { emojiFor, MAX_TOTAL, pointsFor } from '../src/game/scoring';
 
 const GOLD = 0xe8c372;
 const MAX_LISTED = 25;
@@ -27,6 +27,13 @@ export function puzzleDateLabel(day: number) {
     weekday: 'long', month: 'long', day: 'numeric', timeZone: TIME_ZONE,
   });
 }
+
+/**
+ * Second line under each player, matching the share text: each round's accuracy emoji
+ * with the points it earned after its multiplier, e.g. "🎯 100 · 🟩 94 · 🟩 150 …".
+ */
+export const roundsLine = (scores: number[]) =>
+  `\u2003\u2003${scores.map((score, i) => `${emojiFor(score)} ${pointsFor(score, i)}`).join(' · ')}`;
 
 /** Mentions render as names for server members; allowed_mentions below stops them pinging. */
 const who = (discordId: string) => `<@${discordId}>`;
@@ -68,8 +75,7 @@ export async function buildDigest(q: Queryable, serverId: string, day: number, s
 
   const lines = board.map(r => {
     const place = MEDALS[r.rank - 1] ?? `**${r.rank}.**`;
-    const emojis = (r.scores ?? []).map(emojiFor).join('');
-    return `${place} ${who(r.discord_id)} — **${r.points.toLocaleString('en-US')}** ${emojis} · ${fmtTime(r.ms)}`;
+    return `${place} ${who(r.discord_id)} — **${r.points.toLocaleString('en-US')}** · ${fmtTime(r.ms)}\n${roundsLine(r.scores ?? [])}`;
   });
   if (finished > board.length) lines.push(`…and ${finished - board.length} more`);
 

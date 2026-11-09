@@ -321,6 +321,8 @@ describe('daily Discord post', () => {
     expect(embed.description).toContain('**2** adventurers from **Frostwolf Clan**');
     expect(embed.description.indexOf(`<@${jaina}>`)).toBeLessThan(embed.description.indexOf(`<@${thrall}>`)); // tie → faster wins
     expect(embed.description).toContain('🥇');
+    // Round breakdown under each player: accuracy emoji + points after the multiplier.
+    expect(embed.description).toContain('🟩 90 · 🟩 90 · 🟩 180 · 🟩 270 · 🟩 270');
     expect(embed.description).not.toContain(outsider);
     expect(embed.description).not.toContain(banned);
     expect(embed.fields.find(f => f.name.includes('didn\'t finish'))?.value).toContain(rexxar);
