@@ -33,6 +33,35 @@ Wayfinder · Nov 7, 2026 📍 857/1,000
   native share or clipboard, Open Graph/Twitter cards, procedural sound, confetti, keyboard
   play, a responsive mobile layout and `prefers-reduced-motion` support.
 
+## Built on two community projects
+
+Wayfinder wouldn't exist without these two fan projects for WoW: Forever. Go and use them.
+
+### wowforever.gg Azeroth Atlas
+
+**Website:** [wowforever.gg/en/atlas](https://wowforever.gg/en/atlas/)
+
+A fan-made interactive world map of WoW: Forever. Wayfinder draws its map from the Atlas:
+the parchment overview, the full terrain tiles, the ocean art and the zone outlines. The
+Atlas's place records (zones, capitals, towns, dungeon and raid entrances) are the starting
+list of every puzzle location, alongside its copy of the QuestieDB Forever database and its
+survey of flight paths, boats and zeppelins. Its imagery is downloaded at build time and is
+not redistributed in this repository (see [Where the map comes from](#where-the-map-comes-from)).
+
+### Polestar
+
+**Website:** [polestar.guide](https://polestar.guide) · **Repository:** [github.com/fitzforge/polestar](https://github.com/fitzforge/polestar)
+
+A free, open-source guide addon for WoW: Forever, with step-by-step leveling routes, a
+waypoint arrow, and guides for class quests, professions, reputations and mounts. Its open
+database, [forever-db](https://github.com/fitzforge/polestar/tree/main/forever-db), records
+every NPC's spawn points in world yards along with each zone's map frames. Wayfinder uses it
+to place famous characters and quest targets, to find town centres, and to cross-check
+dungeon entrances. Its frame data is what fixed Eastern Plaguelands and Stormwind, where
+WoW: Forever redrew the zone maps. Polestar's database tables are GPL-3.0 and its curated
+layer is CC BY 4.0; its own sources are credited in
+[forever-db/NOTICE.md](https://github.com/fitzforge/polestar/blob/main/forever-db/NOTICE.md).
+
 ## Architecture
 
 Everything runs on Netlify.
