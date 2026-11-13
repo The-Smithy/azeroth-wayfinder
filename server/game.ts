@@ -4,6 +4,7 @@ import type { Place, Zone } from '../src/types';
 import type { Answer, Clue, DailyState, GuessResponse, PlayedRound, RankInfo, RoundOutcome } from '../src/api-types';
 import { measure, multiplierFor, pointsFor, ROUNDS, scoreFor } from '../src/game/scoring';
 import { dailyPlaces, dayEndsAt, dayNumber, practicePlaces } from './daily';
+import { loadOverrides, recentPlaces } from './difficulty';
 import { env, isLocalDev } from './env';
 import { HttpError } from './http';
 import type { Queryable } from './db';
@@ -36,7 +37,10 @@ export async function puzzleFor(q: Queryable, day: number): Promise<Place[]> {
     (await q.query<{ place_ids: string[] }>(`SELECT place_ids FROM puzzles WHERE day = $1`, [day])).rows[0]?.place_ids;
   let ids = await read();
   if (!ids) {
-    const picked = dailyPlaces(places, day, puzzleSecret()).map(p => p.id);
+    // Tiers tuned from players' results, and no repeats of the last couple of weeks.
+    const overrides = await loadOverrides(q);
+    const recent = await recentPlaces(q, day);
+    const picked = dailyPlaces(places, day, puzzleSecret(), { overrides, recent }).map(p => p.id);
     await q.query(`INSERT INTO puzzles (day, place_ids) VALUES ($1, $2) ON CONFLICT (day) DO NOTHING`, [day, picked]);
     ids = (await read())!;
   }
@@ -217,7 +221,7 @@ export async function rankOf(q: Queryable, player: Player, day: number): Promise
 /** Practice clues: random places, never today's. `ref` is sent back with the guess. */
 export async function practiceClues(q: Queryable): Promise<Clue[]> {
   const today = new Set((await puzzleFor(q, dayNumber())).map(p => p.id));
-  return practicePlaces(places, today).map((p, i) => ({ ...clueFor(p, i), ref: p.id }));
+  return practicePlaces(places, today, Math.random, await loadOverrides(q)).map((p, i) => ({ ...clueFor(p, i), ref: p.id }));
 }
 
 async function practicePlace(q: Queryable, ref: unknown): Promise<Place> {

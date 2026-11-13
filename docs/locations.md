@@ -35,32 +35,33 @@ Zones and capitals with an outline are scored against the outline, so their poin
 | Wailing Caverns | dungeon | The Barrens | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances)<br>Polestar entrance (11 yd from the position used) |  |
 | Zul'Farrak | dungeon | Tanaris | atlas (classic-instance-entrances) | – | atlas (classic-instance-entrances)<br>Polestar entrance (5 yd from the position used) |  |
 | Gurubashi Arena | landmark | Stranglethorn Vale | atlas (local-maps) | – | atlas (local-maps) |  |
-| Arra'chea | mob | Mulgore | Polestar forever-db | – | Polestar forever-db: npc 3058 (2 spawns)<br>Atlas / QuestieDB Forever (2 yd away) |  |
-| Azuregos | mob | Azshara | Polestar forever-db | – | Polestar forever-db: npc 6109 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Arra'chea | mob | Mulgore | Polestar forever-db | – | Polestar forever-db: npc 3058 (2 spawns)<br>Atlas patrol route (36 points; pinned mid-route, 316 yd from the spawn, walks up to 361 yd away)<br>Atlas / QuestieDB Forever (2 yd away) |  |
+| Azuregos | mob | Azshara | Polestar forever-db | – | Polestar forever-db: npc 6109 (1 spawn)<br>Atlas patrol route (40 points; pinned mid-route, 166 yd from the spawn, walks up to 283 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Barak Kodobane | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 3394 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Bellygrub | mob | Redridge Mountains | Polestar forever-db | – | Polestar forever-db: npc 345 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Colonel Kurzen | mob | Stranglethorn Vale | Polestar forever-db | – | Polestar forever-db: npc 813 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Echeyakee | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 3475 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Fedfennel | mob | Elwynn Forest | Polestar forever-db | – | Polestar forever-db: npc 472 (4 spawns)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Fozruk | mob | Arathi Highlands | Polestar forever-db | – | Polestar forever-db: npc 2611 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Fozruk | mob | – | skipped | – |  | patrols too far (998 yd from the middle of its route) |
+| Fozruk | mob | Arathi Highlands | retired | – |  | No longer produced by the sources above; kept for puzzles already played, never dealt again. |
 | Gath'Ilzogg | mob | Redridge Mountains | Polestar forever-db | – | Polestar forever-db: npc 334 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Gazz'uz | mob | Durotar | Polestar forever-db | – | Polestar forever-db: npc 3204 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Goldtooth | mob | Elwynn Forest | Polestar forever-db | – | Polestar forever-db: npc 327 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Gorlash | mob | Stranglethorn Vale | Polestar forever-db | – | Polestar forever-db: npc 1492 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Grik'nir the Cold | mob | Dun Morogh | Polestar forever-db | – | Polestar forever-db: npc 808 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Gruff Swiftbite | mob | Elwynn Forest | Polestar forever-db | – | Polestar forever-db: npc 100 (5 spawns)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Hezrul Bloodmark | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 3396 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Hezrul Bloodmark | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 3396 (1 spawn)<br>Atlas patrol route (16 points; pinned mid-route, 187 yd from the spawn, walks up to 231 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Hogger | mob | Elwynn Forest | Polestar forever-db | – | Polestar forever-db: npc 448 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Humar the Pridelord | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 5828 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Kazon | mob | Redridge Mountains | Polestar forever-db | – | Polestar forever-db: npc 584 (5 spawns)<br>Atlas / QuestieDB Forever (9 yd away) |  |
 | King Bangalash | mob | Stranglethorn Vale | Polestar forever-db | – | Polestar forever-db: npc 731 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Kreenig Snarlsnout | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 3438 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Lord Kazzak | mob | Blasted Lands | Polestar forever-db | – | Polestar forever-db: npc 12397 (2 spawns)<br>Atlas / QuestieDB Forever (7 yd away) |  |
+| Lord Kazzak | mob | Blasted Lands | Polestar forever-db | – | Polestar forever-db: npc 12397 (2 spawns)<br>Atlas patrol route (16 points; pinned mid-route, 83 yd from the spawn, walks up to 94 yd away)<br>Atlas / QuestieDB Forever (7 yd away) |  |
 | Lord Melenas | mob | Teldrassil | Polestar forever-db | – | Polestar forever-db: npc 2038 (3 spawns)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Mangeclaw | mob | Dun Morogh | Polestar forever-db | – | Polestar forever-db: npc 1961 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Mankrik's Wife | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 10668 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Mazzranache | mob | Mulgore | Polestar forever-db | – | Polestar forever-db: npc 3068 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Mor'Ladim | mob | Duskwood | Polestar forever-db | – | Polestar forever-db: npc 522 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Mazzranache | mob | Mulgore | Polestar forever-db | – | Polestar forever-db: npc 3068 (1 spawn)<br>Atlas patrol route (33 points; pinned mid-route, 164 yd from the spawn, walks up to 333 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Mor'Ladim | mob | Duskwood | Polestar forever-db | – | Polestar forever-db: npc 522 (1 spawn)<br>Atlas patrol route (25 points; pinned mid-route, 24 yd from the spawn, walks up to 89 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Morbent Fel | mob | Duskwood | Polestar forever-db | – | Polestar forever-db: npc 1200 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Morgan the Collector | mob | Elwynn Forest | Polestar forever-db | – | Polestar forever-db: npc 473 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Morganth | mob | Redridge Mountains | Polestar forever-db | – | Polestar forever-db: npc 397 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
@@ -68,18 +69,18 @@ Zones and capitals with an outline are scored against the outline, so their poin
 | Mug'thol | mob | Alterac Mountains | Polestar forever-db | – | Polestar forever-db: npc 2257 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Myzrael | mob | Arathi Highlands | Polestar forever-db | – | Polestar forever-db: npc 2755 (1 spawn)<br>not in the Atlas copy of QuestieDB |  |
 | Old Blanchy | mob | Westfall | Polestar forever-db | – | Polestar forever-db: npc 582 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Old Icebeard | mob | Dun Morogh | Polestar forever-db | – | Polestar forever-db: npc 1271 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Old Murk-Eye | mob | Westfall | Polestar forever-db | – | Polestar forever-db: npc 391 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Princess the Pig | mob | Elwynn Forest | Polestar forever-db | – | Polestar forever-db: npc 330 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Old Icebeard | mob | Dun Morogh | Polestar forever-db | – | Polestar forever-db: npc 1271 (1 spawn)<br>Atlas patrol route (8 points; pinned mid-route, 81 yd from the spawn, walks up to 81 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Old Murk-Eye | mob | Westfall | Polestar forever-db | – | Polestar forever-db: npc 391 (1 spawn)<br>Atlas patrol route (50 points; pinned mid-route, 0 yd from the spawn, walks up to 304 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Princess the Pig | mob | Elwynn Forest | Polestar forever-db | – | Polestar forever-db: npc 330 (1 spawn)<br>Atlas patrol route (8 points; pinned mid-route, 0 yd from the spawn, walks up to 27 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Sarkoth | mob | Durotar | Polestar forever-db | – | Polestar forever-db: npc 3281 (2 spawns)<br>Atlas / QuestieDB Forever (1 yd away) |  |
-| Snort the Heckler | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 5829 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Snort the Heckler | mob | The Barrens | Polestar forever-db | – | Polestar forever-db: npc 5829 (1 spawn)<br>Atlas patrol route (16 points; pinned mid-route, 83 yd from the spawn, walks up to 254 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Stitches | mob | Duskwood | Polestar forever-db | – | Polestar forever-db: npc 412 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| The Rake | mob | Mulgore | Polestar forever-db | – | Polestar forever-db: npc 5807 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| The Rake | mob | Mulgore | Polestar forever-db | – | Polestar forever-db: npc 5807 (1 spawn)<br>Atlas patrol route (24 points; pinned mid-route, 104 yd from the spawn, walks up to 148 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Thule Ravenclaw | mob | Silverpine Forest | Polestar forever-db | – | Polestar forever-db: npc 1947 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
-| Vagash | mob | Dun Morogh | Polestar forever-db | – | Polestar forever-db: npc 1388 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Vagash | mob | Dun Morogh | Polestar forever-db | – | Polestar forever-db: npc 1388 (1 spawn)<br>Atlas patrol route (9 points; pinned mid-route, 50 yd from the spawn, walks up to 52 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Arch Druid Hamuul Runetotem | npc | Thunder Bluff | Polestar forever-db | – | Polestar forever-db: npc 5769 (2 spawns)<br>Atlas / QuestieDB Forever (1 yd away) |  |
 | Archmage Ansirem Runeweaver | npc | Alterac Mountains | Polestar forever-db | – | Polestar forever-db: npc 2543 (2 spawns)<br>Atlas / QuestieDB Forever (1 yd away) |  |
-| Archmage Xylem | npc | Azshara | Polestar forever-db | – | Polestar forever-db: npc 8379 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
+| Archmage Xylem | npc | Azshara | Polestar forever-db | – | Polestar forever-db: npc 8379 (1 spawn)<br>Atlas patrol route (8 points; pinned mid-route, 20 yd from the spawn, walks up to 20 yd away)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Baron Revilgaz | npc | Stranglethorn Vale | Polestar forever-db | – | Polestar forever-db: npc 2496 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |
 | Cairne Bloodhoof | npc | Thunder Bluff | Polestar forever-db | – | Polestar forever-db: npc 3057 (2 spawns)<br>Atlas / QuestieDB Forever (1 yd away) |  |
 | Dirge Quikcleave | npc | Tanaris | Polestar forever-db | – | Polestar forever-db: npc 8125 (1 spawn)<br>Atlas / QuestieDB Forever (0 yd away) |  |

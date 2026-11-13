@@ -108,6 +108,21 @@ kbd {
 .pin--guess.is-dropping svg { animation: pin-drop 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.25); }
 .pin--guess.is-dropping .pin__shadow { animation: pin-shadow 0.55s ease-out; }
 .pin--guess:not(.is-locked) { cursor: grab; }
+/* Touch: a finger-sized grab area around the pin, and a lift while it is being aimed. */
+@media (pointer: coarse) {
+  .pin--guess:not(.is-locked)::after { content: ''; position: absolute; inset: -16px -14px -6px; }
+}
+.pin--guess.is-aiming svg { transform: translateY(-4px) scale(1.08); transition: transform 0.12s; }
+
+/* Magnifier shown above the finger while the pin is dragged on touch screens. */
+.loupe { position: absolute; left: 0; top: 0; z-index: 1200; width: var(--loupe-size); height: var(--loupe-size); border-radius: 50%; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 0.12s; border: 3px solid var(--gold-2); box-shadow: 0 0 0 2px rgba(20, 12, 4, 0.9), 0 10px 26px rgba(0, 0, 0, 0.6); background: #0b1d2a; }
+.loupe.is-on { opacity: 1; }
+.loupe__map { position: absolute; inset: 0; z-index: 0; }
+.loupe__map.leaflet-container { background: #0b1d2a; }
+.loupe__cross { position: absolute; z-index: 1; left: 50%; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; pointer-events: none; }
+.loupe__cross::before, .loupe__cross::after { content: ''; position: absolute; background: #fff3c4; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.7); }
+.loupe__cross::before { left: 10px; top: 0; width: 2px; height: 22px; }
+.loupe__cross::after { top: 10px; left: 0; height: 2px; width: 22px; }
 .pin--guess.is-locked svg { filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.55)) saturate(0.85); }
 @keyframes pin-drop { 0% { transform: translateY(-32px) scale(0.9); opacity: 0; } 60% { transform: translateY(0) scaleY(0.86); opacity: 1; } 80% { transform: translateY(-4px) scaleY(1.04); } 100% { transform: none; } }
 @keyframes pin-shadow { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.1); opacity: 1; } }
@@ -278,7 +293,7 @@ kbd {
 .card__actions .btn--primary { min-width: 230px; }
 .card__actions [hidden] { display: none; }
 
-.card__result { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 6px 0 14px; }
+.card__result { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin: 6px 0 14px; }
 .card__result[hidden] { display: none; }
 .result__score { font: 800 46px/1 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .result__score small { font-size: 16px; margin-left: 4px; }
@@ -287,6 +302,9 @@ kbd {
 .result__where { margin: 2px 0 0; color: var(--text-dim); font-size: 17px; }
 .result__mult { margin: 1px 0 0; font: 600 13px var(--font-display); letter-spacing: 0.06em; color: var(--gold-2); }
 .result__where em { color: #9fd0ff; }
+/* Near-miss explanation: a full-width line under the score that teaches the map. */
+.result__near { flex: 1 0 100%; margin: -8px 0 0; padding-top: 8px; border-top: 1px solid rgba(217, 164, 65, 0.18); color: var(--text); font-size: 16px; font-style: italic; line-height: 1.35; text-align: center; }
+.result__near[hidden] { display: none; }
 
 /* --------------------------------------------------------------- modal -- */
 .modal { padding: 0; border: 0; background: transparent; color: var(--text); max-width: min(560px, calc(100% - 24px)); width: 100%; max-height: calc(100% - 40px); overflow: visible; }
@@ -400,6 +418,7 @@ kbd {
   .result__score small { font-size: 13px; }
   .result__distance { font-size: 16px; }
   .result__where { font-size: 15px; }
+  .result__near { font-size: 14px; }
   .results__actions .btn { padding: 10px 8px; font-size: 12px; letter-spacing: 0.04em; }
   .card__result { gap: 12px; }
   .modal__frame { padding: 24px 16px 18px; }

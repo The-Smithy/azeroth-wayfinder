@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import locations from '../server/data/places.json';
 import zonesJson from '../src/data/zones.json';
-import { dailyPlaces, dayEndsAt, dayNumber, DAY_PLAN, practicePlaces, tierPool, TIERS } from '../server/daily';
+import { dailyPlaces, dayEndsAt, dayNumber, DAY_PLAN, practicePlaces, REPEAT_WINDOW_DAYS, tierPool, TIERS } from '../server/daily';
+import { MIN_PLAYS, MIN_POOL_DAYS, type PlaceStat, retune } from '../server/difficulty';
 import { distanceToZone, pointInZone, zoneAt, zoneCoords } from '../src/game/geo';
 import { emojiFor, MAX_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
 import type { Place, Zone } from '../src/types';
 import { shareText } from '../src/ui/share';
+import { direction, nearMiss } from '../src/game/nearmiss';
+import type { RoundOutcome } from '../src/api-types';
 
 const places = locations as Place[];
 const zones = zonesJson as unknown as Record<string, Zone>;
@@ -160,5 +163,103 @@ describe('share text', () => {
     expect(text).toBe('Wayfinder · Nov 7, 2026 📍 857/1,000\n🎯 100 · 🟩 94 · 🟩 150 · 🟨 213 · 🎯 300\nazeroth-wayfinder.netlify.app');
     expect(text).not.toMatch(/https?:/);
     for (const p of places) expect(text).not.toContain(p.name);
+  });
+});
+
+describe('near-miss feedback', () => {
+  const byId = (id: string) => places.find(p => p.id === id)!;
+  /** Build the outcome the server would send for a pin at `guess`. */
+  const outcomeFor = (id: string, guess: [number, number]): RoundOutcome => {
+    const place = byId(id);
+    const { yards, anchor } = measure(guess, place, zones);
+    return {
+      round: 0, guess, yards, score: scoreFor(yards), points: 0, hint: false, ms: null,
+      answer: { latlng: place.latlng, anchor, zone: place.zone, continent: place.continent, ...(place.area ? { area: place.area } : {}) },
+    };
+  };
+  const centreOf = (id: string): [number, number] => byId(id).latlng as [number, number];
+
+  it('gives compass directions with north up', () => {
+    expect(direction([0, 0], [1, 0])).toBe('north');
+    expect(direction([0, 0], [0, 1])).toBe('east');
+    expect(direction([0, 0], [-1, -1])).toBe('south-west');
+  });
+
+  it('says nothing for a bullseye', () => {
+    expect(nearMiss(outcomeFor('mob-hogger', centreOf('mob-hogger')), 'Hogger', zones)).toBeNull();
+  });
+
+  it('names the zone the pin landed in and the way to the answer', () => {
+    // Hogger is in Elwynn Forest; a pin on Sentinel Hill is in Westfall, to his west.
+    const text = nearMiss(outcomeFor('mob-hogger', centreOf('sentinel-hill')), 'Hogger', zones)!;
+    expect(text).toMatch(/^Your pin was in Westfall; it's in Elwynn Forest, [\d,.k]+ yards (east|north-east|south-east)\.$/);
+  });
+
+  it('praises the right zone, and the very close miss', () => {
+    const hogger = centreOf('mob-hogger');
+    expect(nearMiss(outcomeFor('mob-hogger', [hogger[0] + 2, hogger[1]]), 'Hogger', zones)).toMatch(/^Right zone! It's [\d,]+ yards south of your pin\.$/);
+    expect(nearMiss(outcomeFor('mob-hogger', [hogger[0], hogger[1] + 0.8]), 'Hogger', zones)).toMatch(/^So close: just 10\d yards west\.$/);
+  });
+
+  it('points to where a zone begins, and flags the wrong continent', () => {
+    const durotar = byId('durotar');
+    const fromBarrens = nearMiss(outcomeFor('durotar', centreOf('crossroads')), durotar.name, zones)!;
+    expect(fromBarrens).toMatch(/^Your pin was in The Barrens; Durotar begins [\d,.k]+ yards (east|north-east)\.$/);
+    expect(nearMiss(outcomeFor('mob-hogger', centreOf('crossroads')), 'Hogger', zones))
+      .toBe('Your pin was in The Barrens, on Kalimdor. It\'s in Elwynn Forest, in the Eastern Kingdoms.');
+    expect(nearMiss(outcomeFor('mob-hogger', [-150, 200]), 'Hogger', zones)).toMatch(/^Your pin was out at sea; it's in Elwynn Forest/);
+  });
+});
+
+describe('difficulty tuning', () => {
+  const live = places.filter(p => !p.retired);
+  const hubTowns = tierPool(places, 'hub');
+  const outpostTown = tierPool(places, 'outpost').find(p => p.kind === 'town')!;
+  const legend = tierPool(places, 'legend');
+  const stat = (p: Place, median: number, plays = 40): PlaceStat => ({ place_id: p.id, plays, median_score: median });
+
+  it('moves towns between ×1 and ×2, characters between ×2 and ×3', () => {
+    const { moves, overrides } = retune(places, [stat(hubTowns[0], 20), stat(outpostTown, 92), stat(legend[0], 96)], new Map());
+    expect(moves.map(m => [m.id, m.from, m.to])).toEqual(expect.arrayContaining([
+      [hubTowns[0].id, 'hub', 'outpost'], [outpostTown.id, 'outpost', 'hub'], [legend[0].id, 'legend', 'outpost'],
+    ]));
+    expect(overrides.get(legend[0].id)).toBe('outpost');
+    // The new tiers feed the generator: the ×2 pool now holds the easy character.
+    expect(tierPool(places, 'outpost', overrides).some(p => p.id === legend[0].id)).toBe(true);
+    expect(tierPool(places, 'legend', overrides).some(p => p.id === legend[0].id)).toBe(false);
+  });
+
+  it('never moves zones, capitals or dungeons, and ignores places with too few plays', () => {
+    const zone = live.find(p => p.kind === 'zone')!, dungeon = live.find(p => p.kind === 'dungeon')!;
+    const { moves } = retune(places, [stat(zone, 5), stat(dungeon, 99), stat(legend[1], 99, MIN_PLAYS - 1)], new Map());
+    expect(moves).toEqual([]);
+  });
+
+  it('uses a gap between the thresholds so places do not flip back and forth', () => {
+    const moved = new Map([[legend[0].id, 'outpost' as const]]);
+    // Mid-range results keep the place where it is …
+    expect(retune(places, [stat(legend[0], 75)], moved).overrides.get(legend[0].id)).toBe('outpost');
+    // … only a clearly hard result sends it back to ×3.
+    expect(retune(places, [stat(legend[0], 50)], moved).overrides.has(legend[0].id)).toBe(false);
+    // A moved place keeps its tier in weeks without new results.
+    expect(retune(places, [], moved).overrides.get(legend[0].id)).toBe('outpost');
+  });
+
+  it('keeps every round with at least three weeks of places, hardest cases first', () => {
+    const floor = MIN_POOL_DAYS * DAY_PLAN.filter(t => t === 'hub').length;
+    const { moves, held } = retune(places, hubTowns.map((p, i) => stat(p, 10 + i)), new Map());
+    expect(moves.length).toBe(Math.max(0, hubTowns.length - floor));
+    expect(held.length).toBe(hubTowns.length - moves.length);
+    expect(moves[0]?.median).toBe(10); // the most clearly misplaced town moves first
+  });
+
+  it('does not repeat a place within two weeks, even across reshuffles', () => {
+    const history: string[][] = [];
+    for (let day = 1; day <= 120; day++) {
+      const recent = new Set(history.slice(-REPEAT_WINDOW_DAYS).flat());
+      const picks = dailyPlaces(places, day, 'secret', { recent }).map(p => p.id);
+      for (const id of picks) expect(recent.has(id), `day ${day}: ${id}`).toBe(false);
+      history.push(picks);
+    }
   });
 });

@@ -410,11 +410,13 @@ for (const r of atlas.records) {
 // ------------------------------------------------- characters & quest targets --
 // Famous NPCs and named mobs (scripts/notable-npcs.json), positioned from Polestar's
 // forever-db spawn points (world yards, so no zone-frame guesswork), and cross-checked
-// against the Atlas' copy of the QuestieDB Forever positions. Skipped: anything that roams
-// (spawns spread out), has no outdoor position (inside an instance) or falls outside every
-// zone outline.
+// against the Atlas' copy of the QuestieDB Forever positions. Patrolling NPCs are pinned
+// mid-route. Skipped: anything that roams (spawns spread out, or a long patrol), has no
+// outdoor position (inside an instance) or falls outside every zone outline.
 const notable = await readJson('scripts/notable-npcs.json');
 const MAX_SPREAD_YARDS = 250;
+/** A patrolling NPC whose route strays further than this from its middle is too vague to guess. */
+const PATROL_MAX_YARDS = 400;
 /** Polestar and the Atlas copy of QuestieDB should agree; further apart than this is flagged. */
 const NPC_WARN_YARDS = 60;
 const npcRecords = new Map();
@@ -433,16 +435,30 @@ for (const entry of notable.entries) {
   if (!pts.length) { skip('no outdoor position (inside an instance or off the map)'); continue; }
   const zoneId = pts[0].zoneId;
   if (pts.some(p => p.zoneId !== zoneId)) { skip('appears in several zones'); continue; }
-  const latlng = medianPoint(pts.map(p => p.latlng));
-  const spread = Math.max(...pts.map(p => yardsBetween(p.latlng, latlng)));
+  const spawnAt = medianPoint(pts.map(p => p.latlng));
+  const spread = Math.max(...pts.map(p => yardsBetween(p.latlng, spawnAt)));
   if (spread > MAX_SPREAD_YARDS) { skip(`roams (spawns spread over ${Math.round(spread)} yd)`); continue; }
   const zone = zones[zoneId];
 
   const candidates = [`Polestar forever-db: npc ${ps.id} (${pts.length} spawn${pts.length > 1 ? 's' : ''})`];
   let note = '';
+  // A patrolling NPC is pinned at the middle of its walk, not where it happens to spawn, so
+  // a pin anywhere on its route scores fairly. Walks that stray too far are left out.
+  let latlng = spawnAt;
+  const route = (r?.patrolRoutes || []).flatMap(rt => rt.points)
+    .filter(pt => pt.zoneId === zoneId && Array.isArray(pt.coords)).map(pt => toLatLng(pt, 'live'));
+  if (route.length) {
+    const walk = [spawnAt, ...route];
+    const box = [(Math.min(...walk.map(p => p[0])) + Math.max(...walk.map(p => p[0]))) / 2, (Math.min(...walk.map(p => p[1])) + Math.max(...walk.map(p => p[1]))) / 2];
+    const mid = walk.reduce((a, b) => (yardsBetween(b, box) < yardsBetween(a, box) ? b : a));
+    const reach = Math.max(...walk.map(p => yardsBetween(p, mid)));
+    if (reach > PATROL_MAX_YARDS) { skip(`patrols too far (${Math.round(reach)} yd from the middle of its route)`); continue; }
+    latlng = mid;
+    candidates.push(`Atlas patrol route (${route.length} points; pinned mid-route, ${Math.round(yardsBetween(mid, spawnAt))} yd from the spawn, walks up to ${Math.round(reach)} yd away)`);
+  }
   const atlasPts = (r?.positions || []).filter(p => isForeverDb(r, p) && p.zoneId === zoneId).map(p => toLatLng(p)).filter(Boolean);
   if (atlasPts.length) {
-    const d = Math.round(yardsBetween(medianPoint(atlasPts), latlng));
+    const d = Math.round(yardsBetween(medianPoint(atlasPts), spawnAt));
     candidates.push(`Atlas / QuestieDB Forever (${d} yd away)`);
     if (d > NPC_WARN_YARDS) {
       note = `⚠ Polestar and QuestieDB disagree by ${d} yd – needs review`;
@@ -462,6 +478,15 @@ for (const entry of notable.entries) {
     continent: zone.continent,
     latlng,
   });
+}
+// A place that drops out of the data is retired, not deleted: puzzles already frozen in the
+// database may name it, so it must stay resolvable, but it is never dealt again.
+const previous = await readJson('server/data/places.json').catch(() => []);
+const current = new Set(locations.map(l => l.id));
+for (const old of previous) {
+  if (current.has(old.id)) continue;
+  locations.push({ ...old, retired: true });
+  report.push({ name: old.name, kind: old.kind, zone: old.zone, chosen: 'retired', moved: 0, candidates: [], note: 'No longer produced by the sources above; kept for puzzles already played, never dealt again.', area: !!old.area });
 }
 locations.sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));
 report.sort((a, b) => a.kind.localeCompare(b.kind) || a.name.localeCompare(b.name));

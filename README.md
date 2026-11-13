@@ -28,7 +28,14 @@ Wayfinder · Nov 7, 2026 📍 857/1,000
   faster total time. Players can hide from the global board and still show on their
   servers' boards.
 - **Discord sign-in:** guests can play straight away; signing in carries today's game over.
-- **From the Archives:** after the fifth pin, a short lore note about one of the day's places.
+- **Learn the map as you go:** every miss explains itself, e.g. *"Your pin was in Duskwood;
+  it's in Elwynn Forest, 1,240 yards north."*
+- **Precise on phones:** while you drag the pin, a magnifier above your finger shows the terrain
+  under the pin's tip, with a crosshair; then *Lock in pin*.
+- **Difficulty tuned by players:** each week, places that play clearly easier or harder than
+  their round move to a neighbouring round (see below).
+- **From the Archives:** after the fifth pin, a short lore note about one of the day's places
+  (every place has one).
 - **Practice mode**, stats and streaks, a hint (reveals the continent for 75% of the round),
   native share or clipboard, Open Graph/Twitter cards, procedural sound, confetti, keyboard
   play, a responsive mobile layout and `prefers-reduced-motion` support.
@@ -72,6 +79,7 @@ Everything runs on Netlify.
 | Game API: deal / hint / guess, practice, leaderboards, stats, profile | `netlify/functions/api.mts` → `server/` |
 | Discord OAuth sign-in and sign-out | `netlify/functions/auth.mts` → `server/discord.ts` |
 | Nightly cleanup of expired sessions and idle guests (04:23 UTC) | `netlify/functions/cleanup.mts` |
+| Weekly difficulty tuning (Mondays 06:41 UTC) | `netlify/functions/difficulty.mts` → `server/difficulty.ts` |
 | Postgres via **Netlify Database** | `netlify/database/migrations/` (applied automatically on deploy) |
 
 - **Puzzles:** a new puzzle unlocks every day at midnight US Eastern time (EST/EDT; day 1 =
@@ -79,7 +87,19 @@ Everything runs on Netlify.
   popular town hub, ×2 lesser-known town / landmark / dungeon / raid, ×3 and ×3 famous
   character or quest target. The five places are drawn from shuffled "bags" seeded by the server-only
   `PUZZLE_SECRET`, then frozen in the `puzzles` table the first time a day is requested.
-  Answers live in `server/data/places.json` and are never bundled into the client.
+  Nothing dealt in the previous 14 days is dealt again. Answers live in
+  `server/data/places.json` and are never bundled into the client.
+- **Difficulty tuning:** every Monday, `difficulty.mts` takes each place's median hint-free
+  accuracy from ranked guesses (at least 25 plays, banned players excluded) and stores it in
+  `place_difficulty`. Places that play out of step with their round move one round:
+  - a popular town under 45 drops to the ×2 round; a lesser town at 80 or more rises to ×1;
+  - a character or quest target at 85 or more drops to ×2, and goes back to ×3 under 65.
+
+  Zones, capitals, dungeons and raids never move. The gap between the thresholds stops places
+  flip-flopping, and no round's pool may shrink below three weeks of puzzles. Only puzzles not
+  generated yet are affected. To see the results, query `place_difficulty`, or read the
+  function's log (*Logs & metrics → Functions → difficulty*), which lists every move. It can
+  also be run by hand with *Run now*.
 - **Sessions:** a random token in an `httpOnly`, `SameSite=Lax` cookie. Only its SHA-256 is
   stored. Guests get a session on their first move; Discord sign-in replaces it.
 - **Discord:** only the `identify` and `guilds` scopes are requested. The access token is used
@@ -200,6 +220,9 @@ a fan-made interactive map of WoW: Forever.
   maps (`scripts/zone-frames.json`), so Classic-era coordinates are converted to the live frame,
   except in Eastern Plaguelands, whose map imagery is still drawn in the Era frame. The build
   checks our zone bounds against Polestar's live frames on every run.
+- Patrolling characters are pinned at the middle of their route, and ones that wander more than
+  400 yd from it are left out. A place that drops out of the data is kept as `retired`, so
+  puzzles that already used it still work, but it is never dealt again.
 - `src/data/lore.json` holds the original lore notes shown after each expedition.
 - `npm run make-og` re-renders `public/og-image.jpg` from `scripts/og/og.html` (needs Playwright).
 

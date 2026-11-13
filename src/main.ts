@@ -11,6 +11,8 @@ import zonesJson from './data/zones.json';
 import type { LatLngTuple, MapManifest, Zone } from './types';
 import type { Clue, Leaderboard, LeaderboardEntry, Me, Period, PlayedRound, RankInfo, RoundOutcome } from './api-types';
 import { api, ApiError } from './api';
+import { nearMiss } from './game/nearmiss';
+import { coarsePointer } from './map/loupe';
 import { emojiFor, formatYards, MAX_ROUND_SCORE, multiplierFor, ROUNDS, tierFor, titleFor } from './game/scoring';
 import { loadSettings, saveSettings, type Settings } from './game/storage';
 import { MapView, type MapStyle } from './map/mapView';
@@ -287,8 +289,13 @@ function pick(latlng: LatLngTuple) {
   play('drop');
   const confirm = $<HTMLButtonElement>('btn-confirm');
   confirm.disabled = false;
-  confirm.textContent = 'Confirm pin';
+  confirm.textContent = 'Lock in pin';
   if (first && !reduced()) gsap.fromTo(confirm, { scale: 0.94 }, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.5)' });
+  if (coarsePointer()) {
+    navigator.vibrate?.(8); // a tiny tick so a finger feels the pin land
+    // Fingers are blunt: point out the fine-tune drag (with its magnifier) after the first drop.
+    if (first && !game.clues[game.current]?.hint) $('clue-prompt').textContent = 'Drag the pin to fine-tune it, then lock it in.';
+  }
 }
 
 async function useHint() {
@@ -332,7 +339,7 @@ async function confirmGuess() {
   } catch (err) {
     game.busy = false;
     confirm.disabled = false;
-    confirm.textContent = 'Confirm pin';
+    confirm.textContent = 'Lock in pin';
     reportError(err);
     return;
   }
@@ -353,6 +360,9 @@ async function confirmGuess() {
   $('clue-prompt').textContent = '';
   $('result-distance').textContent = yards === 0 ? (clue.area ? 'Right inside – bullseye!' : 'Bullseye!') : `${formatYards(yards)} away`;
   $('result-where').innerHTML = `${escapeHtml(answer.zone === clue.name ? answer.continent : `${answer.zone}, ${answer.continent}`)}${outcome.hint ? ' · <em>hint used</em>' : ''}`;
+  const near = nearMiss(outcome, clue.name, zones);
+  $('result-near').textContent = near ?? '';
+  $('result-near').hidden = !near;
   $('result-max').textContent = `/ ${MAX_ROUND_SCORE * clue.multiplier}`;
   $('result-mult').textContent = clue.multiplier > 1 ? `${score} accuracy × ${clue.multiplier}` : `${score} accuracy`;
   countUp($('result-score'), 0, points, 0.9);

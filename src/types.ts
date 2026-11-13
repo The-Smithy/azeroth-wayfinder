@@ -18,6 +18,8 @@ export interface Place {
   isNew?: boolean;
   /** A well-known hub town (dealt in the ×1 rounds). */
   popular?: boolean;
+  /** Dropped from the data: still resolvable for puzzles already frozen, never dealt again. */
+  retired?: boolean;
 }
 
 export interface Zone {

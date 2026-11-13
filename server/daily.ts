@@ -73,8 +73,30 @@ function shuffled<T>(items: T[], seed: string): T[] {
   return out;
 }
 
-export function tierPool(places: Place[], tier: TierName): Place[] {
-  return places.filter(TIERS[tier].match).sort((a, b) => a.id.localeCompare(b.id));
+/** The tier a place's kind puts it in. */
+export function baseTier(p: Place): TierName {
+  return (Object.keys(TIERS) as TierName[]).find(t => TIERS[t].match(p))!;
+}
+
+/**
+ * Tier overrides by place id, from players' results (server/difficulty.ts): a town everyone
+ * finds moves to the ×1 round, a character nobody finds to ×3, and so on.
+ */
+export type TierOverrides = ReadonlyMap<string, TierName>;
+
+export const tierOf = (p: Place, overrides?: TierOverrides): TierName => overrides?.get(p.id) ?? baseTier(p);
+
+export function tierPool(places: Place[], tier: TierName, overrides?: TierOverrides): Place[] {
+  return places.filter(p => !p.retired && tierOf(p, overrides) === tier).sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** Places dealt this many days back are not dealt again (re-tiering can reshuffle the bags). */
+export const REPEAT_WINDOW_DAYS = 14;
+
+export interface DealOptions {
+  overrides?: TierOverrides;
+  /** Place ids dealt in the last REPEAT_WINDOW_DAYS days. */
+  recent?: ReadonlySet<string>;
 }
 
 /** Molten Core & Blackrock Depths share an entrance – never ask for both on one day. */
@@ -85,7 +107,7 @@ const sameSpot = (a: Place, b: Place) => a.latlng[0] === b.latlng[0] && a.latlng
  * secret lives only on the server, so future puzzles can't be computed from the
  * public source code.
  */
-export function dailyPlaces(places: Place[], day: number, secret: string): Place[] {
+export function dailyPlaces(places: Place[], day: number, secret: string, { overrides, recent }: DealOptions = {}): Place[] {
   const picked: Place[] = [];
   const perDay = new Map<TierName, number>();
   DAY_PLAN.forEach(t => perDay.set(t, (perDay.get(t) ?? 0) + 1));
@@ -93,16 +115,20 @@ export function dailyPlaces(places: Place[], day: number, secret: string): Place
   const n = Math.max(0, day - 1);
 
   for (const tier of DAY_PLAN) {
-    const pool = tierPool(places, tier);
+    const pool = tierPool(places, tier, overrides);
     const k = taken.get(tier) ?? 0;
     taken.set(tier, k + 1);
-    // Global deal index for this tier; walk forward past anything already used today
-    // (only possible when a day straddles two shuffles).
+    // Global deal index for this tier; walk forward past anything already used today (only
+    // possible when a day straddles two shuffles) or dealt in the last couple of weeks. If a
+    // whole pass finds nothing fresh, the recent rule gives way rather than the puzzle.
     let i = n * perDay.get(tier)! + k;
+    const start = i;
     for (;;) {
       const cycle = Math.floor(i / pool.length);
       const place = shuffled(pool, `${secret}:${tier}:${cycle}`)[i % pool.length];
-      if (!picked.some(p => p.id === place.id || sameSpot(p, place))) { picked.push(place); break; }
+      const clash = picked.some(p => p.id === place.id || sameSpot(p, place));
+      const stale = i - start < pool.length && !!recent?.has(place.id);
+      if (!clash && !stale) { picked.push(place); break; }
       i++;
     }
   }
@@ -110,10 +136,10 @@ export function dailyPlaces(places: Place[], day: number, secret: string): Place
 }
 
 /** Practice mode: five random, distinct places that aren't in today's puzzle. */
-export function practicePlaces(places: Place[], exclude: Set<string>, rng = Math.random): Place[] {
+export function practicePlaces(places: Place[], exclude: Set<string>, rng = Math.random, overrides?: TierOverrides): Place[] {
   const blocked = places.filter(p => exclude.has(p.id));
   return DAY_PLAN.reduce<Place[]>((acc, tier) => {
-    const pool = tierPool(places, tier).filter(
+    const pool = tierPool(places, tier, overrides).filter(
       p => !exclude.has(p.id) && !blocked.some(b => sameSpot(b, p)) && !acc.some(q => q.id === p.id || sameSpot(q, p)),
     );
     acc.push(pool[Math.floor(rng() * pool.length)]);

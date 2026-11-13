@@ -13,6 +13,8 @@ import { buildDigest, parseWebhook, postDailyDigest } from '../server/discord-di
 import { completeDeferred, deferredResponse, planInteraction, respondFast, verifyDiscordRequest } from '../server/discord-interactions';
 import { type CookieJar, ensurePlayer, type Player, SESSION_COOKIE, currentPlayer } from '../server/session';
 import { measure, scoreFor } from '../src/game/scoring';
+import { loadOverrides, MIN_PLAYS, recentPlaces, retuneDifficulty } from '../server/difficulty';
+import { tierPool } from '../server/daily';
 
 let netlifyDb: NetlifyDB;
 let pool: pg.Pool;
@@ -54,7 +56,7 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  await pool.query('TRUNCATE players, discord_servers, puzzles, discord_posts CASCADE');
+  await pool.query('TRUNCATE players, discord_servers, puzzles, discord_posts, place_difficulty CASCADE');
 });
 
 /** Play a whole daily game for a player, guessing exactly on each target. */
@@ -413,5 +415,41 @@ describe('/wayfinder slash command', () => {
   it('falls back to the deferred reply when the board is slow', async () => {
     const plan = planInteraction({ application_id: '1', token: 't', type: 2, guild_id: SERVER, data: { name: 'wayfinder' } });
     expect(await respondFast(pool, plan, 'https://w.test', 0)).toBeNull();
+  });
+});
+
+describe('difficulty tuning', () => {
+  /** `n` players each guessed the five places of `day` with these scores (hint-free unless noted). */
+  async function results(day: number, ids: string[], scores: number[], n: number, opts: { hint?: boolean; banned?: boolean } = {}) {
+    await pool.query(`INSERT INTO puzzles VALUES ($1, $2) ON CONFLICT DO NOTHING`, [day, ids]);
+    await pool.query(
+      `WITH ps AS (INSERT INTO players (name, banned) SELECT 'p' || g, $2 FROM generate_series(1, $1) g RETURNING id),
+            gs AS (INSERT INTO games (player_id, day, finished_at) SELECT id, $3, now() FROM ps RETURNING player_id)
+       INSERT INTO rounds (player_id, day, idx, guessed_at, hint_at, score, points)
+       SELECT gs.player_id, $3, s.idx - 1, now(), CASE WHEN $4 THEN now() END, s.score, s.score
+         FROM gs CROSS JOIN unnest($5::smallint[]) WITH ORDINALITY AS s(score, idx)`,
+      [n, opts.banned ?? false, day, opts.hint ?? false, scores],
+    );
+  }
+
+  it('moves places from ranked, hint-free results and feeds them to future puzzles', async () => {
+    const hub = tierPool(places, 'hub')[0], legend = tierPool(places, 'legend')[0];
+    const zone = places.find(p => p.kind === 'zone')!, dungeon = places.find(p => p.kind === 'dungeon')!, other = tierPool(places, 'legend')[1];
+    const ids = [zone.id, hub.id, dungeon.id, legend.id, other.id];
+    await results(1, ids, [10, 20, 99, 97, 60], MIN_PLAYS);
+    // Guesses with the hint, or by banned players, don't count.
+    await results(1, ids, [100, 100, 100, 10, 100], 40, { hint: true });
+    await results(1, ids, [100, 100, 100, 10, 100], 40, { banned: true });
+
+    const { moves } = await retuneDifficulty(places);
+    expect(moves.map(m => `${m.id}:${m.from}>${m.to}`).sort()).toEqual([`${hub.id}:hub>outpost`, `${legend.id}:legend>outpost`].sort());
+    const stored = await pool.query<{ place_id: string; plays: number; median_score: number }>(`SELECT place_id, plays, median_score FROM place_difficulty WHERE place_id = $1`, [legend.id]);
+    expect(stored.rows[0]).toMatchObject({ plays: MIN_PLAYS, median_score: 97 });
+    expect(await loadOverrides(pool)).toEqual(new Map([[hub.id, 'outpost'], [legend.id, 'outpost']]));
+
+    // Re-running is stable, and the recent-days guard sees day 1 from day 2.
+    expect((await retuneDifficulty(places)).moves).toEqual([]);
+    expect((await recentPlaces(pool, 2)).has(legend.id)).toBe(true);
+    expect((await recentPlaces(pool, 1)).size).toBe(0);
   });
 });

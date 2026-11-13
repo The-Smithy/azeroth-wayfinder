@@ -376,8 +376,8 @@
   "zone": "Mulgore",
   "continent": "Kalimdor",
   "latlng": [
-   -97.638,
-   57.046
+   -99.946,
+   56.512
   ]
  },
  {
@@ -389,8 +389,8 @@
   "zone": "Azshara",
   "continent": "Kalimdor",
   "latlng": [
-   -72.335,
-   96.835
+   -73.239,
+   97.689
   ]
  },
  {
@@ -469,7 +469,8 @@
   "latlng": [
    -62.401,
    255.752
-  ]
+  ],
+  "retired": true
  },
  {
   "id": "mob-gathilzogg",
@@ -558,8 +559,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -100.752,
-   67.319
+   -99.709,
+   68.253
   ]
  },
  {
@@ -636,8 +637,8 @@
   "zone": "Blasted Lands",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -147.758,
-   250.238
+   -147.437,
+   250.767
   ]
  },
  {
@@ -688,8 +689,8 @@
   "zone": "Mulgore",
   "continent": "Kalimdor",
   "latlng": [
-   -104.986,
-   56.054
+   -105.177,
+   54.837
   ]
  },
  {
@@ -701,8 +702,8 @@
   "zone": "Duskwood",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -133.918,
-   229.127
+   -134.093,
+   229.152
   ]
  },
  {
@@ -805,8 +806,8 @@
   "zone": "Dun Morogh",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -98.42,
-   232.72
+   -98.023,
+   232.258
   ]
  },
  {
@@ -857,8 +858,8 @@
   "zone": "The Barrens",
   "continent": "Kalimdor",
   "latlng": [
-   -91.171,
-   63.602
+   -91.794,
+   63.568
   ]
  },
  {
@@ -883,8 +884,8 @@
   "zone": "Mulgore",
   "continent": "Kalimdor",
   "latlng": [
-   -98.424,
-   57.209
+   -98.584,
+   56.447
   ]
  },
  {
@@ -909,8 +910,8 @@
   "zone": "Dun Morogh",
   "continent": "Eastern Kingdoms",
   "latlng": [
-   -96.417,
-   241.615
+   -96.75,
+   241.445
   ]
  },
  {
@@ -948,8 +949,8 @@
   "zone": "Azshara",
   "continent": "Kalimdor",
   "latlng": [
-   -62.135,
-   87.704
+   -62.218,
+   87.828
   ]
  },
  {

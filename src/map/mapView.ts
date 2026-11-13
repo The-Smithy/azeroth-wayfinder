@@ -7,6 +7,7 @@ export interface Target { name: string; latlng: LatLngTuple; area?: string; }
 import { zoneAt, zoneCoords } from '../game/geo';
 import { guessPinSvg, targetPinSvg } from '../ui/icons';
 import { TerrainLayer } from './terrain';
+import { coarsePointer, Loupe } from './loupe';
 
 export type MapStyle = 'auto' | 'parchment' | 'terrain';
 
@@ -40,6 +41,8 @@ export class MapView {
   private hoverRaf = 0;
   /** True while an answer is on screen – no hover outlines then. */
   private locked = false;
+  /** Touch screens: a magnifier over the pin while it is dragged. */
+  private readonly loupe: Loupe;
 
   onPick: ((latlng: LatLngTuple) => void) | null = null;
   onHover: ((info: HoverInfo) => void) | null = null;
@@ -77,6 +80,7 @@ export class MapView {
     this.parchment = L.imageOverlay('/map/overview.webp', manifest.overviewBounds, { pane: 'parchment', className: 'parchment-layer', interactive: false }).addTo(this.map);
     this.hoverOutline = L.polygon([], { pane: 'zones', className: 'zone-hover', interactive: false });
     this.roundLayer.addTo(this.map);
+    this.loupe = new Loupe(el, manifest);
 
     this.updateFit();
     this.map.fitBounds(manifest.overviewBounds, { animate: false, ...HOME_PADDING });
@@ -146,13 +150,23 @@ export class MapView {
     }
     this.guess = L.marker(p, { icon: guessIcon(), draggable: true, keyboard: false, riseOnHover: true, zIndexOffset: 1000 }).addTo(this.roundLayer);
     this.guess.getElement()?.classList.add('is-dropping');
+    const aim = () => {
+      if (!this.guess || !coarsePointer()) return;
+      const ll = this.guess.getLatLng();
+      this.loupe.show([ll.lat, ll.lng], this.map.latLngToContainerPoint(ll), this.map.getZoom());
+    };
+    this.guess.on('dragstart', () => { this.guess?.getElement()?.classList.add('is-aiming'); aim(); });
+    this.guess.on('drag', aim);
     this.guess.on('dragend', () => {
+      this.loupe.hide();
+      this.guess?.getElement()?.classList.remove('is-aiming');
       const ll = this.guess!.getLatLng();
       this.onPick?.([ll.lat, ll.lng]);
     });
   }
 
   clearRound() {
+    this.loupe.hide();
     this.locked = false;
     this.roundLayer.clearLayers();
     this.guess = null;
