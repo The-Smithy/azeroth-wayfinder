@@ -1,0 +1,19 @@
+{
+  "_comment": "Famous settlements the Atlas has no town record for (its towns come from flight points, so starter towns and areas are missing). Each is placed at the centre of Polestar's townsfolk (innkeepers, vendors, trainers) around its anchor NPC, and cross-checked against the Atlas signposts that point to it. 'popular' puts it in the x1 town round.",
+  "towns": [
+    { "name": "Goldshire", "anchor": "Innkeeper Farley", "faction": "alliance", "popular": true },
+    { "name": "Kharanos", "anchor": "Innkeeper Belm", "faction": "alliance", "popular": true },
+    { "name": "Dolanaar", "anchor": "Innkeeper Keldamyr", "faction": "alliance", "popular": true },
+    { "name": "Brill", "anchor": "Innkeeper Renee", "faction": "horde", "popular": true },
+    { "name": "Razor Hill", "anchor": "Innkeeper Grosk", "faction": "horde", "popular": true },
+    { "name": "Bloodhoof Village", "anchor": "Innkeeper Kauth", "faction": "horde", "popular": true },
+    { "name": "Gadgetzan", "anchor": "Innkeeper Fizzgrimble", "faction": "neutral", "popular": true },
+    { "name": "Sen'jin Village", "anchor": "Master Gadrin", "faction": "horde", "popular": true },
+    { "name": "Northshire Abbey", "anchor": "Marshal McBride", "faction": "alliance", "popular": true, "radius": 150 },
+    { "name": "Coldridge Valley", "anchor": "Sten Stoutarm", "faction": "alliance", "popular": true, "radius": 150 },
+    { "name": "Shadowglen", "anchor": "Conservator Ilthalaine", "faction": "alliance", "popular": true, "radius": 150 },
+    { "name": "Valley of Trials", "anchor": "Gornek", "faction": "horde", "popular": true, "radius": 150 },
+    { "name": "Deathknell", "anchor": "Shadow Priest Sarvis", "faction": "horde", "popular": true, "radius": 150 },
+    { "name": "Camp Narache", "anchor": "Chief Hawkwind", "faction": "horde", "popular": true, "radius": 150 }
+  ]
+}

@@ -209,7 +209,7 @@ a fan-made interactive map of WoW: Forever.
   illustration, bakes the atlas' water masks into the tiles, and writes calibrated bounds to
   `public/map/manifest.json`. **These files are git-ignored and not redistributed here.** They
   are fetched at dev and build time.
-- `npm run build-data` reduces the atlas dataset to `server/data/places.json` (207 places:
+- `npm run build-data` reduces the atlas dataset to `server/data/places.json` (221 places:
   zones, capitals, towns, dungeons and raids, plus famous characters and quest targets from
   `scripts/notable-npcs.json`; popular town hubs are listed in the script; server-only) and
   `src/data/zones.json` (49 simplified zone outlines). Every place is checked against several
@@ -220,6 +220,9 @@ a fan-made interactive map of WoW: Forever.
   maps (`scripts/zone-frames.json`), so Classic-era coordinates are converted to the live frame,
   except in Eastern Plaguelands, whose map imagery is still drawn in the Era frame. The build
   checks our zone bounds against Polestar's live frames on every run.
+- Famous settlements the Atlas has no town record for (Goldshire, Razor Hill, Gadgetzan, the
+  six starting areas …) are listed in `scripts/extra-towns.json` with an anchor NPC, usually the
+  innkeeper, and placed at the centre of Polestar's townsfolk around it.
 - Patrolling characters are pinned at the middle of their route, and ones that wander more than
   400 yd from it are left out. A place that drops out of the data is kept as `retired`, so
   puzzles that already used it still work, but it is never dealt again.

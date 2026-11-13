@@ -247,7 +247,7 @@ describe('difficulty tuning', () => {
 
   it('keeps every round with at least three weeks of places, hardest cases first', () => {
     const floor = MIN_POOL_DAYS * DAY_PLAN.filter(t => t === 'hub').length;
-    const { moves, held } = retune(places, hubTowns.map((p, i) => stat(p, 10 + i)), new Map());
+    const { moves, held } = retune(places, hubTowns.map((p, i) => stat(p, 10 + i / 2)), new Map());
     expect(moves.length).toBe(Math.max(0, hubTowns.length - floor));
     expect(held.length).toBe(hubTowns.length - moves.length);
     expect(moves[0]?.median).toBe(10); // the most clearly misplaced town moves first
@@ -261,5 +261,22 @@ describe('difficulty tuning', () => {
       for (const id of picks) expect(recent.has(id), `day ${day}: ${id}`).toBe(false);
       history.push(picks);
     }
+  });
+});
+
+describe('puzzle variety', () => {
+  it('every round deals at least five weeks of places before repeating', () => {
+    for (const tier of Object.keys(TIERS) as (keyof typeof TIERS)[]) {
+      const perDay = DAY_PLAN.filter(t => t === tier).length;
+      expect(tierPool(places, tier).length / perDay, tier).toBeGreaterThanOrEqual(35);
+    }
+  });
+
+  it('includes the famous towns the Atlas has no record for, in the ×1 town round', () => {
+    const hub = new Set(tierPool(places, 'hub').map(p => p.name));
+    for (const name of ['Goldshire', 'Gadgetzan', 'Razor Hill', 'Brill', 'Northshire Abbey', 'Valley of Trials']) expect(hub.has(name), name).toBe(true);
+    // Goldshire sits on the Lion's Pride Inn crossroads, not a signpost down the road.
+    const [x, y] = zoneCoords(places.find(p => p.id === 'goldshire')!.latlng, zones['1429']);
+    expect(Math.hypot(x - 43.5, y - 65.5)).toBeLessThan(2);
   });
 });

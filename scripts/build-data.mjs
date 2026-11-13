@@ -407,6 +407,41 @@ for (const r of atlas.records) {
   });
 }
 
+// ----------------------------------------------------------- extra towns --
+// Famous settlements the Atlas has no town record for (starter towns and areas, Gadgetzan …):
+// scripts/extra-towns.json names an anchor NPC for each, and the town is placed at the centre
+// of Polestar's townsfolk around it. Atlas signposts pointing to the town cross-check it.
+const extraTowns = await readJson('scripts/extra-towns.json');
+/** An extra town with no signpost to it within this distance gets flagged. */
+const EXTRA_WARN_YARDS = 1000;
+for (const t of extraTowns.towns) {
+  const id = slug(t.name);
+  if (seen.has(id)) { console.warn(`[build-data] extra town ${t.name} is already in the Atlas – remove it from extra-towns.json`); continue; }
+  const ps = polestar.spawnsOf(t.anchor);
+  const at = ps && ps.points.map(p => worldToLatLng(p)).find(Boolean);
+  if (!at) throw new Error(`Extra town ${t.name}: anchor ${t.anchor} has no outdoor spawn in Polestar`);
+  const centre = polestarCentre(at.latlng, at.zoneId, t.radius ?? 250);
+  const latlng = centre?.latlng ?? at.latlng;
+  const zone = zones[at.zoneId];
+  const candidates = [`Polestar anchor ${t.anchor} (npc ${ps.id})`, centre ? `Polestar townsfolk centre (${centre.n} NPCs, ${Math.round(yardsBetween(centre.latlng, at.latlng))} yd from the anchor)` : 'too few townsfolk: anchor used'];
+  let note = '';
+  const objs = atlas.records.filter(r => r.kind === 'object' && r.en === t.name)
+    .flatMap(r => (r.positions || []).filter(p => p.zoneId === at.zoneId && isForeverDb(r, p)).map(p => toLatLng(p)).filter(Boolean));
+  if (objs.length) {
+    // These are the roadside signposts that point to the town, so only the nearest one says
+    // much, and even it may stand at a junction outside town.
+    const d = Math.round(Math.min(...objs.map(o => yardsBetween(o, latlng))));
+    candidates.push(`Atlas signposts to "${t.name}" (${objs.length}; nearest ${d} yd away)`);
+    if (d > EXTRA_WARN_YARDS) { note = `⚠ nearest signpost to it is ${d} yd away – needs review`; console.warn(`[build-data] ⚠ ${t.name}: nearest signpost is ${d} yd away`); }
+  }
+  seen.add(id);
+  report.push({ name: t.name, kind: 'town', zone: zone.name, chosen: centre ? 'Polestar townsfolk centre' : 'Polestar anchor', moved: 0, candidates, note, area: false });
+  locations.push({
+    id, name: t.name, kind: 'town', faction: t.faction, zoneId: at.zoneId, zone: zone.name, continent: zone.continent, latlng,
+    ...(t.popular ? { popular: true } : {}),
+  });
+}
+
 // ------------------------------------------------- characters & quest targets --
 // Famous NPCs and named mobs (scripts/notable-npcs.json), positioned from Polestar's
 // forever-db spawn points (world yards, so no zone-frame guesswork), and cross-checked

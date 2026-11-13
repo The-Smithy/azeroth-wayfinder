@@ -1515,6 +1515,20 @@
   "popular": true
  },
  {
+  "id": "bloodhoof-village",
+  "name": "Bloodhoof Village",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1412,
+  "zone": "Mulgore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -109.111,
+   54.52
+  ],
+  "popular": true
+ },
+ {
   "id": "bloodvenom-post",
   "name": "Bloodvenom Post",
   "kind": "town",
@@ -1555,6 +1569,20 @@
   ]
  },
  {
+  "id": "brill",
+  "name": "Brill",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1420,
+  "zone": "Tirisfal Glades",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -39.054,
+   230.114
+  ],
+  "popular": true
+ },
+ {
   "id": "camp-mojache",
   "name": "Camp Mojache",
   "kind": "town",
@@ -1566,6 +1594,20 @@
    -124.788,
    50.154
   ]
+ },
+ {
+  "id": "camp-narache",
+  "name": "Camp Narache",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1412,
+  "zone": "Mulgore",
+  "continent": "Kalimdor",
+  "latlng": [
+   -113.866,
+   53.879
+  ],
+  "popular": true
  },
  {
   "id": "camp-taurajo",
@@ -1609,6 +1651,20 @@
   ]
  },
  {
+  "id": "coldridge-valley",
+  "name": "Coldridge Valley",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -101.757,
+   229.146
+  ],
+  "popular": true
+ },
+ {
   "id": "crossroads",
   "name": "Crossroads",
   "kind": "town",
@@ -1633,6 +1689,34 @@
   "latlng": [
    -135.026,
    240.778
+  ],
+  "popular": true
+ },
+ {
+  "id": "deathknell",
+  "name": "Deathknell",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1420,
+  "zone": "Tirisfal Glades",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -42.069,
+   220.195
+  ],
+  "popular": true
+ },
+ {
+  "id": "dolanaar",
+  "name": "Dolanaar",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1438,
+  "zone": "Teldrassil",
+  "continent": "Kalimdor",
+  "latlng": [
+   -18.419,
+   44.89
   ],
   "popular": true
  },
@@ -1690,6 +1774,34 @@
   ]
  },
  {
+  "id": "gadgetzan",
+  "name": "Gadgetzan",
+  "kind": "town",
+  "faction": "neutral",
+  "zoneId": 1446,
+  "zone": "Tanaris",
+  "continent": "Kalimdor",
+  "latlng": [
+   -145.658,
+   80.693
+  ],
+  "popular": true
+ },
+ {
+  "id": "goldshire",
+  "name": "Goldshire",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -126.999,
+   231.64
+  ],
+  "popular": true
+ },
+ {
   "id": "gromgol-base-camp",
   "name": "Grom'gol Base Camp",
   "kind": "town",
@@ -1729,6 +1841,20 @@
    -105.884,
    248.176
   ]
+ },
+ {
+  "id": "kharanos",
+  "name": "Kharanos",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1426,
+  "zone": "Dun Morogh",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -97.929,
+   235.967
+  ],
+  "popular": true
  },
  {
   "id": "lakeshire",
@@ -1838,6 +1964,20 @@
   ]
  },
  {
+  "id": "northshire-abbey",
+  "name": "Northshire Abbey",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1429,
+  "zone": "Elwynn Forest",
+  "continent": "Eastern Kingdoms",
+  "latlng": [
+   -122.739,
+   233.492
+  ],
+  "popular": true
+ },
+ {
   "id": "powderfuse-port",
   "name": "Powderfuse Port",
   "kind": "town",
@@ -1861,6 +2001,20 @@
   "latlng": [
    -99.296,
    79.62
+  ],
+  "popular": true
+ },
+ {
+  "id": "razor-hill",
+  "name": "Razor Hill",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1411,
+  "zone": "Durotar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -89.51,
+   87.571
   ],
   "popular": true
  },
@@ -1905,6 +2059,20 @@
   ]
  },
  {
+  "id": "senjin-village",
+  "name": "Sen'jin Village",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1411,
+  "zone": "Durotar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -97.938,
+   88.996
+  ],
+  "popular": true
+ },
+ {
   "id": "sentinel-hill",
   "name": "Sentinel Hill",
   "kind": "town",
@@ -1915,6 +2083,20 @@
   "latlng": [
    -135.843,
    224.279
+  ],
+  "popular": true
+ },
+ {
+  "id": "shadowglen",
+  "name": "Shadowglen",
+  "kind": "town",
+  "faction": "alliance",
+  "zoneId": 1438,
+  "zone": "Teldrassil",
+  "continent": "Kalimdor",
+  "latlng": [
+   -13.842,
+   45.88
   ],
   "popular": true
  },
@@ -2131,6 +2313,20 @@
    -105.193,
    240.771
   ]
+ },
+ {
+  "id": "valley-of-trials",
+  "name": "Valley of Trials",
+  "kind": "town",
+  "faction": "horde",
+  "zoneId": 1411,
+  "zone": "Durotar",
+  "continent": "Kalimdor",
+  "latlng": [
+   -96.414,
+   82.992
+  ],
+  "popular": true
  },
  {
   "id": "valormok",
