@@ -13,10 +13,16 @@ export const BULLSEYE_YARDS = 75;
 /** The edges of the playable map (the world image's bounds), for the furthest possible pin. */
 export const MAP_BOUNDS: [LatLngTuple, LatLngTuple] = [[-203.916, -12], [20, 323.876]];
 /**
- * The first daily puzzle scored with the straight-line curve. Earlier puzzles keep the old
- * exponential curve (e-folding at FALLOFF_YARDS), so everyone on a day's board is scored alike.
+ * How sharply the score bends. Accuracy is (1 − d/D)^power, where d is the distance past the
+ * bullseye and D the distance to the far side of the map: still 0 at the far side, but near
+ * misses cost real points (about 91 at 1,000 yards, 58 at 5,000, 31 at 10,000).
  */
-export const LINEAR_FROM_DAY = 18;
+export const CURVE_POWER = 4;
+/**
+ * The first daily puzzle scored with this curve. Earlier puzzles keep the old exponential
+ * curve (e-folding at FALLOFF_YARDS), so everyone on a day's board is scored alike.
+ */
+export const CURVE_FROM_DAY = 18;
 /** Old curve: ~37% of the points at this many yards past the bullseye. */
 export const FALLOFF_YARDS = 2600;
 /** Using the hint scales the round's score by this factor. */
@@ -54,15 +60,15 @@ export function measure(guess: LatLngTuple, place: Place, zones: Record<string, 
 
 /**
  * Accuracy score (0–100) for a distance: 100 in the bullseye (within BULLSEYE_YARDS of a point,
- * or inside a zone's outline), falling in a straight line to 0 at `zeroYards`, the furthest point
- * on the map from that target (see measure). Pass the puzzle `day` for daily rounds: puzzles
- * before LINEAR_FROM_DAY keep the old curve. Practice rounds leave it out.
+ * or inside a zone's outline), bending down to 0 at `zeroYards`, the furthest point on the map
+ * from that target (see measure). Pass the puzzle `day` for daily rounds: puzzles before
+ * CURVE_FROM_DAY keep the old curve. Practice rounds leave it out.
  */
 export function scoreFor(yards: number, zeroYards: number, hint = false, day?: number): number {
   const past = Math.max(0, yards - BULLSEYE_YARDS);
-  const accuracy = day !== undefined && day < LINEAR_FROM_DAY
+  const accuracy = day !== undefined && day < CURVE_FROM_DAY
     ? Math.exp(-past / FALLOFF_YARDS)
-    : Math.max(0, 1 - past / Math.max(1, zeroYards - BULLSEYE_YARDS));
+    : Math.max(0, 1 - past / Math.max(1, zeroYards - BULLSEYE_YARDS)) ** CURVE_POWER;
   return Math.round(MAX_ROUND_SCORE * accuracy * (hint ? HINT_FACTOR : 1));
 }
 

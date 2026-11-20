@@ -4,7 +4,7 @@ A daily World of Warcraft geography game. Every day you get **five places in Aze
 (a zone or capital, a famous town, a lesser-known town or dungeon, and two famous
 characters or quest targets – think Hogger, Thrall or Mankrik's wife) and drop a pin on the
 **WoW: Forever** world map as close as you can. Each pin scores up to 100 for accuracy
-(100 in the bullseye, falling in a straight line to 0 at the furthest point on the map),
+(100 in the bullseye, bending down to 0 at the furthest point on the map),
 and the stakes rise: locations 1–2 count ×1, location 3 ×2 and locations 4–5 ×3, so a
 perfect day is **1,000 points**. Same puzzle for everyone, a shareable emoji result, a
 piece of lore from the archives, and leaderboards for all of Azeroth and for every
@@ -91,10 +91,12 @@ Everything runs on Netlify.
   Nothing dealt in the previous 14 days is dealt again. Answers live in
   `server/data/places.json` and are never bundled into the client.
 - **Scoring:** a pin within 75 yards of a point target, or anywhere inside a zone or capital's
-  outline, scores 100. From there the score falls in a straight line to 0 at the furthest
-  point on the map from that target (a map corner; 35,000–46,000 yards away depending on the
-  place), so it never depends on zone sizes. Puzzles before 21 Nov 2026 (day 18) used the earlier exponential
-  curve, and keep it, so each day's board is scored alike.
+  outline, scores 100. From there the score bends down to 0 at the furthest point on the map
+  from that target (a map corner, 35,000–46,000 yards away depending on the place), so it never
+  depends on zone sizes: accuracy = (1 − d/D)⁴, with d the distance past the bullseye and D the
+  distance to that corner. Typically 1,000 yards scores ~91, 5,000 ~58, 10,000 ~31 and 20,000
+  ~6 (`CURVE_POWER` in `src/game/scoring.ts` sets the bend). Puzzles before 21 Nov 2026 (day 18)
+  used the earlier exponential curve, and keep it, so each day's board is scored alike.
 - **Difficulty tuning:** every Monday, `difficulty.mts` takes the median distance of each
   place's hint-free pins from ranked guesses (at least 25 plays, banned players excluded; in
   yards, so it doesn't depend on the scoring curve) and stores it in
