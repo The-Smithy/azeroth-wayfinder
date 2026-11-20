@@ -8,7 +8,7 @@ import { places } from '../../server/game';
 export default async () => {
   const { rows, moves, held } = await retuneDifficulty(places);
   const fmt = (m: { name: string; from: string; to: string; median: number; plays: number }) =>
-    `${m.name} ${m.from}→${m.to} (median ${Math.round(m.median)}, ${m.plays} plays)`;
+    `${m.name} ${m.from}→${m.to} (median ${Math.round(m.median)} yd, ${m.plays} plays)`;
   console.log(`difficulty: ${rows.length} places with results, ${moves.length} moved, ${held.length} held by the pool floor`);
   for (const m of moves) console.log(`  moved ${fmt(m)}`);
   for (const m of held) console.log(`  held  ${fmt(m)}`);

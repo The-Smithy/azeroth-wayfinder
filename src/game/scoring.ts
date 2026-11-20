@@ -10,7 +10,14 @@ export const MAX_TOTAL = ROUND_MULTIPLIERS.reduce<number>((s, m) => s + m * MAX_
 export const multiplierFor = (round: number) => ROUND_MULTIPLIERS[Math.min(round, ROUNDS - 1)];
 /** Pins this close to a point target count as a bullseye. */
 export const BULLSEYE_YARDS = 75;
-/** e-folding distance of the score curve: ~37% of the points at this many yards past the bullseye. */
+/** The edges of the playable map (the world image's bounds), for the furthest possible pin. */
+export const MAP_BOUNDS: [LatLngTuple, LatLngTuple] = [[-203.916, -12], [20, 323.876]];
+/**
+ * The first daily puzzle scored with the straight-line curve. Earlier puzzles keep the old
+ * exponential curve (e-folding at FALLOFF_YARDS), so everyone on a day's board is scored alike.
+ */
+export const LINEAR_FROM_DAY = 18;
+/** Old curve: ~37% of the points at this many yards past the bullseye. */
 export const FALLOFF_YARDS = 2600;
 /** Using the hint scales the round's score by this factor. */
 export const HINT_FACTOR = 0.75;
@@ -19,22 +26,44 @@ export interface Measured {
   yards: number;
   /** Where the reveal line should end (target point or nearest edge of the target area). */
   anchor: LatLngTuple;
+  /** The furthest anyone could be from this target on the map: where the score reaches 0. */
+  zeroYards: number;
+}
+
+/**
+ * How far the furthest point on the map is from a place – from its point, or from the nearest
+ * edge of its zone outline for area targets. The furthest point is always a corner of the map.
+ */
+export function furthestYards(place: Place, zones: Record<string, Zone>): number {
+  const [[s, w], [n, e]] = MAP_BOUNDS;
+  const zone = place.area ? zones[place.area] : undefined;
+  const from = (c: LatLngTuple) => (zone?.rings.length ? distanceToZone(c, zone) : distanceUnits(c, place.latlng));
+  return Math.max(...([[s, w], [s, e], [n, w], [n, e]] as LatLngTuple[]).map(from)) * YARDS_PER_UNIT;
 }
 
 export function measure(guess: LatLngTuple, place: Place, zones: Record<string, Zone>): Measured {
+  const zeroYards = furthestYards(place, zones);
   const zone = place.area ? zones[place.area] : undefined;
   if (zone?.rings.length) {
     const yards = distanceToZone(guess, zone) * YARDS_PER_UNIT;
-    return { yards, anchor: yards === 0 ? guess : nearestPointOnZone(guess, zone) };
+    return { yards, anchor: yards === 0 ? guess : nearestPointOnZone(guess, zone), zeroYards };
   }
   const yards = distanceUnits(guess, place.latlng) * YARDS_PER_UNIT;
-  return { yards: yards <= BULLSEYE_YARDS ? 0 : yards, anchor: place.latlng };
+  return { yards: yards <= BULLSEYE_YARDS ? 0 : yards, anchor: place.latlng, zeroYards };
 }
 
-/** Accuracy score (0–100) for a distance. */
-export function scoreFor(yards: number, hint = false): number {
-  const raw = MAX_ROUND_SCORE * Math.exp(-Math.max(0, yards - BULLSEYE_YARDS) / FALLOFF_YARDS);
-  return Math.round(raw * (hint ? HINT_FACTOR : 1));
+/**
+ * Accuracy score (0–100) for a distance: 100 in the bullseye (within BULLSEYE_YARDS of a point,
+ * or inside a zone's outline), falling in a straight line to 0 at `zeroYards`, the furthest point
+ * on the map from that target (see measure). Pass the puzzle `day` for daily rounds: puzzles
+ * before LINEAR_FROM_DAY keep the old curve. Practice rounds leave it out.
+ */
+export function scoreFor(yards: number, zeroYards: number, hint = false, day?: number): number {
+  const past = Math.max(0, yards - BULLSEYE_YARDS);
+  const accuracy = day !== undefined && day < LINEAR_FROM_DAY
+    ? Math.exp(-past / FALLOFF_YARDS)
+    : Math.max(0, 1 - past / Math.max(1, zeroYards - BULLSEYE_YARDS));
+  return Math.round(MAX_ROUND_SCORE * accuracy * (hint ? HINT_FACTOR : 1));
 }
 
 /** Points actually banked for a round: accuracy × the round's multiplier. */

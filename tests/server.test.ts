@@ -99,7 +99,8 @@ describe('daily game (server-authoritative)', () => {
     const puzzle = await puzzleFor(pool, today());
     const guess: [number, number] = [puzzle[0].latlng[0] + 3, puzzle[0].latlng[1] - 2];
     const res = await tx(q => submitGuess(q, player, today(), 0, ...guess));
-    const expected = scoreFor(measure(guess, puzzle[0], zones).yards);
+    const m = measure(guess, puzzle[0], zones);
+    const expected = scoreFor(m.yards, m.zeroYards, false, today());
     expect(res.outcome.score).toBe(expected);
     expect(res.outcome.points).toBe(expected);
     expect(res.outcome.answer.latlng).toEqual(puzzle[0].latlng);
@@ -419,16 +420,16 @@ describe('/wayfinder slash command', () => {
 });
 
 describe('difficulty tuning', () => {
-  /** `n` players each guessed the five places of `day` with these scores (hint-free unless noted). */
-  async function results(day: number, ids: string[], scores: number[], n: number, opts: { hint?: boolean; banned?: boolean } = {}) {
+  /** `n` players each put their pins this many yards from the five places of `day` (hint-free unless noted). */
+  async function results(day: number, ids: string[], yards: number[], n: number, opts: { hint?: boolean; banned?: boolean } = {}) {
     await pool.query(`INSERT INTO puzzles VALUES ($1, $2) ON CONFLICT DO NOTHING`, [day, ids]);
     await pool.query(
       `WITH ps AS (INSERT INTO players (name, banned) SELECT 'p' || g, $2 FROM generate_series(1, $1) g RETURNING id),
             gs AS (INSERT INTO games (player_id, day, finished_at) SELECT id, $3, now() FROM ps RETURNING player_id)
-       INSERT INTO rounds (player_id, day, idx, guessed_at, hint_at, score, points)
-       SELECT gs.player_id, $3, s.idx - 1, now(), CASE WHEN $4 THEN now() END, s.score, s.score
-         FROM gs CROSS JOIN unnest($5::smallint[]) WITH ORDINALITY AS s(score, idx)`,
-      [n, opts.banned ?? false, day, opts.hint ?? false, scores],
+       INSERT INTO rounds (player_id, day, idx, guessed_at, hint_at, yards, score, points)
+       SELECT gs.player_id, $3, s.idx - 1, now(), CASE WHEN $4 THEN now() END, s.yards, 50, 50
+         FROM gs CROSS JOIN unnest($5::int[]) WITH ORDINALITY AS s(yards, idx)`,
+      [n, opts.banned ?? false, day, opts.hint ?? false, yards],
     );
   }
 
@@ -436,15 +437,15 @@ describe('difficulty tuning', () => {
     const hub = tierPool(places, 'hub')[0], legend = tierPool(places, 'legend')[0];
     const zone = places.find(p => p.kind === 'zone')!, dungeon = places.find(p => p.kind === 'dungeon')!, other = tierPool(places, 'legend')[1];
     const ids = [zone.id, hub.id, dungeon.id, legend.id, other.id];
-    await results(1, ids, [10, 20, 99, 97, 60], MIN_PLAYS);
+    await results(1, ids, [9000, 3000, 20, 300, 900], MIN_PLAYS);
     // Guesses with the hint, or by banned players, don't count.
-    await results(1, ids, [100, 100, 100, 10, 100], 40, { hint: true });
-    await results(1, ids, [100, 100, 100, 10, 100], 40, { banned: true });
+    await results(1, ids, [0, 0, 0, 9000, 0], 40, { hint: true });
+    await results(1, ids, [0, 0, 0, 9000, 0], 40, { banned: true });
 
     const { moves } = await retuneDifficulty(places);
     expect(moves.map(m => `${m.id}:${m.from}>${m.to}`).sort()).toEqual([`${hub.id}:hub>outpost`, `${legend.id}:legend>outpost`].sort());
-    const stored = await pool.query<{ place_id: string; plays: number; median_score: number }>(`SELECT place_id, plays, median_score FROM place_difficulty WHERE place_id = $1`, [legend.id]);
-    expect(stored.rows[0]).toMatchObject({ plays: MIN_PLAYS, median_score: 97 });
+    const stored = await pool.query<{ place_id: string; plays: number; median_yards: number }>(`SELECT place_id, plays, median_yards FROM place_difficulty WHERE place_id = $1`, [legend.id]);
+    expect(stored.rows[0]).toMatchObject({ plays: MIN_PLAYS, median_yards: 300 });
     expect(await loadOverrides(pool)).toEqual(new Map([[hub.id, 'outpost'], [legend.id, 'outpost']]));
 
     // Re-running is stable, and the recent-days guard sees day 1 from day 2.

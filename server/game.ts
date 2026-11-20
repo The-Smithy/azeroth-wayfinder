@@ -172,8 +172,8 @@ export async function submitGuess(q: Queryable, player: Player, day: number, rou
   const puzzle = await puzzleFor(q, day);
   const place = puzzle[round];
   const guess: [number, number] = [lat, lng];
-  const { yards, anchor } = measure(guess, place, zones);
-  const score = scoreFor(yards, !!open.hint_at);
+  const { yards, anchor, zeroYards } = measure(guess, place, zones);
+  const score = scoreFor(yards, zeroYards, !!open.hint_at, day);
   const points = pointsFor(score, round);
   // Guarded update: even without the lock, a round can only ever be scored once.
   const updated = await q.query(
@@ -242,7 +242,7 @@ export async function practiceGuess(q: Queryable, ref: unknown, round: number, l
   assertInWorld(lat, lng);
   const place = await practicePlace(q, ref);
   const guess: [number, number] = [lat, lng];
-  const { yards, anchor } = measure(guess, place, zones);
-  const score = scoreFor(yards, hint);
+  const { yards, anchor, zeroYards } = measure(guess, place, zones);
+  const score = scoreFor(yards, zeroYards, hint);
   return { round, guess, yards: Math.round(yards), score, points: pointsFor(score, round), hint, ms: null, answer: answerFor(place, anchor) };
 }

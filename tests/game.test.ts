@@ -4,7 +4,7 @@ import zonesJson from '../src/data/zones.json';
 import { dailyPlaces, dayEndsAt, dayNumber, DAY_PLAN, practicePlaces, REPEAT_WINDOW_DAYS, tierPool, TIERS } from '../server/daily';
 import { MIN_PLAYS, MIN_POOL_DAYS, type PlaceStat, retune } from '../server/difficulty';
 import { distanceToZone, pointInZone, zoneAt, zoneCoords } from '../src/game/geo';
-import { emojiFor, MAX_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
+import { BULLSEYE_YARDS, emojiFor, furthestYards, LINEAR_FROM_DAY, MAP_BOUNDS, MAX_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
 import type { Place, Zone } from '../src/types';
 import { shareText } from '../src/ui/share';
 import { direction, nearMiss } from '../src/game/nearmiss';
@@ -136,11 +136,32 @@ describe('geometry & scoring', () => {
   });
 
   it('accuracy falls off smoothly with distance (0–100)', () => {
-    expect(scoreFor(0)).toBe(100);
-    expect(scoreFor(1000)).toBeLessThan(scoreFor(500));
-    expect(scoreFor(1000)).toBeGreaterThan(60);
-    expect(scoreFor(40000)).toBe(0);
-    expect(scoreFor(0, true)).toBe(75);
+    const z = 40000;
+    expect(scoreFor(0, z)).toBe(100);
+    expect(scoreFor(BULLSEYE_YARDS, z)).toBe(100);
+    expect(scoreFor(1000, z)).toBeLessThan(scoreFor(500, z));
+    expect(scoreFor(0, z, true)).toBe(75);
+  });
+
+  it('scores 100 in the bullseye, falling in a straight line to 0 at the furthest point on the map', () => {
+    const hogger = places.find(p => p.id === 'mob-hogger')!;
+    const zero = furthestYards(hogger, zones);
+    // Elwynn is in the south-east of the map, so the furthest point is the north-west corner.
+    const [[s, w], [n]] = MAP_BOUNDS;
+    expect(zero).toBeGreaterThan(30000);
+    expect(measure([n, w], hogger, zones).yards).toBeCloseTo(zero, 0);
+    expect(scoreFor(measure([n, w], hogger, zones).yards, zero)).toBe(0);
+    expect(scoreFor(measure([s, w], hogger, zones).yards, zero)).toBeGreaterThan(0);
+    expect(scoreFor((BULLSEYE_YARDS + zero) / 2, zero)).toBe(50);
+    for (let y = 0; y < zero + 500; y += 250) expect(scoreFor(y + 250, zero)).toBeLessThanOrEqual(scoreFor(y, zero));
+    // Zones and capitals: anywhere inside is 100, and the far corner of the map is still 0.
+    const durotarZone = places.find(p => p.kind === 'zone' && p.zone === 'Durotar')!;
+    const z = furthestYards(durotarZone, zones);
+    expect(scoreFor(measure(durotarZone.latlng, durotarZone, zones).yards, z)).toBe(100);
+    expect(Math.min(...([[s, w], [s, MAP_BOUNDS[1][1]], [n, w], [n, MAP_BOUNDS[1][1]]] as [number, number][]).map(c => scoreFor(measure(c, durotarZone, zones).yards, z)))).toBe(0);
+    // Puzzles before the switch keep the old curve, so a day's board is scored alike.
+    expect(scoreFor(2000, zero, false, LINEAR_FROM_DAY - 1)).toBe(48);
+    expect(scoreFor(2000, zero, false, LINEAR_FROM_DAY)).toBe(Math.round(100 * (1 - (2000 - BULLSEYE_YARDS) / (zero - BULLSEYE_YARDS))));
     expect(emojiFor(100)).toBe('🎯');
     expect(emojiFor(0)).toBe('🟥');
   });
@@ -171,9 +192,9 @@ describe('near-miss feedback', () => {
   /** Build the outcome the server would send for a pin at `guess`. */
   const outcomeFor = (id: string, guess: [number, number]): RoundOutcome => {
     const place = byId(id);
-    const { yards, anchor } = measure(guess, place, zones);
+    const { yards, anchor, zeroYards } = measure(guess, place, zones);
     return {
-      round: 0, guess, yards, score: scoreFor(yards), points: 0, hint: false, ms: null,
+      round: 0, guess, yards, score: scoreFor(yards, zeroYards), points: 0, hint: false, ms: null,
       answer: { latlng: place.latlng, anchor, zone: place.zone, continent: place.continent, ...(place.area ? { area: place.area } : {}) },
     };
   };
@@ -216,10 +237,11 @@ describe('difficulty tuning', () => {
   const hubTowns = tierPool(places, 'hub');
   const outpostTown = tierPool(places, 'outpost').find(p => p.kind === 'town')!;
   const legend = tierPool(places, 'legend');
-  const stat = (p: Place, median: number, plays = 40): PlaceStat => ({ place_id: p.id, plays, median_score: median });
+  /** `yards`: the median distance of players' pins. */
+  const stat = (p: Place, yards: number, plays = 40): PlaceStat => ({ place_id: p.id, plays, median_yards: yards });
 
   it('moves towns between ×1 and ×2, characters between ×2 and ×3', () => {
-    const { moves, overrides } = retune(places, [stat(hubTowns[0], 20), stat(outpostTown, 92), stat(legend[0], 96)], new Map());
+    const { moves, overrides } = retune(places, [stat(hubTowns[0], 3000), stat(outpostTown, 400), stat(legend[0], 200)], new Map());
     expect(moves.map(m => [m.id, m.from, m.to])).toEqual(expect.arrayContaining([
       [hubTowns[0].id, 'hub', 'outpost'], [outpostTown.id, 'outpost', 'hub'], [legend[0].id, 'legend', 'outpost'],
     ]));
@@ -231,26 +253,26 @@ describe('difficulty tuning', () => {
 
   it('never moves zones, capitals or dungeons, and ignores places with too few plays', () => {
     const zone = live.find(p => p.kind === 'zone')!, dungeon = live.find(p => p.kind === 'dungeon')!;
-    const { moves } = retune(places, [stat(zone, 5), stat(dungeon, 99), stat(legend[1], 99, MIN_PLAYS - 1)], new Map());
+    const { moves } = retune(places, [stat(zone, 20000), stat(dungeon, 0), stat(legend[1], 0, MIN_PLAYS - 1)], new Map());
     expect(moves).toEqual([]);
   });
 
   it('uses a gap between the thresholds so places do not flip back and forth', () => {
     const moved = new Map([[legend[0].id, 'outpost' as const]]);
     // Mid-range results keep the place where it is …
-    expect(retune(places, [stat(legend[0], 75)], moved).overrides.get(legend[0].id)).toBe('outpost');
+    expect(retune(places, [stat(legend[0], 900)], moved).overrides.get(legend[0].id)).toBe('outpost');
     // … only a clearly hard result sends it back to ×3.
-    expect(retune(places, [stat(legend[0], 50)], moved).overrides.has(legend[0].id)).toBe(false);
+    expect(retune(places, [stat(legend[0], 2500)], moved).overrides.has(legend[0].id)).toBe(false);
     // A moved place keeps its tier in weeks without new results.
     expect(retune(places, [], moved).overrides.get(legend[0].id)).toBe('outpost');
   });
 
   it('keeps every round with at least three weeks of places, hardest cases first', () => {
     const floor = MIN_POOL_DAYS * DAY_PLAN.filter(t => t === 'hub').length;
-    const { moves, held } = retune(places, hubTowns.map((p, i) => stat(p, 10 + i / 2)), new Map());
+    const { moves, held } = retune(places, hubTowns.map((p, i) => stat(p, 5000 - i * 10)), new Map());
     expect(moves.length).toBe(Math.max(0, hubTowns.length - floor));
     expect(held.length).toBe(hubTowns.length - moves.length);
-    expect(moves[0]?.median).toBe(10); // the most clearly misplaced town moves first
+    expect(moves[0]?.median).toBe(5000); // the most clearly misplaced town moves first
   });
 
   it('does not repeat a place within two weeks, even across reshuffles', () => {
@@ -278,5 +300,14 @@ describe('puzzle variety', () => {
     // Goldshire sits on the Lion's Pride Inn crossroads, not a signpost down the road.
     const [x, y] = zoneCoords(places.find(p => p.id === 'goldshire')!.latlng, zones['1429']);
     expect(Math.hypot(x - 43.5, y - 65.5)).toBeLessThan(2);
+  });
+});
+
+describe('map bounds', () => {
+  it('scoring uses the same map edges as the map imagery', async () => {
+    const { existsSync, readFileSync } = await import('node:fs');
+    if (!existsSync('public/map/manifest.json')) return; // imagery is fetched at dev/build time
+    const manifest = JSON.parse(readFileSync('public/map/manifest.json', 'utf8'));
+    expect(manifest.worldBounds).toEqual(MAP_BOUNDS);
   });
 });
