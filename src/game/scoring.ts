@@ -4,7 +4,7 @@ import { distanceToZone, distanceUnits, nearestPointOnZone, YARDS_PER_UNIT } fro
 /** Accuracy score per round, before the round multiplier. */
 export const MAX_ROUND_SCORE = 100;
 /** Every pin earns something: no round scores less than this (hint included), wherever the pin lands. */
-export const MIN_ROUND_SCORE = 1;
+export const MIN_ROUND_SCORE = 5;
 export const ROUNDS = 5;
 /** Later rounds are worth more: 100 + 100 + 200 + 300 + 300 = 1,000. */
 export const ROUND_MULTIPLIERS = [1, 1, 2, 3, 3] as const;

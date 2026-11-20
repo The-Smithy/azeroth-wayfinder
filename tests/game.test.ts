@@ -158,9 +158,9 @@ describe('geometry & scoring', () => {
     expect([1000, 5000, 10000, 20000].map(y => scoreFor(y, typical))).toEqual([91, 58, 31, 6]);
     expect(scoreFor(typical - 100, typical)).toBe(MIN_ROUND_SCORE);
     // Nobody ever scores 0: not across the map, not beyond its edge, not with the hint.
-    for (const y of [20000, 30000, typical, 60000]) {
-      expect(scoreFor(y, typical)).toBeGreaterThanOrEqual(1);
-      expect(scoreFor(y, typical, true)).toBeGreaterThanOrEqual(1);
+    for (const y of [30000, typical, 60000]) {
+      expect(scoreFor(y, typical)).toBe(5);
+      expect(scoreFor(y, typical, true)).toBe(5);
     }
     for (let y = 0; y < zero + 500; y += 250) expect(scoreFor(y + 250, zero)).toBeLessThanOrEqual(scoreFor(y, zero));
     // Zones and capitals: anywhere inside is 100, and the far corner of the map is still 0.
