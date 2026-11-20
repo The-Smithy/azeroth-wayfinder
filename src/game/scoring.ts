@@ -3,6 +3,8 @@ import { distanceToZone, distanceUnits, nearestPointOnZone, YARDS_PER_UNIT } fro
 
 /** Accuracy score per round, before the round multiplier. */
 export const MAX_ROUND_SCORE = 100;
+/** Every pin earns something: no round scores less than this (hint included), wherever the pin lands. */
+export const MIN_ROUND_SCORE = 1;
 export const ROUNDS = 5;
 /** Later rounds are worth more: 100 + 100 + 200 + 300 + 300 = 1,000. */
 export const ROUND_MULTIPLIERS = [1, 1, 2, 3, 3] as const;
@@ -59,17 +61,17 @@ export function measure(guess: LatLngTuple, place: Place, zones: Record<string, 
 }
 
 /**
- * Accuracy score (0–100) for a distance: 100 in the bullseye (within BULLSEYE_YARDS of a point,
- * or inside a zone's outline), bending down to 0 at `zeroYards`, the furthest point on the map
- * from that target (see measure). Pass the puzzle `day` for daily rounds: puzzles before
+ * Accuracy score (1–100) for a distance: 100 in the bullseye (within BULLSEYE_YARDS of a point,
+ * or inside a zone's outline), bending down towards `zeroYards`, the furthest point on the map
+ * from that target (see measure), but never below MIN_ROUND_SCORE. Pass the puzzle `day` for daily rounds: puzzles before
  * CURVE_FROM_DAY keep the old curve. Practice rounds leave it out.
  */
 export function scoreFor(yards: number, zeroYards: number, hint = false, day?: number): number {
   const past = Math.max(0, yards - BULLSEYE_YARDS);
-  const accuracy = day !== undefined && day < CURVE_FROM_DAY
-    ? Math.exp(-past / FALLOFF_YARDS)
-    : Math.max(0, 1 - past / Math.max(1, zeroYards - BULLSEYE_YARDS)) ** CURVE_POWER;
-  return Math.round(MAX_ROUND_SCORE * accuracy * (hint ? HINT_FACTOR : 1));
+  const factor = hint ? HINT_FACTOR : 1;
+  if (day !== undefined && day < CURVE_FROM_DAY) return Math.round(MAX_ROUND_SCORE * Math.exp(-past / FALLOFF_YARDS) * factor);
+  const accuracy = Math.max(0, 1 - past / Math.max(1, zeroYards - BULLSEYE_YARDS)) ** CURVE_POWER;
+  return Math.max(MIN_ROUND_SCORE, Math.round(MAX_ROUND_SCORE * accuracy * factor));
 }
 
 /** Points actually banked for a round: accuracy × the round's multiplier. */

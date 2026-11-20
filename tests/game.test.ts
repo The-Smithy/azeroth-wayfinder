@@ -4,7 +4,7 @@ import zonesJson from '../src/data/zones.json';
 import { dailyPlaces, dayEndsAt, dayNumber, DAY_PLAN, practicePlaces, REPEAT_WINDOW_DAYS, tierPool, TIERS } from '../server/daily';
 import { MIN_PLAYS, MIN_POOL_DAYS, type PlaceStat, retune } from '../server/difficulty';
 import { distanceToZone, pointInZone, zoneAt, zoneCoords } from '../src/game/geo';
-import { BULLSEYE_YARDS, emojiFor, furthestYards, CURVE_FROM_DAY, MAP_BOUNDS, MAX_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
+import { BULLSEYE_YARDS, emojiFor, furthestYards, CURVE_FROM_DAY, MAP_BOUNDS, MAX_ROUND_SCORE, MIN_ROUND_SCORE, MAX_TOTAL, measure, multiplierFor, pointsFor, ROUND_MULTIPLIERS, scoreFor, titleFor } from '../src/game/scoring';
 import type { Place, Zone } from '../src/types';
 import { shareText } from '../src/ui/share';
 import { direction, nearMiss } from '../src/game/nearmiss';
@@ -143,26 +143,31 @@ describe('geometry & scoring', () => {
     expect(scoreFor(0, z, true)).toBe(75);
   });
 
-  it('scores 100 in the bullseye, bending down to 0 at the furthest point on the map', () => {
+  it('scores 100 in the bullseye, bending down towards the furthest point on the map, never to 0', () => {
     const hogger = places.find(p => p.id === 'mob-hogger')!;
     const zero = furthestYards(hogger, zones);
     // Elwynn is in the south-east of the map, so the furthest point is the north-west corner.
     const [[s, w], [n]] = MAP_BOUNDS;
     expect(zero).toBeGreaterThan(30000);
     expect(measure([n, w], hogger, zones).yards).toBeCloseTo(zero, 0);
-    expect(scoreFor(measure([n, w], hogger, zones).yards, zero)).toBe(0);
+    expect(scoreFor(measure([n, w], hogger, zones).yards, zero)).toBe(MIN_ROUND_SCORE); // never 0
     expect(measure([s, w], hogger, zones).yards).toBeLessThan(zero); // other corners are nearer
     expect(scoreFor((BULLSEYE_YARDS + zero) / 2, zero)).toBe(6); // (½)⁴ – halfway across the map is worth little
     // Near misses cost real points, with the far side of the map still the only 0.
     const typical = 39000; // a typical target's furthest point
     expect([1000, 5000, 10000, 20000].map(y => scoreFor(y, typical))).toEqual([91, 58, 31, 6]);
-    expect(scoreFor(typical - 100, typical)).toBe(0);
+    expect(scoreFor(typical - 100, typical)).toBe(MIN_ROUND_SCORE);
+    // Nobody ever scores 0: not across the map, not beyond its edge, not with the hint.
+    for (const y of [20000, 30000, typical, 60000]) {
+      expect(scoreFor(y, typical)).toBeGreaterThanOrEqual(1);
+      expect(scoreFor(y, typical, true)).toBeGreaterThanOrEqual(1);
+    }
     for (let y = 0; y < zero + 500; y += 250) expect(scoreFor(y + 250, zero)).toBeLessThanOrEqual(scoreFor(y, zero));
     // Zones and capitals: anywhere inside is 100, and the far corner of the map is still 0.
     const durotarZone = places.find(p => p.kind === 'zone' && p.zone === 'Durotar')!;
     const z = furthestYards(durotarZone, zones);
     expect(scoreFor(measure(durotarZone.latlng, durotarZone, zones).yards, z)).toBe(100);
-    expect(Math.min(...([[s, w], [s, MAP_BOUNDS[1][1]], [n, w], [n, MAP_BOUNDS[1][1]]] as [number, number][]).map(c => scoreFor(measure(c, durotarZone, zones).yards, z)))).toBe(0);
+    expect(Math.min(...([[s, w], [s, MAP_BOUNDS[1][1]], [n, w], [n, MAP_BOUNDS[1][1]]] as [number, number][]).map(c => scoreFor(measure(c, durotarZone, zones).yards, z)))).toBe(MIN_ROUND_SCORE);
     // Puzzles before the switch keep the old curve, so a day's board is scored alike.
     expect(scoreFor(2000, zero, false, CURVE_FROM_DAY - 1)).toBe(48);
     expect(scoreFor(2000, zero, false, CURVE_FROM_DAY)).toBe(Math.round(100 * (1 - (2000 - BULLSEYE_YARDS) / (zero - BULLSEYE_YARDS)) ** 4));
