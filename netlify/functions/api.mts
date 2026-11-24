@@ -61,7 +61,7 @@ export default (req: Request, context: Context) =>
 
       case 'GET /api/leaderboard': {
         const period = (url.searchParams.get('period') ?? 'day') as Period;
-        if (!['day', 'week', 'all'].includes(period)) throw new HttpError(400, 'bad_input', 'Invalid period.');
+        if (!['day', 'week', 'all', 'best'].includes(period)) throw new HttpError(400, 'bad_input', 'Invalid period.');
         const scope = url.searchParams.get('scope') ?? 'global';
         if (scope !== 'global' && !/^\d{5,25}$/.test(scope)) throw new HttpError(400, 'bad_input', 'Invalid scope.');
         return json(await leaderboard(db(), await currentPlayer(db(), cookies), period, scope));

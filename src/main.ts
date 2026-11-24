@@ -600,21 +600,37 @@ async function loadBoard() {
   if (request !== boardRequest) return;
   list.innerHTML = board.entries.length
     ? board.entries.map(e => boardRow(e, board.period)).join('')
-    : `<li class="board__empty">${{ day: 'No one has finished today\'s expedition yet. Be the first!', week: 'No finished expeditions this week yet.', all: 'No finished expeditions yet. Be the first!' }[board.period]}</li>`;
+    : `<li class="board__empty">${{
+      day: 'No one has finished today\'s expedition yet. Be the first!',
+      week: 'No finished expeditions this week yet.',
+      all: 'No finished expeditions yet. Be the first!',
+      best: `No one has finished ${board.qualify?.needed ?? 7} expeditions yet.`,
+    }[board.period]}</li>`;
   const mine = board.me;
   const meBox = $('board-me');
   meBox.hidden = !mine || board.entries.some(e => e.me);
   if (mine && !meBox.hidden) meBox.innerHTML = `<ol class="board">${boardRow(mine, board.period)}</ol>`;
-  $('board-foot').textContent = `${board.players.toLocaleString('en-US')} ranked ${board.players === 1 ? 'player' : 'players'} · ties go to the faster time${{ day: '', week: ' · last 7 expeditions', all: ' · every expedition since launch' }[board.period]}`;
+  // Best average: tell a player who hasn't qualified yet how far they have to go.
+  const q = board.qualify;
+  if (q && q.played !== null && q.played < q.needed) {
+    meBox.hidden = false;
+    meBox.innerHTML = `<p class="board__qualify">You've finished <strong>${q.played}</strong> of the ${q.needed} expeditions needed to join this board.</p>`;
+  }
+  const players = `${board.players.toLocaleString('en-US')} ranked ${board.players === 1 ? 'player' : 'players'}`;
+  $('board-foot').textContent = board.period === 'best'
+    ? `${players} · average per expedition, ${q?.needed ?? 7}+ expeditions · ties go to the longer record`
+    : `${players} · ties go to the faster time${{ day: '', week: ' · last 7 expeditions', all: ' · every expedition since launch', best: '' }[board.period]}`;
   if (!reduced()) gsap.from('#board-list .entry', { y: 8, opacity: 0, stagger: 0.025, duration: 0.3 });
 }
 
 function boardRow(e: LeaderboardEntry, period: Period) {
   const medal = e.rank <= 3 ? ` entry--top${e.rank}` : '';
   const games = `${e.games} ${e.games === 1 ? 'expedition' : 'expeditions'}`;
-  // All time rewards playing often, so show how well too: the average per expedition.
+  // All time rewards playing often, so show how well too: the average per expedition. (On the
+  // best-average board, points and time are already averages.)
   const detail = period === 'day' ? (e.scores ?? []).map(emojiFor).join('')
-    : period === 'all' && e.games ? `avg ${Math.round(e.points / e.games).toLocaleString('en-US')} · ${games}` : games;
+    : period === 'all' && e.games ? `avg ${Math.round(e.points / e.games).toLocaleString('en-US')} · ${games}`
+      : period === 'best' ? `${games} · avg time` : games;
   return `<li class="entry${medal}${e.me ? ' entry--me' : ''}">
     <span class="entry__rank">${e.rank}</span>
     <span class="entry__avatar">${e.avatar ? avatarImg(e.avatar, 32) : ''}</span>

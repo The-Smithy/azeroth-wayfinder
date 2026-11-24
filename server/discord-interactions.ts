@@ -56,7 +56,9 @@ export function planInteraction(interaction: Interaction): Plan {
   const board = opt('board') ?? 'today';
   const today = dayNumber();
   const [mode, day]: [BoardMode, number] =
-    board === 'yesterday' ? ['final', today - 1] : board === 'week' ? ['week', today] : board === 'all' ? ['all', today] : ['live', today];
+    board === 'yesterday' ? ['final', today - 1]
+      : board === 'week' || board === 'all' || board === 'best' ? [board, today]
+        : ['live', today];
   return {
     kind: 'board',
     serverId: interaction.guild_id,

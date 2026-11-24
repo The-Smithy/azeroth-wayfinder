@@ -475,9 +475,10 @@ kbd {
 /* Leaderboard dialog */
 .modal--board { max-width: min(620px, calc(100% - 24px)); }
 .board__controls { display: flex; gap: 10px; align-items: center; margin: 10px 0 12px; }
-.segmented--tight { margin: 0; flex: none; }
+.segmented--tight { margin: 0; flex: none; flex-wrap: nowrap; gap: 6px; }
+.segmented--tight label { min-width: 0; }
 .segmented--tight span { padding: 8px 14px; white-space: nowrap; }
-@media (max-width: 400px) { .segmented--tight span { padding: 8px 6px; font-size: 12.5px; letter-spacing: 0.02em; } }
+@media (max-width: 400px) { .segmented--tight span { padding: 8px 4px; font-size: 12px; letter-spacing: 0.01em; } }
 .select { flex: 1; min-width: 0; }
 .select select {
   width: 100%; height: 40px; padding: 0 12px; border-radius: 8px; color: var(--text); font: 600 15px var(--font-body);
@@ -493,6 +494,8 @@ kbd {
 .board__cta[hidden] { display: none; }
 .board { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; max-height: min(52vh, 520px); overflow: auto; scrollbar-width: thin; scrollbar-color: var(--gold-4) transparent; }
 .board__empty { padding: 26px 10px; text-align: center; color: var(--text-faint); font-style: italic; }
+.board__qualify { margin: 0; padding: 10px 12px; border-radius: 8px; border: 1px dashed var(--gold-4); text-align: center; color: var(--text-dim); font-size: 15px; }
+.board__qualify strong { color: var(--gold-1); }
 .board__me { margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(160, 122, 58, 0.5); }
 .board__me[hidden] { display: none; }
 .entry {

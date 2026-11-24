@@ -25,9 +25,11 @@ Wayfinder · Nov 7, 2026 📍 857/1,000
 - **Server-authoritative play:** the browser never receives coordinates. The server deals
   each clue, records hints and scores each guess, and only then reveals the answer. One
   ranked attempt per player per day; replays, skipped rounds and double submits are refused.
-- **Leaderboards:** today, this week and all time, globally and per Discord server. All time
-  adds up every expedition since launch and shows each player's average too. Ties go to the
-  faster total time. Players can hide from the global board and still show on their
+- **Leaderboards:** today, this week, all time and best average, globally and per Discord
+  server. All time adds up every expedition since launch (and shows each player's average);
+  best average ranks the average per expedition, for players with at least 7 expeditions, so
+  playing often doesn't beat playing well. Ties go to the faster time (on best average, first
+  to the longer record). Players can hide from the global board and still show on their
   servers' boards.
 - **Discord sign-in:** guests can play straight away; signing in carries today's game over.
 - **Learn the map as you go:** every miss explains itself, e.g. *"Your pin was in Duskwood;
@@ -160,7 +162,7 @@ knows they're in your server.
 
 Anyone in a server where the Wayfinder app is installed can type **`/wayfinder`** to show that
 server's board: `board: today` (live standings, the default), `yesterday` (final results),
-`week` or `all` (all time), plus `private: true` to show it only to themselves. Discord calls
+`week`, `all` (all time) or `best` (best average, 7+ expeditions), plus `private: true` to show it only to themselves. Discord calls
 `netlify/functions/discord-interactions.mts` over HTTP, so no bot needs to be running;
 requests are verified with the app's Ed25519 public key.
 

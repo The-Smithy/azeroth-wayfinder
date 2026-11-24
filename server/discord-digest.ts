@@ -3,7 +3,7 @@
 // webhook – no bot required.
 import type { Queryable } from './db';
 import { dayEndsAt, dayNumber, TIME_ZONE } from './daily';
-import { rankBoard } from './leaderboard';
+import { MIN_BEST_GAMES, rankBoard } from './leaderboard';
 import { emojiFor, MAX_TOTAL, pointsFor } from '../src/game/scoring';
 
 const GOLD = 0xe8c372;
@@ -51,11 +51,11 @@ export interface DiscordMessage {
  *  - live:  today's standings so far (`/wayfinder board:today`)
  *  - week:  the 7 days ending on `day` (`/wayfinder board:week`)
  */
-export type BoardMode = 'final' | 'live' | 'week' | 'all';
+export type BoardMode = 'final' | 'live' | 'week' | 'all' | 'best';
 
 /** Build a leaderboard message for one Discord server. */
 export async function buildDigest(q: Queryable, serverId: string, day: number, site: string, mode: BoardMode = 'final'): Promise<DiscordMessage> {
-  if (mode === 'week' || mode === 'all') return buildRange(q, serverId, day, site, mode);
+  if (mode === 'week' || mode === 'all' || mode === 'best') return buildRange(q, serverId, day, site, mode);
   const live = mode === 'live';
   const [board, week, unfinished, server] = await Promise.all([
     rankBoard(q, { period: 'day', scope: serverId, day, limit: MAX_LISTED }),
@@ -118,22 +118,28 @@ export async function buildDigest(q: Queryable, serverId: string, day: number, s
 }
 
 /** The 7-day board ending on `day`, or the all-time board. */
-async function buildRange(q: Queryable, serverId: string, day: number, site: string, period: 'week' | 'all'): Promise<DiscordMessage> {
-  const week = period === 'week';
+async function buildRange(q: Queryable, serverId: string, day: number, site: string, period: 'week' | 'all' | 'best'): Promise<DiscordMessage> {
   const [board, server] = await Promise.all([
     rankBoard(q, { period, scope: serverId, day, limit: MAX_LISTED }),
     q.query<{ name: string }>(`SELECT name FROM discord_servers WHERE id = $1`, [serverId]),
   ]);
   const serverName = server.rows[0]?.name ?? 'this server';
   const total = board[0]?.total_players ?? 0;
-  const lines = board.map(r =>
-    `${MEDALS[r.rank - 1] ?? `**${r.rank}.**`} ${who(r.discord_id)} — **${r.points.toLocaleString('en-US')}** · ${r.games} ${r.games === 1 ? 'day' : 'days'} · ${fmtTime(r.ms)}`);
+  const days = (n: number) => `${n} ${n === 1 ? 'day' : 'days'}`;
+  const lines = board.map(r => `${MEDALS[r.rank - 1] ?? `**${r.rank}.**`} ${who(r.discord_id)} — ${period === 'best'
+    ? `**${r.points.toLocaleString('en-US')}** avg · ${days(r.games)} · ${fmtTime(r.ms)} avg`
+    : `**${r.points.toLocaleString('en-US')}** · ${days(r.games)} · ${fmtTime(r.ms)}`}`);
   if (total > board.length) lines.push(`…and ${total - board.length} more`);
+  const text = {
+    week: { title: '📅 Wayfinder · last 7 expeditions', played: 'played this week', none: 'has played this week yet' },
+    all: { title: '🏛️ Wayfinder · all time', played: 'have played since launch', none: 'has played yet' },
+    best: { title: '🎯 Wayfinder · best average', played: `have played ${MIN_BEST_GAMES}+ expeditions`, none: `has played ${MIN_BEST_GAMES} expeditions yet` },
+  }[period];
   return message(site, {
-    title: week ? `📅 Wayfinder · last 7 expeditions` : `🏛️ Wayfinder · all time`,
+    title: text.title,
     description: total
-      ? [`**${total}** ${total === 1 ? 'adventurer' : 'adventurers'} from **${serverName}** ${week ? 'played this week' : 'have played since launch'}.`, '', ...lines].join('\n')
-      : `No one from **${serverName}** has played ${week ? 'this week ' : ''}yet.`,
+      ? [`**${total}** ${total === 1 ? 'adventurer' : 'adventurers'} from **${serverName}** ${text.played}.`, '', ...lines].join('\n')
+      : `No one from **${serverName}** ${text.none}.`,
     fields: [{ name: '​', value: `[Play Wayfinder](${site})` }],
     timestamp: new Date().toISOString(),
   });

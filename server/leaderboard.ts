@@ -7,6 +7,8 @@ import type { Player } from './session';
 
 const TOP = 50;
 const WEEK_DAYS = 7;
+/** The best-average board only ranks players with at least this many finished expeditions. */
+export const MIN_BEST_GAMES = 7;
 
 export interface BoardRow {
   player_id: string;
@@ -23,9 +25,11 @@ export interface BoardRow {
 }
 
 /**
- * Ranked rows for a daily, 7-day or all-time board ending on `day`, global or for one Discord
- * server. Multi-day boards rank on the sum of each player's daily totals. Only signed-in, unbanned players appear; the global board also respects the
- * "show me publicly" setting. Ties break on total time, then on who finished first.
+ * Ranked rows for a daily, 7-day, all-time or best-average board ending on `day`, global or
+ * for one Discord server. Multi-day boards rank on the sum of each player's daily totals; the
+ * best-average board on the average per expedition, for players with MIN_BEST_GAMES or more
+ * (points and ms are then averages). Only signed-in, unbanned players appear; the global board
+ * also respects the "show me publicly" setting. Ties break on time, then on who finished first.
  * Returns the top `limit` rows plus the viewer's own row. No permission checks.
  */
 export async function rankBoard(
@@ -33,7 +37,10 @@ export async function rankBoard(
   opts: { period: Period; scope: string; day: number; viewerId?: string | null; limit?: number },
 ): Promise<BoardRow[]> {
   const { period, scope, day, viewerId = null, limit = TOP } = opts;
-  const from = period === 'all' ? 0 : period === 'week' ? day - (WEEK_DAYS - 1) : day;
+  const best = period === 'best';
+  const from = period === 'all' || best ? 0 : period === 'week' ? day - (WEEK_DAYS - 1) : day;
+  // Equal averages: the longer record (more expeditions) first, then the faster average time.
+  const order = best ? 'points DESC, games DESC, ms ASC' : 'points DESC, ms ASC';
   const params: unknown[] = [from, day];
   const scopeFilter = scope === 'global'
     ? 'p.is_public'
@@ -44,17 +51,18 @@ export async function rankBoard(
   const { rows } = await q.query<BoardRow>(
     `WITH totals AS (
        SELECT g.player_id,
-              SUM(g.total_points)::int AS points,
-              SUM(g.total_ms)::int AS ms,
+              ${best ? 'ROUND(AVG(g.total_points))::int' : 'SUM(g.total_points)::int'} AS points,
+              ${best ? 'ROUND(AVG(g.total_ms))::int' : 'SUM(g.total_ms)::int'} AS ms,
               COUNT(*)::int AS games,
               MAX(g.finished_at) AS last_finish
          FROM games g JOIN players p ON p.id = g.player_id
         WHERE g.day BETWEEN $1 AND $2 AND g.finished_at IS NOT NULL
           AND p.discord_id IS NOT NULL AND NOT p.banned AND ${scopeFilter}
-        GROUP BY g.player_id),
+        GROUP BY g.player_id
+        ${best ? `HAVING COUNT(*) >= ${MIN_BEST_GAMES}` : ''}),
      ranked AS (
-       SELECT t.*, RANK() OVER (ORDER BY points DESC, ms ASC)::int AS rank,
-              ROW_NUMBER() OVER (ORDER BY points DESC, ms ASC, last_finish ASC) AS pos,
+       SELECT t.*, RANK() OVER (ORDER BY ${order})::int AS rank,
+              ROW_NUMBER() OVER (ORDER BY ${order}, last_finish ASC) AS pos,
               COUNT(*) OVER ()::int AS total_players
          FROM totals t)
      SELECT r.player_id, p.discord_id, p.name, p.avatar_url, r.points, r.ms, r.games, r.rank, r.pos::int AS pos, r.total_players,
@@ -69,7 +77,7 @@ export async function rankBoard(
   return rows;
 }
 
-/** The leaderboard API: today's, this week's or the all-time board, global or for a server you're in. */
+/** The leaderboard API: today's, this week's, the all-time or the best-average board, global or for a server you're in. */
 export async function leaderboard(q: Queryable, viewer: Player | null, period: Period, scope: string): Promise<Leaderboard> {
   const day = dayNumber();
   if (scope !== 'global') {
@@ -89,6 +97,17 @@ export async function leaderboard(q: Queryable, viewer: Player | null, period: P
     me: r.player_id === viewer?.id,
   });
   const mine = rows.find(r => r.player_id === viewer?.id);
+  let qualify: Leaderboard['qualify'];
+  if (period === 'best') {
+    // Tell a signed-in viewer who isn't on the board yet how close they are.
+    let played: number | null = null;
+    if (viewer && !mine) {
+      const { rows: g } = await q.query<{ n: number }>(
+        `SELECT COUNT(*)::int AS n FROM games WHERE player_id = $1 AND finished_at IS NOT NULL`, [viewer.id]);
+      played = g[0]?.n ?? 0;
+    }
+    qualify = { needed: MIN_BEST_GAMES, played };
+  }
   return {
     period,
     scope,
@@ -96,6 +115,7 @@ export async function leaderboard(q: Queryable, viewer: Player | null, period: P
     entries: rows.filter(r => r.pos <= TOP).map(toEntry),
     me: mine ? toEntry(mine) : null,
     players: rows[0]?.total_players ?? 0,
+    ...(qualify ? { qualify } : {}),
   };
 }
 

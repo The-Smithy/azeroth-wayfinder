@@ -207,13 +207,37 @@ describe('leaderboards', () => {
     expect(all.period).toBe('all');
     expect(all.entries.map(e => [e.name, e.points, e.games])).toEqual([['Bob', bobToday + 900, 2], ['Ada', 1000, 1]]);
     expect(all.players).toBe(2);
-    expect((await leaderboard(pool, bob, 'all', '900000000001')).entries.map(e => e.name)).toEqual(['Bob', 'Ada', 'Cyd']);
+    // On the server board Bob leads; Ada and Cyd tie on 1,000, so their order depends on time.
+    const serverAll = (await leaderboard(pool, bob, 'all', '900000000001')).entries.map(e => e.name);
+    expect([serverAll[0], serverAll.slice(1).sort()]).toEqual(['Bob', ['Ada', 'Cyd']]);
     await pool.query(`DELETE FROM games WHERE day = $1`, [old]);
 
     // Ties on points break on time.
     await pool.query(`UPDATE games SET total_points = 1000, total_ms = 5000 WHERE player_id = $1`, [bob.id]);
     await pool.query(`UPDATE games SET total_ms = 9000 WHERE player_id = $1`, [ada.id]);
     expect((await leaderboard(pool, null, 'day', 'global')).entries.map(e => e.name)).toEqual(['Bob', 'Ada']);
+  });
+
+  it('best average ranks per-expedition averages, from 7 expeditions up', { timeout: 30_000 }, async () => {
+    const ada = await discordPlayer('Ada'), bob = await discordPlayer('Bob'), cyd = await discordPlayer('Cyd');
+    /** `points` per finished expedition, one a day going back from yesterday. */
+    const history = async (p: Player, points: number[]) => {
+      for (const [k, pts] of points.entries()) {
+        const day = today() - 1 - k;
+        await pool.query(`INSERT INTO puzzles VALUES ($1, $2) ON CONFLICT DO NOTHING`, [day, places.slice(0, 5).map(x => x.id)]);
+        await pool.query(`INSERT INTO games (player_id, day, finished_at, total_points, total_ms) VALUES ($1, $2, now(), $3, 60000)`, [p.id, day, pts]);
+      }
+    };
+    await history(ada, [700, 700, 700, 700, 700, 700, 700]); // avg 700 over 7
+    await history(bob, [900, 900, 900, 900, 900, 900, 900, 100]); // avg 800 over 8
+    await history(cyd, [990, 990, 990]); // a better average, but only 3 expeditions
+
+    const best = await leaderboard(pool, cyd, 'best', 'global');
+    expect(best.entries.map(e => [e.name, e.points, e.games])).toEqual([['Bob', 800, 8], ['Ada', 700, 7]]);
+    expect(best.qualify).toEqual({ needed: 7, played: 3 });
+    expect((await leaderboard(pool, ada, 'best', 'global')).qualify).toEqual({ needed: 7, played: null });
+    // The total-points board still favours volume.
+    expect((await leaderboard(pool, null, 'all', 'global')).entries.map(e => e.name)).toEqual(['Bob', 'Ada', 'Cyd']);
   });
 
   it('stats track streaks and buckets', { timeout: 30_000 }, async () => {
@@ -401,7 +425,7 @@ describe('/wayfinder slash command', () => {
       return new Response('{}', { status: 200 });
     }) as typeof fetch;
 
-    for (const [board, title, flags] of [['today', 'standings so far', 0], ['yesterday', 'results', 0], ['week', 'last 7 expeditions', 64], ['all', 'all time', 0]] as const) {
+    for (const [board, title, flags] of [['today', 'standings so far', 0], ['yesterday', 'results', 0], ['week', 'last 7 expeditions', 64], ['all', 'all time', 0], ['best', 'best average', 0]] as const) {
       const plan = planInteraction({
         ...base, type: 2, guild_id: SERVER,
         data: { name: 'wayfinder', options: [{ name: 'board', value: board }, ...(flags ? [{ name: 'private', value: true }] : [])] },
@@ -414,7 +438,8 @@ describe('/wayfinder slash command', () => {
       expect(fast.data.flags).toBe(flags);
       expect(fast.data.allowed_mentions).toEqual({ parse: [] });
       expect(fast.data.embeds[0].title).toContain(title);
-      if (board !== 'yesterday') expect(fast.data.embeds[0].description).toContain('<@333333333333>');
+      if (board === 'best') expect(fast.data.embeds[0].description).toContain('has played 7 expeditions yet'); // one game isn't enough
+      else if (board !== 'yesterday') expect(fast.data.embeds[0].description).toContain('<@333333333333>');
 
       // Slow path: "thinking…", then the background function edits the reply.
       expect(deferredResponse(plan)).toEqual({ type: 5, data: { flags } });

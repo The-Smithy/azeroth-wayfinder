@@ -78,8 +78,11 @@ export interface Me {
   day: number;
 }
 
-/** Today, the last 7 days, or every expedition since launch. */
-export type Period = 'day' | 'week' | 'all';
+/**
+ * Today, the last 7 days, every expedition since launch (total points), or the best average
+ * per expedition since launch (only players with enough expeditions qualify).
+ */
+export type Period = 'day' | 'week' | 'all' | 'best';
 
 export interface LeaderboardEntry {
   rank: number;
@@ -89,7 +92,7 @@ export interface LeaderboardEntry {
   ms: number;
   /** Day boards: accuracy per round, for the emoji row. */
   scores?: number[];
-  /** Week boards: games played in the window. */
+  /** Multi-day boards: games played. On 'best', points and ms are per-expedition averages. */
   games?: number;
   me: boolean;
 }
@@ -103,6 +106,8 @@ export interface Leaderboard {
   /** The viewer's own row, even when outside the top entries. */
   me: LeaderboardEntry | null;
   players: number;
+  /** 'best' only: expeditions needed to qualify, and the viewer's count while they haven't. */
+  qualify?: { needed: number; played: number | null };
 }
 
 export interface StatsView {
