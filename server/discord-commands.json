@@ -14,7 +14,8 @@
         "choices": [
           { "name": "Today (so far)", "value": "today" },
           { "name": "Yesterday (final results)", "value": "yesterday" },
-          { "name": "This week", "value": "week" }
+          { "name": "This week", "value": "week" },
+          { "name": "All time", "value": "all" }
         ]
       },
       {

@@ -78,7 +78,8 @@ export interface Me {
   day: number;
 }
 
-export type Period = 'day' | 'week';
+/** Today, the last 7 days, or every expedition since launch. */
+export type Period = 'day' | 'week' | 'all';
 
 export interface LeaderboardEntry {
   rank: number;

@@ -23,8 +23,8 @@ export interface BoardRow {
 }
 
 /**
- * Ranked rows for a daily or 7-day board ending on `day`, global or for one Discord
- * server. Only signed-in, unbanned players appear; the global board also respects the
+ * Ranked rows for a daily, 7-day or all-time board ending on `day`, global or for one Discord
+ * server. Multi-day boards rank on the sum of each player's daily totals. Only signed-in, unbanned players appear; the global board also respects the
  * "show me publicly" setting. Ties break on total time, then on who finished first.
  * Returns the top `limit` rows plus the viewer's own row. No permission checks.
  */
@@ -33,7 +33,7 @@ export async function rankBoard(
   opts: { period: Period; scope: string; day: number; viewerId?: string | null; limit?: number },
 ): Promise<BoardRow[]> {
   const { period, scope, day, viewerId = null, limit = TOP } = opts;
-  const from = period === 'week' ? day - (WEEK_DAYS - 1) : day;
+  const from = period === 'all' ? 0 : period === 'week' ? day - (WEEK_DAYS - 1) : day;
   const params: unknown[] = [from, day];
   const scopeFilter = scope === 'global'
     ? 'p.is_public'
@@ -69,7 +69,7 @@ export async function rankBoard(
   return rows;
 }
 
-/** The leaderboard API: today's (or this week's) board, global or for a server you're in. */
+/** The leaderboard API: today's, this week's or the all-time board, global or for a server you're in. */
 export async function leaderboard(q: Queryable, viewer: Player | null, period: Period, scope: string): Promise<Leaderboard> {
   const day = dayNumber();
   if (scope !== 'global') {

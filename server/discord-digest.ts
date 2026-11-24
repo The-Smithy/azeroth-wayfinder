@@ -51,11 +51,11 @@ export interface DiscordMessage {
  *  - live:  today's standings so far (`/wayfinder board:today`)
  *  - week:  the 7 days ending on `day` (`/wayfinder board:week`)
  */
-export type BoardMode = 'final' | 'live' | 'week';
+export type BoardMode = 'final' | 'live' | 'week' | 'all';
 
 /** Build a leaderboard message for one Discord server. */
 export async function buildDigest(q: Queryable, serverId: string, day: number, site: string, mode: BoardMode = 'final'): Promise<DiscordMessage> {
-  if (mode === 'week') return buildWeek(q, serverId, day, site);
+  if (mode === 'week' || mode === 'all') return buildRange(q, serverId, day, site, mode);
   const live = mode === 'live';
   const [board, week, unfinished, server] = await Promise.all([
     rankBoard(q, { period: 'day', scope: serverId, day, limit: MAX_LISTED }),
@@ -117,10 +117,11 @@ export async function buildDigest(q: Queryable, serverId: string, day: number, s
   });
 }
 
-/** The 7-day board ending on `day`. */
-async function buildWeek(q: Queryable, serverId: string, day: number, site: string): Promise<DiscordMessage> {
+/** The 7-day board ending on `day`, or the all-time board. */
+async function buildRange(q: Queryable, serverId: string, day: number, site: string, period: 'week' | 'all'): Promise<DiscordMessage> {
+  const week = period === 'week';
   const [board, server] = await Promise.all([
-    rankBoard(q, { period: 'week', scope: serverId, day, limit: MAX_LISTED }),
+    rankBoard(q, { period, scope: serverId, day, limit: MAX_LISTED }),
     q.query<{ name: string }>(`SELECT name FROM discord_servers WHERE id = $1`, [serverId]),
   ]);
   const serverName = server.rows[0]?.name ?? 'this server';
@@ -129,10 +130,10 @@ async function buildWeek(q: Queryable, serverId: string, day: number, site: stri
     `${MEDALS[r.rank - 1] ?? `**${r.rank}.**`} ${who(r.discord_id)} — **${r.points.toLocaleString('en-US')}** · ${r.games} ${r.games === 1 ? 'day' : 'days'} · ${fmtTime(r.ms)}`);
   if (total > board.length) lines.push(`…and ${total - board.length} more`);
   return message(site, {
-    title: `📅 Wayfinder · last 7 expeditions`,
+    title: week ? `📅 Wayfinder · last 7 expeditions` : `🏛️ Wayfinder · all time`,
     description: total
-      ? [`**${total}** ${total === 1 ? 'adventurer' : 'adventurers'} from **${serverName}** played this week.`, '', ...lines].join('\n')
-      : `No one from **${serverName}** has played this week yet.`,
+      ? [`**${total}** ${total === 1 ? 'adventurer' : 'adventurers'} from **${serverName}** ${week ? 'played this week' : 'have played since launch'}.`, '', ...lines].join('\n')
+      : `No one from **${serverName}** has played ${week ? 'this week ' : ''}yet.`,
     fields: [{ name: '​', value: `[Play Wayfinder](${site})` }],
     timestamp: new Date().toISOString(),
   });

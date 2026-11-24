@@ -600,18 +600,21 @@ async function loadBoard() {
   if (request !== boardRequest) return;
   list.innerHTML = board.entries.length
     ? board.entries.map(e => boardRow(e, board.period)).join('')
-    : `<li class="board__empty">${board.period === 'day' ? 'No one has finished today\'s expedition yet. Be the first!' : 'No finished expeditions this week yet.'}</li>`;
+    : `<li class="board__empty">${{ day: 'No one has finished today\'s expedition yet. Be the first!', week: 'No finished expeditions this week yet.', all: 'No finished expeditions yet. Be the first!' }[board.period]}</li>`;
   const mine = board.me;
   const meBox = $('board-me');
   meBox.hidden = !mine || board.entries.some(e => e.me);
   if (mine && !meBox.hidden) meBox.innerHTML = `<ol class="board">${boardRow(mine, board.period)}</ol>`;
-  $('board-foot').textContent = `${board.players.toLocaleString('en-US')} ranked ${board.players === 1 ? 'player' : 'players'} · ties go to the faster time${board.period === 'week' ? ' · last 7 expeditions' : ''}`;
+  $('board-foot').textContent = `${board.players.toLocaleString('en-US')} ranked ${board.players === 1 ? 'player' : 'players'} · ties go to the faster time${{ day: '', week: ' · last 7 expeditions', all: ' · every expedition since launch' }[board.period]}`;
   if (!reduced()) gsap.from('#board-list .entry', { y: 8, opacity: 0, stagger: 0.025, duration: 0.3 });
 }
 
 function boardRow(e: LeaderboardEntry, period: Period) {
   const medal = e.rank <= 3 ? ` entry--top${e.rank}` : '';
-  const detail = period === 'day' ? (e.scores ?? []).map(emojiFor).join('') : `${e.games} ${e.games === 1 ? 'expedition' : 'expeditions'}`;
+  const games = `${e.games} ${e.games === 1 ? 'expedition' : 'expeditions'}`;
+  // All time rewards playing often, so show how well too: the average per expedition.
+  const detail = period === 'day' ? (e.scores ?? []).map(emojiFor).join('')
+    : period === 'all' && e.games ? `avg ${Math.round(e.points / e.games).toLocaleString('en-US')} · ${games}` : games;
   return `<li class="entry${medal}${e.me ? ' entry--me' : ''}">
     <span class="entry__rank">${e.rank}</span>
     <span class="entry__avatar">${e.avatar ? avatarImg(e.avatar, 32) : ''}</span>

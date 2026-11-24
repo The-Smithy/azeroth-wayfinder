@@ -197,6 +197,19 @@ describe('leaderboards', () => {
     const week = await leaderboard(pool, ada, 'week', 'global');
     expect(week.entries[0]).toMatchObject({ name: 'Ada', points: 1000, games: 1 });
 
+    // All time adds up every expedition since launch; a game 10 days ago is outside the week.
+    const old = today() - 10;
+    await pool.query(`INSERT INTO puzzles VALUES ($1, $2)`, [old, places.slice(0, 5).map(p => p.id)]);
+    await pool.query(`INSERT INTO games (player_id, day, finished_at, total_points, total_ms) VALUES ($1, $2, now(), 900, 60000)`, [bob.id, old]);
+    const bobToday = global.entries[1].points;
+    expect((await leaderboard(pool, ada, 'week', 'global')).entries.map(e => e.name)).toEqual(['Ada', 'Bob']);
+    const all = await leaderboard(pool, ada, 'all', 'global');
+    expect(all.period).toBe('all');
+    expect(all.entries.map(e => [e.name, e.points, e.games])).toEqual([['Bob', bobToday + 900, 2], ['Ada', 1000, 1]]);
+    expect(all.players).toBe(2);
+    expect((await leaderboard(pool, bob, 'all', '900000000001')).entries.map(e => e.name)).toEqual(['Bob', 'Ada', 'Cyd']);
+    await pool.query(`DELETE FROM games WHERE day = $1`, [old]);
+
     // Ties on points break on time.
     await pool.query(`UPDATE games SET total_points = 1000, total_ms = 5000 WHERE player_id = $1`, [bob.id]);
     await pool.query(`UPDATE games SET total_ms = 9000 WHERE player_id = $1`, [ada.id]);
@@ -388,7 +401,7 @@ describe('/wayfinder slash command', () => {
       return new Response('{}', { status: 200 });
     }) as typeof fetch;
 
-    for (const [board, title, flags] of [['today', 'standings so far', 0], ['yesterday', 'results', 0], ['week', 'last 7 expeditions', 64]] as const) {
+    for (const [board, title, flags] of [['today', 'standings so far', 0], ['yesterday', 'results', 0], ['week', 'last 7 expeditions', 64], ['all', 'all time', 0]] as const) {
       const plan = planInteraction({
         ...base, type: 2, guild_id: SERVER,
         data: { name: 'wayfinder', options: [{ name: 'board', value: board }, ...(flags ? [{ name: 'private', value: true }] : [])] },
